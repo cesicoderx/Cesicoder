@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>CesiChat</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -60,20 +60,43 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .asw a{color:var(--p2);cursor:pointer;font-weight:600}
 
 /* APP LAYOUT */
-#app{display:none;height:100vh;position:relative;z-index:1}
-.lay{display:flex;height:100vh;overflow:hidden}
+#app{display:none;height:100vh;position:relative;z-index:1;overflow:hidden}
+.area{position:fixed;top:0;left:0;right:0;bottom:56px;overflow:hidden;display:flex;flex-direction:column}
+.lay{display:flex;height:calc(100vh - 56px);overflow:hidden;position:relative}
 
 /* LEFT NAV */
-.lnav{width:56px;background:rgba(8,8,18,.92);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:7px 0;gap:4px;flex-shrink:0}
-.lni{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;font-size:16px;border:2px solid transparent;flex-shrink:0;position:relative}
-.lni:hover{border-radius:11px;border-color:var(--purple);background:rgba(124,58,237,.15)}
-.lni.pbg{background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:11px}
-.lni.act{border-radius:11px;border-color:var(--purple);background:rgba(124,58,237,.2)}
-.lsep{width:28px;height:1px;background:var(--border);margin:1px 0}
-.lni[data-c]:not([data-c="0"])::after{content:attr(data-c);position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:6px;padding:1px 4px;min-width:14px;text-align:center}
+/* ── BOTTOM NAV (mobile Discord style) ── */
+.lnav{display:none} /* hide old lnav on mobile */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;height:56px;
+  background:rgba(8,8,18,.97);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-around;
+  z-index:60;backdrop-filter:blur(20px);
+  padding-bottom:env(safe-area-inset-bottom,0);
+}
+.bni{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  cursor:pointer;padding:5px 10px;border-radius:10px;transition:.15s;
+  position:relative;flex:1;max-width:64px;
+  -webkit-tap-highlight-color:transparent;
+}
+.bni:active{background:rgba(255,255,255,.06)}
+.bnico{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:17px;border-radius:7px;transition:.15s}
+.bnil{font-size:9px;color:var(--t2);font-weight:500;white-space:nowrap}
+.bni.act .bnico{background:rgba(124,58,237,.25);color:var(--p2)}
+.bni.act .bnil{color:var(--p2)}
+.bni[data-c]:not([data-c="0"])::after{content:attr(data-c);position:absolute;top:2px;right:4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:8px;padding:1px 4px;min-width:14px;text-align:center}
 
 /* SIDEBAR */
-.sb{width:224px;background:rgba(10,10,20,.95);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:left .3s}
+.sb{
+  position:fixed;left:-240px;top:0;bottom:0;width:230px;
+  background:rgba(10,10,20,.98);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;transition:left .3s;z-index:200;
+  padding-top:env(safe-area-inset-top,0);
+}
+.sb.open{left:0;box-shadow:8px 0 40px rgba(0,0,0,.6)}
+.sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:199;display:none}
+.sb-overlay.show{display:block}
 .sbh{padding:11px 9px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .sbn{font-size:12px;font-weight:700}
 .sbody{flex:1;overflow-y:auto;padding:6px 4px}
@@ -103,7 +126,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sab:hover{background:rgba(255,255,255,.08);color:var(--text)}
 
 /* MAIN */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;position:relative}
 .chdr{padding:9px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;flex-shrink:0;background:rgba(10,10,20,.8);backdrop-filter:blur(20px)}
 .chn{font-size:13px;font-weight:700}
 .chd{font-size:11px;color:var(--t2);margin-left:5px}
@@ -281,17 +304,10 @@ textarea.mi::placeholder{color:var(--t2)}
 .dmi:hover,.dmi.act{background:rgba(255,255,255,.05)}
 
 /* MOBILE */
-@media(max-width:768px){
-  .lnav{display:none}
-  .sb{position:fixed;left:-232px;top:0;bottom:0;z-index:50;transition:left .3s}
-  .sb.mop{left:0;box-shadow:8px 0 40px rgba(0,0,0,.5)}
-  .mpp{display:none!important}
-  .chd{display:none}
-  .mc{max-width:84%}
-  #mto{display:flex!important}
-  .vw{padding:10px}
-}
-#mto{display:none}
+/* Always mobile-first */
+.mpp{display:none!important}
+.chd{display:none}
+.mc{max-width:84%}
 
 /* PERMISSION HELP */
 .phbox{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#0e0e1e;border:1px solid rgba(239,68,68,.4);border-radius:12px;padding:14px 16px;z-index:999;max-width:420px;width:94%;backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
@@ -350,18 +366,8 @@ textarea.mi::placeholder{color:var(--t2)}
 <div id="app">
 <div class="lay">
 
-<!-- LEFT NAV -->
-<div class="lnav" id="lnav">
-  <div class="lni pbg" onclick="smv('chat')" title="Söhbət" data-v="chat">💬</div>
-  <div class="lsep"></div>
-  <div class="lni" onclick="smv('dms')" title="DM" data-v="dms">✉️</div>
-  <div class="lni" onclick="smv('friends')" title="Dostlar" data-v="friends">👥</div>
-  <div class="lni" onclick="smv('market')" title="Market" data-v="market">🛒</div>
-  <div class="lni hd" id="ladm" onclick="smv('admin')" title="Admin" data-v="admin" data-c="0">👑</div>
-  <div style="flex:1"></div>
-  <div class="lni" onclick="tset()" title="Ayarlar">⚙️</div>
-  <div class="lni" onclick="dso()" title="Çıxış" style="color:#f87171">🚪</div>
-</div>
+<!-- SIDEBAR OVERLAY -->
+<div class="sb-overlay" id="sb-overlay" onclick="csb()"></div>
 
 <!-- SIDEBAR -->
 <div class="sb" id="sb">
@@ -560,6 +566,16 @@ textarea.mi::placeholder{color:var(--t2)}
 </div>
 
 </div><!-- /lay -->
+  <!-- BOTTOM NAV -->
+  <div class="bnav">
+    <div class="bni act" onclick="smv('chat')" data-v="chat"><div class="bnico">💬</div><span class="bnil">Söhbət</span></div>
+    <div class="bni" onclick="smv('dms')" data-v="dms"><div class="bnico">✉️</div><span class="bnil">DM</span></div>
+    <div class="bni" onclick="smv('friends')" data-v="friends"><div class="bnico">👥</div><span class="bnil">Dostlar</span></div>
+    <div class="bni" onclick="smv('market')" data-v="market"><div class="bnico">🛒</div><span class="bnil">Market</span></div>
+    <div class="bni" onclick="tset()" data-v="settings"><div class="bnico">⚙️</div><span class="bnil">Ayarlar</span></div>
+    <div class="bni hd" id="badm" onclick="smv('admin')" data-v="admin" data-c="0"><div class="bnico">👑</div><span class="bnil">Admin</span></div>
+  </div>
+
 </div><!-- /app -->
 
 <!-- PAYMENT MODAL -->
@@ -915,9 +931,9 @@ function smv(n){
     el.style.display = n==='chat' ? 'flex' : 'flex';
     el.classList.add('on');
   }
-  // nav highlight
-  document.querySelectorAll('.lni[data-v]').forEach(x=>x.classList.remove('act'));
-  const li=document.querySelector(`.lni[data-v="${n}"]`);if(li)li.classList.add('act');
+  // nav highlight (bottom nav)
+  document.querySelectorAll('.bni[data-v]').forEach(x=>x.classList.remove('act'));
+  const li=document.querySelector(`.bni[data-v="${n}"]`);if(li)li.classList.add('act');
   if(n==='admin'&&CU?.email===ADMIN){setTimeout(()=>{const ab=document.querySelector('.atb.act');if(ab)lat('pay',ab)},50)}
   if(n==='dms')loadDMs();
   if(n==='friends')loadFriends();
@@ -1158,8 +1174,14 @@ async function jv(name){
 }
 function tmute(){if(!cstr)return;cmut=!cmut;cstr.getAudioTracks().forEach(tr=>tr.enabled=!cmut);document.getElementById('muteb').textContent=cmut?'🔇':'🎙️';t(cmut?'Susturuldu 🔇':'Söz verildi 🎙️','i')}
 function eCall(){if(cstr){cstr.getTracks().forEach(tr=>tr.stop());cstr=null}document.getElementById('col').classList.remove('on');cmut=false;document.getElementById('muteb').textContent='🎙️';t('Ses kanalından çıxıldı','i')}
-function osb(){document.getElementById('sb').classList.add('mop')}
-function csb(){document.getElementById('sb').classList.remove('mop')}
+function osb(){
+  document.getElementById('sb').classList.add('open');
+  document.getElementById('sb-overlay').classList.add('show');
+}
+function csb(){
+  document.getElementById('sb').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('show');
+}
 
 // ─── PAYMENT ───
 function opay(plan){
@@ -1485,6 +1507,14 @@ async function sdmu(){
     res.innerHTML=`<div class="fi"><div class="av" style="width:34px;height:34px;font-size:13px">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:init}</div><div class="fi-info"><div class="fi-name">${esc(u.displayName||u.username)}</div><div class="fi-sub" style="color:${u.status==='online'?'var(--green)':'var(--t2)'}">${u.status==='online'?'Online':'Offline'}</div></div><button class="fi-ab" onclick="opendm('${u.uid}','${esc(u.displayName||u.username)}')" style="background:var(--purple);color:#fff;border:none">💬 Mesaj</button></div>`;
   }catch(e){t('Xəta','e')}
 }
+function openDM(uid,name){
+  const dmkey=[CU.uid,uid].sort().join('_');
+  sws('dm_'+dmkey,'text');
+  const cn=document.getElementById('chn');if(cn)cn.textContent='✉️ '+name;
+  const ci=document.getElementById('chico');if(ci)ci.textContent='✉️';
+  t('DM açıldı: '+name,'i');
+  smv('chat');
+}
 async function loadDMs(){
   if(!CU)return;
   try{
@@ -1516,12 +1546,17 @@ document.addEventListener('click',e=>{
   if(window.innerWidth<=768){const sb=document.getElementById('sb');if(sb&&sb.classList.contains('mop')&&!e.target.closest('#sb')&&!e.target.closest('#mto2')&&!e.target.closest('#mto'))csb()}
 });
 window.addEventListener('resize',()=>{
-  const b=document.getElementById('mto2');
-  if(window.innerWidth<=768){if(b)b.style.display='flex'}
-  else{if(b)b.style.display='none';const sb=document.getElementById('sb');if(sb)sb.classList.remove('mop')}
+  const sb=document.getElementById('sb');
+  if(sb&&window.innerWidth>768)sb.classList.remove('open');
 });
 
 console.log('CesiChat ✓ loaded');
+// Touch: prevent default body scroll on iOS
+document.addEventListener('touchmove',function(e){
+  if(!e.target.closest('.msgs')&&!e.target.closest('.vw')&&!e.target.closest('.md')&&!e.target.closest('.sb')&&!e.target.closest('.mpdwr'))
+    e.preventDefault();
+},{passive:false});
+console.log('CesiChat ✓ v2 Mobile');
 </script>
 </body>
 </html>
