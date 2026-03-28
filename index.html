@@ -7,781 +7,411 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#070711;--bg2:#0d0d1c;--bg3:#13132a;--bg4:#1a1a38;
-  --border:rgba(139,92,246,.15);--border2:rgba(255,255,255,.06);
-  --purple:#8b5cf6;--p2:#a78bfa;--p3:#7c3aed;--p4:#6d28d9;
+  --bg:#06060f;--bg2:#0c0c1e;--bg3:#12122a;--bg4:#1a1a38;
+  --sb:#0d0d20;--srv:#070712;
+  --border:rgba(139,92,246,.14);--bd2:rgba(255,255,255,.05);
+  --p:#8b5cf6;--p2:#a78bfa;--p3:#7c3aed;--p4:#6d28d9;
   --pink:#ec4899;--cyan:#06b6d4;--green:#10b981;
-  --text:#f1f5f9;--t2:#94a3b8;--t3:#64748b;
-  --red:#ef4444;--yellow:#f59e0b;--orange:#f97316;
-  --r:16px;
-  --glow:0 0 40px rgba(139,92,246,.25);
-  --glow2:0 0 20px rgba(139,92,246,.15);
+  --text:#f1f5f9;--t2:#94a3b8;--t3:#4b5563;
+  --red:#ef4444;--yellow:#f59e0b;
+  --glow:0 0 30px rgba(139,92,246,.2);
+  --r:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
-body{
-  font-family:'Outfit',sans-serif;
-  background:var(--bg);color:var(--text);font-size:14px;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* ── ANIMATED BG ── */
-body::before{
-  content:'';position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse 60% 50% at 10% 0%,rgba(139,92,246,.18) 0%,transparent 60%),
-    radial-gradient(ellipse 40% 40% at 90% 100%,rgba(236,72,153,.12) 0%,transparent 60%),
-    radial-gradient(ellipse 30% 30% at 60% 50%,rgba(6,182,212,.06) 0%,transparent 60%);
-  pointer-events:none;z-index:0;
-  animation:bgPulse 8s ease-in-out infinite alternate;
-}
-@keyframes bgPulse{
-  0%{opacity:.8}100%{opacity:1}
-}
-body::after{
-  content:'';position:fixed;inset:0;
-  background-image:radial-gradient(circle,rgba(139,92,246,.04) 1px,transparent 1px);
-  background-size:30px 30px;
-  pointer-events:none;z-index:0;
-}
-
-/* ── SCROLLBAR ── */
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);font-size:14px;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 0%,rgba(139,92,246,.15) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% 100%,rgba(236,72,153,.1) 0%,transparent 60%);pointer-events:none;z-index:0;animation:bgp 8s ease-in-out infinite alternate}
+@keyframes bgp{0%{opacity:.7}100%{opacity:1}}
 ::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(139,92,246,.3);border-radius:3px}
+::-webkit-scrollbar-thumb{background:rgba(139,92,246,.25);border-radius:3px}
 
-/* ── LOADING ── */
-#ld{
-  position:fixed;inset:0;background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:20px;z-index:9999;
-}
-.ld-logo{
-  width:72px;height:72px;
-  background:linear-gradient(135deg,var(--purple),var(--pink));
-  border-radius:22px;display:flex;align-items:center;justify-content:center;
-  font-size:32px;animation:ldPop .6s cubic-bezier(.34,1.56,.64,1);
-  box-shadow:0 0 60px rgba(139,92,246,.5);
-}
-@keyframes ldPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.ld-bar{
-  width:200px;height:3px;background:rgba(255,255,255,.07);
-  border-radius:3px;overflow:hidden;
-}
-.ld-fill{
-  height:100%;background:linear-gradient(90deg,var(--purple),var(--pink),var(--cyan));
-  border-radius:3px;animation:ldFill 1.4s ease forwards;
-}
-@keyframes ldFill{from{width:0}to{width:100%}}
-.ld-txt{font-size:12px;color:var(--t2);letter-spacing:1px}
+/* LOADING */
+#ld{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:9999}
+.ld-logo{width:68px;height:68px;background:linear-gradient(135deg,var(--p3),var(--pink));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;animation:pop .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 50px rgba(139,92,246,.5)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.ld-bar{width:180px;height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.ld-fill{height:100%;background:linear-gradient(90deg,var(--p3),var(--p),var(--p2),var(--cyan));animation:ldf 1.6s ease forwards}
+@keyframes ldf{from{width:0}to{width:100%}}
+.ld-t{font-size:12px;color:var(--t2);letter-spacing:1px}
 
-/* ── TOAST ── */
-#tc{position:fixed;top:12px;right:12px;z-index:9998;display:flex;flex-direction:column;gap:6px;pointer-events:none;max-width:90vw}
-.tn{
-  padding:10px 16px;border-radius:12px;font-size:13px;font-weight:500;
-  backdrop-filter:blur(30px);display:flex;align-items:center;gap:8px;
-  animation:tnIn .3s cubic-bezier(.34,1.56,.64,1);pointer-events:all;
-  border:1px solid transparent;max-width:300px;
-}
-.tn.s{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.3);color:#34d399}
-.tn.e{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#f87171}
-.tn.i{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3);color:#c4b5fd}
-@keyframes tnIn{from{opacity:0;transform:translateX(40px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
+/* TOAST */
+#tc{position:fixed;top:10px;right:10px;z-index:9998;display:flex;flex-direction:column;gap:5px;pointer-events:none;max-width:88vw}
+.tn{padding:10px 15px;border-radius:11px;font-size:12px;font-weight:500;backdrop-filter:blur(24px);display:flex;align-items:center;gap:7px;animation:tni .3s cubic-bezier(.34,1.56,.64,1);pointer-events:all;border:1px solid transparent;max-width:290px}
+.tn.s{background:rgba(16,185,129,.14);border-color:rgba(16,185,129,.3);color:#34d399}
+.tn.e{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.3);color:#f87171}
+.tn.i{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.3);color:#c4b5fd}
+@keyframes tni{from{opacity:0;transform:translateX(40px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
 
-/* ── MODALS / OVERLAYS ── */
-.ol{
-  position:fixed;inset:0;background:rgba(0,0,0,.75);
-  display:flex;align-items:flex-end;justify-content:center;
-  z-index:700;backdrop-filter:blur(12px);
-}
+/* OVERLAY */
+.ol{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:flex-end;justify-content:center;z-index:700;backdrop-filter:blur(12px)}
 .ol.hd{display:none!important}
 .ol.ctr{align-items:center}
-.md{
-  background:linear-gradient(160deg,#0f0f24 0%,#0a0a1a 100%);
-  border:1px solid var(--border);
-  border-radius:24px 24px 0 0;
-  width:100%;max-height:92vh;overflow-y:auto;
-  box-shadow:0 -20px 60px rgba(0,0,0,.5),var(--glow2);
-}
-.md.ctr{border-radius:24px;max-width:440px}
-.dh{width:40px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:12px auto 0}
-.mh{
-  padding:16px 18px;border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:2;
-  background:linear-gradient(160deg,rgba(15,15,36,.95) 0%,rgba(10,10,26,.95) 100%);
-  backdrop-filter:blur(20px);
-}
+.md{background:linear-gradient(160deg,#0f0f26 0%,#0a0a1a 100%);border:1px solid var(--border);border-radius:22px 22px 0 0;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 -20px 60px rgba(0,0,0,.5)}
+.md.ctr{border-radius:22px;max-width:440px}
+.md.sm{max-width:360px}
+.dh{width:38px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;margin:11px auto 0}
+.mh{padding:14px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2;background:rgba(15,15,38,.96);backdrop-filter:blur(20px)}
 .mtt{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
-.mb3{padding:18px}
-.xb{
-  width:30px;height:30px;background:rgba(255,255,255,.06);
-  border:1px solid var(--border2);border-radius:8px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  color:var(--t2);font-size:15px;transition:.2s;
-}
+.mb{padding:16px}
+.xb{width:28px;height:28px;background:rgba(255,255,255,.06);border:1px solid var(--bd2);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:14px}
 .xb:active{background:rgba(239,68,68,.2);color:#f87171}
 
-/* ── FORMS ── */
-.fl{margin-bottom:14px}
-.fl label{
-  display:block;font-size:11px;font-weight:600;
-  color:var(--p2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;
-}
-.fl input,.fl select,.fl textarea{
-  width:100%;
-  background:rgba(139,92,246,.07);
-  border:1px solid var(--border);
-  border-radius:12px;padding:12px 14px;
-  color:var(--text);font-family:'Outfit',sans-serif;
-  font-size:14px;outline:none;transition:.2s;
-  -webkit-appearance:none;
-}
-.fl input:focus,.fl select:focus,.fl textarea:focus{
-  border-color:var(--purple);
-  background:rgba(139,92,246,.12);
-  box-shadow:0 0 0 3px rgba(139,92,246,.15);
-}
+/* FORMS */
+.fl{margin-bottom:13px}
+.fl label{display:block;font-size:10px;font-weight:700;color:var(--p2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.fl input,.fl select,.fl textarea{width:100%;background:rgba(139,92,246,.07);border:1px solid var(--border);border-radius:11px;padding:11px 13px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:.2s;-webkit-appearance:none}
+.fl input:focus,.fl select:focus,.fl textarea:focus{border-color:var(--p);background:rgba(139,92,246,.12);box-shadow:0 0 0 3px rgba(139,92,246,.13)}
 .fl select option{background:#13132a}
 .fl input::placeholder,.fl textarea::placeholder{color:var(--t3)}
-.btn{
-  width:100%;padding:13px;border:none;border-radius:13px;
-  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
-  cursor:pointer;transition:.18s;display:flex;align-items:center;justify-content:center;gap:8px;
-  position:relative;overflow:hidden;
-}
-.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:.2s}
-.btn:active::after{background:rgba(255,255,255,.1)}
-.bp{
-  background:linear-gradient(135deg,var(--p3),var(--purple),var(--p2));
-  color:#fff;box-shadow:0 4px 20px rgba(139,92,246,.4);
-}
-.bp:active{transform:scale(.98);box-shadow:0 2px 10px rgba(139,92,246,.3)}
+.btn{width:100%;padding:12px;border:none;border-radius:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.18s;display:flex;align-items:center;justify-content:center;gap:8px}
+.bp{background:linear-gradient(135deg,var(--p4),var(--p),var(--p2));color:#fff;box-shadow:0 4px 18px rgba(139,92,246,.38)}
+.bp:active{transform:scale(.97)}
 .bp:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.bg3{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);margin-bottom:12px}
-.bg3:active{background:rgba(255,255,255,.1)}
-.dv{display:flex;align-items:center;gap:10px;margin:12px 0;color:var(--t3);font-size:12px}
-.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--border2)}
+.bg{background:rgba(255,255,255,.06);border:1px solid var(--bd2);color:var(--text);margin-bottom:11px}
+.bg:active{background:rgba(255,255,255,.1)}
+.dv{display:flex;align-items:center;gap:9px;margin:10px 0;color:var(--t3);font-size:12px}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--bd2)}
 .lnk{color:var(--p2);cursor:pointer;font-weight:600}
 
-/* ── AUTH ── */
-#aw{
-  position:fixed;inset:0;display:none;
-  flex-direction:column;align-items:center;justify-content:center;
-  padding:16px;overflow-y:auto;z-index:100;
-}
-.ac{
-  background:linear-gradient(160deg,rgba(15,15,36,.97) 0%,rgba(10,10,26,.97) 100%);
-  border:1px solid var(--border);border-radius:24px;
-  padding:32px 22px;width:100%;max-width:400px;
-  backdrop-filter:blur(40px);
-  box-shadow:0 0 80px rgba(139,92,246,.2),0 40px 80px rgba(0,0,0,.4);
-  animation:acIn .4s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes acIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-.ac-logo{
-  width:64px;height:64px;background:linear-gradient(135deg,var(--p3),var(--purple),var(--pink));
-  border-radius:20px;display:flex;align-items:center;justify-content:center;
-  margin:0 auto 16px;font-size:28px;
-  box-shadow:0 8px 32px rgba(139,92,246,.5);
-}
-.ac-title{text-align:center;font-size:26px;font-weight:800;margin-bottom:4px;
-  background:linear-gradient(135deg,#fff,var(--p2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.ac-sub{text-align:center;color:var(--t2);font-size:13px;margin-bottom:22px}
-.ac-sw{text-align:center;margin-top:16px;font-size:13px;color:var(--t2)}
+/* AUTH */
+#aw{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px;overflow-y:auto;z-index:100}
+.ac{background:linear-gradient(160deg,rgba(15,15,38,.97),rgba(10,10,26,.97));border:1px solid var(--border);border-radius:22px;padding:28px 20px;width:100%;max-width:390px;box-shadow:0 0 80px rgba(139,92,246,.2);animation:acin .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes acin{from{opacity:0;transform:translateY(32px) scale(.94)}to{opacity:1;transform:none}}
+.ac-logo{width:60px;height:60px;background:linear-gradient(135deg,var(--p3),var(--pink));border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 13px;font-size:26px;box-shadow:0 6px 28px rgba(139,92,246,.45)}
+.ac-t{text-align:center;font-size:24px;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ac-s{text-align:center;color:var(--t2);font-size:12px;margin-bottom:20px}
+.ac-sw{text-align:center;margin-top:14px;font-size:13px;color:var(--t2)}
 
-/* ── APP ── */
-#app{display:none;position:fixed;inset:0;flex-direction:column;z-index:1}
+/* ══════════════ APP LAYOUT ══════════════ */
+#app{display:none;position:fixed;inset:0;bottom:58px;overflow:hidden}
 
-/* ── SIDEBAR ── */
-.sb-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:199;display:none;backdrop-filter:blur(4px)}
+/* SERVER RAIL (left icons) */
+.srv-rail{position:fixed;left:0;top:0;bottom:58px;width:60px;background:var(--srv);border-right:1px solid rgba(139,92,246,.08);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:4px;z-index:30;overflow-y:auto;overflow-x:hidden}
+.srv-rail::-webkit-scrollbar{display:none}
+.srv-ico{position:relative;flex-shrink:0}
+.srv-ic{width:44px;height:44px;border-radius:50%;background:rgba(139,92,246,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;font-size:16px;border:2px solid transparent;overflow:hidden}
+.srv-ic img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.srv-ic:active{transform:scale(.9)}
+.srv-ic.act,.srv-ic:hover{border-radius:14px;border-color:var(--p);background:rgba(139,92,246,.2)}
+.srv-ic.pbg{background:linear-gradient(135deg,var(--p3),var(--pink));border-radius:14px}
+.srv-sep{width:28px;height:1px;background:rgba(255,255,255,.07);margin:2px 0;flex-shrink:0}
+.srv-add{width:44px;height:44px;border-radius:50%;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;color:#34d399;border:2px dashed rgba(16,185,129,.3);transition:.2s;flex-shrink:0}
+.srv-add:active{transform:scale(.9);background:rgba(16,185,129,.2)}
+.srv-notif{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:var(--red);border-radius:50%;border:2px solid var(--srv);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff}
+
+/* SIDEBAR (channels) */
+.sb{position:fixed;left:60px;top:0;bottom:58px;width:210px;background:var(--sb);border-right:1px solid var(--bd2);display:flex;flex-direction:column;z-index:29;transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.sb.open{transform:translateX(0);box-shadow:4px 0 30px rgba(0,0,0,.4)}
+.sb-ov{position:fixed;inset:0;bottom:58px;background:rgba(0,0,0,.6);z-index:28;display:none;backdrop-filter:blur(3px)}
 .sb-ov.show{display:block}
-.sb{
-  position:fixed;left:-260px;top:0;bottom:0;width:248px;
-  background:linear-gradient(180deg,#0d0d22 0%,#0a0a1a 100%);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;transition:left .3s cubic-bezier(.4,0,.2,1);
-  z-index:200;
-}
-.sb.open{left:0;box-shadow:12px 0 50px rgba(0,0,0,.6),var(--glow2)}
-.sbh{
-  padding:14px 12px;border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;gap:10px;
-  background:linear-gradient(90deg,rgba(139,92,246,.1),transparent);
-}
-.sb-logo{
-  width:36px;height:36px;
-  background:linear-gradient(135deg,var(--p3),var(--pink));
-  border-radius:10px;display:flex;align-items:center;justify-content:center;
-  font-size:17px;flex-shrink:0;box-shadow:0 4px 12px rgba(139,92,246,.4);
-}
-.sb-name{font-size:14px;font-weight:800;flex:1;
-  background:linear-gradient(90deg,#fff,var(--p2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.sbody{flex:1;overflow-y:auto;padding:8px 6px}
-.sbs{margin-bottom:16px}
-.sbl{
-  font-size:10px;font-weight:700;color:var(--t3);
-  text-transform:uppercase;letter-spacing:1px;
-  padding:0 8px;margin-bottom:4px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.ach{background:none;border:none;cursor:pointer;color:var(--t3);font-size:15px;opacity:.7;padding:0 4px;transition:.2s}
-.ach:active{opacity:1;color:var(--p2);transform:scale(1.2)}
-.chi{
-  display:flex;align-items:center;gap:8px;padding:8px 10px;
-  border-radius:10px;cursor:pointer;transition:.15s;
-  color:var(--t2);font-size:13px;font-weight:500;
-  position:relative;
-}
+.sbh{padding:0 10px;height:48px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;background:rgba(139,92,246,.06)}
+.sbh-name{font-size:13px;font-weight:800;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:linear-gradient(90deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sbody{flex:1;overflow-y:auto;padding:6px 5px}
+.sbs{margin-bottom:12px}
+.sbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;padding:0 6px;margin-bottom:3px;display:flex;align-items:center;justify-content:space-between}
+.ach{background:none;border:none;cursor:pointer;color:var(--t3);font-size:14px;opacity:.7;transition:.2s}
+.ach:active{opacity:1;color:var(--p2)}
+.chi{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:8px;cursor:pointer;transition:.15s;color:var(--t2);font-size:12px;font-weight:500;position:relative}
 .chi:active{background:rgba(139,92,246,.1)}
-.chi.act{
-  background:rgba(139,92,246,.15);color:var(--p2);
-  border-left:2px solid var(--purple);
-}
-.chi-ico{width:16px;text-align:center;font-size:13px;flex-shrink:0}
-.chi-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sbf{padding:10px 8px;border-top:1px solid var(--border2)}
-
-/* STATUS DROPDOWN */
-#stmn{display:none;margin-bottom:8px}
-.stmn-card{
-  background:rgba(15,15,36,.95);border:1px solid var(--border);
-  border-radius:14px;padding:8px;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
-}
-.stmi{
-  display:flex;align-items:center;gap:10px;padding:9px 10px;
-  border-radius:9px;cursor:pointer;font-size:13px;font-weight:500;
-  transition:.15s;
-}
+.chi.act{background:rgba(139,92,246,.14);color:var(--p2);border-left:2px solid var(--p)}
+.sbf{padding:9px 7px;border-top:1px solid var(--bd2)}
+.sbf-stmn{display:none;margin-bottom:7px}
+.stmn-c{background:rgba(13,13,32,.96);border:1px solid var(--border);border-radius:13px;padding:7px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.stmi{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;transition:.15s}
 .stmi:active{background:rgba(139,92,246,.1)}
-.sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.stsep{height:1px;background:var(--border2);margin:4px 0}
-.urow{
-  display:flex;align-items:center;gap:9px;padding:7px 8px;
-  border-radius:12px;cursor:pointer;transition:.15s;
-  background:rgba(139,92,246,.06);border:1px solid var(--border);
-}
-.urow:active{background:rgba(139,92,246,.12)}
-.av{
-  width:30px;height:30px;border-radius:50%;
-  background:linear-gradient(135deg,var(--purple),var(--pink));
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;flex-shrink:0;overflow:hidden;position:relative;
-}
+.sdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.urow{display:flex;align-items:center;gap:8px;padding:6px 7px;border-radius:10px;cursor:pointer;transition:.15s;background:rgba(139,92,246,.05);border:1px solid var(--border)}
+.urow:active{background:rgba(139,92,246,.1)}
+.av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pink));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;overflow:hidden;position:relative}
 .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.av .dot{
-  position:absolute;bottom:-1px;right:-1px;
-  width:9px;height:9px;border-radius:50%;
-  background:var(--green);border:2px solid var(--bg);
-}
+.av .dot{position:absolute;bottom:-1px;right:-1px;width:8px;height:8px;border-radius:50%;background:var(--green);border:2px solid var(--sb)}
 .ui{flex:1;min-width:0}
-.un{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:3px}
+.un{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ust{font-size:10px;color:var(--t2)}
 
-/* ── MAIN ── */
-.main{
-  position:fixed;inset:0;bottom:60px;
-  display:flex;flex-direction:column;overflow:hidden;
-}
+/* MAIN */
+.main{position:fixed;left:0;right:0;top:0;bottom:58px;display:flex;flex-direction:column;overflow:hidden}
 
-/* ── CHAT ── */
-#vchat{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-}
-.chdr{
-  padding:10px 14px;border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;gap:9px;flex-shrink:0;
-  background:rgba(7,7,17,.9);backdrop-filter:blur(20px);
-  height:52px;position:relative;z-index:10;
-}
-.chdr-btn{
-  width:34px;height:34px;
-  background:rgba(139,92,246,.1);border:1px solid var(--border);
-  border-radius:9px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:15px;color:var(--t2);transition:.2s;
-}
-.chdr-btn:active{background:rgba(139,92,246,.2);color:var(--p2)}
-.chdr-info{flex:1;min-width:0}
-.chdr-ch{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
-.chdr-d{font-size:11px;color:var(--t2)}
+/* CHAT HEADER */
+.chdr{padding:0 12px;height:48px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:9px;flex-shrink:0;background:rgba(6,6,15,.92);backdrop-filter:blur(20px);z-index:10}
+.chdr-btn{width:32px;height:32px;background:rgba(139,92,246,.09);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--t2);transition:.15s}
+.chdr-btn:active{background:rgba(139,92,246,.18);color:var(--p2)}
+.chdr-t{flex:1;min-width:0}
+.chdr-ch{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;overflow:hidden;white-space:nowrap}
+.chdr-d{font-size:10px;color:var(--t2)}
 
 /* MESSAGES */
-.msgs{
-  flex:1;overflow-y:auto;padding:12px 10px 6px;
-  display:flex;flex-direction:column;gap:1px;
-  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
-}
-.mr{display:flex;gap:8px;align-items:flex-end;padding:1px 0}
+.msgs{flex:1;overflow-y:auto;padding:10px 10px 6px;display:flex;flex-direction:column;gap:1px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.mr{display:flex;gap:8px;align-items:flex-end;padding:1px 0;animation:msgIn .2s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .mr.own{flex-direction:row-reverse}
-.mav-w{width:28px;flex-shrink:0}
-.msp{width:28px;flex-shrink:0}
+.mav-w{width:26px;flex-shrink:0}
+.msp{width:26px;flex-shrink:0}
 .mc{max-width:76%;display:flex;flex-direction:column}
 .mr.own .mc{align-items:flex-end}
-.mmeta{font-size:10px;color:var(--t2);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.mmeta{font-size:10px;color:var(--t2);margin-bottom:3px;display:flex;align-items:center;gap:5px}
 .mr.own .mmeta{flex-direction:row-reverse}
-.mauth{
-  font-weight:700;font-size:11px;
-  background:linear-gradient(90deg,var(--p2),var(--cyan));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.mb3x{
-  padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.55;
-  background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.12);
-  word-break:break-word;backdrop-filter:blur(10px);
-}
-.mr.own .mb3x{
-  background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(167,139,250,.15));
-  border-color:rgba(139,92,246,.35);
-}
-.mb3x img{max-width:200px;max-height:170px;border-radius:10px;display:block;margin-top:5px;cursor:pointer}
-.mb3x audio{margin-top:5px;max-width:210px;height:30px}
-.mtime{font-size:10px;color:var(--t3);margin-top:2px;padding:0 3px}
+.mauth{font-weight:700;font-size:11px;background:linear-gradient(90deg,var(--p2),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mb2{padding:8px 12px;border-radius:14px;font-size:13px;line-height:1.55;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.1);word-break:break-word;backdrop-filter:blur(8px)}
+.mr.own .mb2{background:linear-gradient(135deg,rgba(139,92,246,.26),rgba(167,139,250,.14));border-color:rgba(139,92,246,.32)}
+.mb2 img{max-width:200px;max-height:170px;border-radius:9px;display:block;margin-top:4px;cursor:pointer}
+.mb2 audio{margin-top:4px;max-width:210px;height:28px}
+.mtime{font-size:10px;color:var(--t3);margin-top:2px;padding:0 2px}
 
-/* ── INPUT ── */
-.iw{
-  padding:8px 10px;border-top:1px solid var(--border2);
-  background:rgba(7,7,17,.95);backdrop-filter:blur(20px);
-  flex-shrink:0;padding-bottom:calc(8px + env(safe-area-inset-bottom,0));
-}
-.rbar{
-  display:none;align-items:center;gap:7px;padding:6px 10px;
-  background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);
-  border-radius:10px;margin-bottom:7px;font-size:12px;color:#f87171;
-}
+/* INPUT */
+.iw{padding:7px 9px;border-top:1px solid var(--bd2);background:rgba(6,6,15,.94);backdrop-filter:blur(20px);flex-shrink:0;padding-bottom:calc(7px + env(safe-area-inset-bottom,0))}
+.rbar{display:none;align-items:center;gap:6px;padding:5px 9px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;margin-bottom:6px;font-size:11px;color:#f87171}
 .rbar.on{display:flex}
-.rdot{width:7px;height:7px;background:var(--red);border-radius:50%;animation:pu 1s infinite}
+.rdot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:pu 1s infinite}
 @keyframes pu{0%,100%{opacity:1}50%{opacity:.2}}
-.ib{
-  display:flex;align-items:flex-end;gap:7px;
-  background:rgba(139,92,246,.08);
-  border:1px solid rgba(139,92,246,.2);
-  border-radius:16px;padding:6px 10px;transition:.2s;
-}
-.ib:focus-within{
-  border-color:var(--purple);
-  box-shadow:0 0 0 3px rgba(139,92,246,.12),var(--glow2);
-}
-.iac{display:flex;gap:2px;flex-shrink:0}
-.iab{
-  width:30px;height:30px;border:none;background:none;
-  cursor:pointer;color:var(--t2);display:flex;
-  align-items:center;justify-content:center;font-size:16px;
-  border-radius:8px;transition:.15s;
-}
-.iab:active{background:rgba(139,92,246,.15);color:var(--p2);transform:scale(.9)}
-textarea.mi{
-  flex:1;background:none;border:none;outline:none;
-  color:var(--text);font-family:'Outfit',sans-serif;
-  font-size:14px;resize:none;max-height:90px;min-height:20px;line-height:1.5;
-}
+.ib{display:flex;align-items:flex-end;gap:6px;background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.18);border-radius:14px;padding:5px 8px;transition:.2s}
+.ib:focus-within{border-color:var(--p);box-shadow:0 0 0 3px rgba(139,92,246,.1)}
+.iac{display:flex;gap:1px;flex-shrink:0}
+.iab{width:28px;height:28px;border:none;background:none;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;font-size:15px;border-radius:7px;transition:.15s}
+.iab:active{background:rgba(139,92,246,.14);color:var(--p2)}
+textarea.mi{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;resize:none;max-height:80px;min-height:18px;line-height:1.5}
 textarea.mi::placeholder{color:var(--t3)}
-.sbtn{
-  width:36px;height:36px;
-  background:linear-gradient(135deg,var(--p3),var(--purple));
-  border:none;border-radius:11px;cursor:pointer;color:#fff;
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-  flex-shrink:0;box-shadow:0 4px 14px rgba(139,92,246,.4);transition:.2s;
-}
-.sbtn:active{transform:scale(.9);box-shadow:0 2px 8px rgba(139,92,246,.3)}
+.sbtn{width:32px;height:32px;background:linear-gradient(135deg,var(--p3),var(--p));border:none;border-radius:9px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;box-shadow:0 4px 12px rgba(139,92,246,.35);transition:.2s}
+.sbtn:active{transform:scale(.9)}
 .sbtn:disabled{opacity:.3}
 
-/* Emoji Picker */
-.ep{
-  position:absolute;bottom:66px;left:8px;right:8px;
-  background:linear-gradient(160deg,rgba(15,15,36,.98),rgba(10,10,26,.98));
-  border:1px solid var(--border);border-radius:18px;padding:12px;
-  z-index:100;display:none;flex-wrap:wrap;gap:2px;
-  box-shadow:0 -10px 40px rgba(0,0,0,.5),var(--glow2);
-  max-height:180px;overflow-y:auto;
-}
-.ep.open{display:flex;animation:epIn .2s ease}
-@keyframes epIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.epb{
-  font-size:22px;padding:5px;cursor:pointer;border-radius:9px;
-  background:none;border:none;transition:.15s;line-height:1;
-}
-.epb:active{background:rgba(139,92,246,.15);transform:scale(1.3)}
+/* EMOJI */
+.ep{position:absolute;bottom:58px;left:7px;right:7px;background:linear-gradient(160deg,rgba(14,14,34,.98),rgba(10,10,26,.98));border:1px solid var(--border);border-radius:16px;padding:10px;z-index:100;display:none;flex-wrap:wrap;gap:2px;max-height:170px;overflow-y:auto;box-shadow:0 -8px 36px rgba(0,0,0,.5)}
+.ep.open{display:flex;animation:epin .18s ease}
+@keyframes epin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.epb{font-size:21px;padding:4px;cursor:pointer;border-radius:7px;background:none;border:none;transition:.12s}
+.epb:active{background:rgba(139,92,246,.14);transform:scale(1.3)}
 
-/* ── BOTTOM NAV ── */
-.bnav{
-  position:fixed;bottom:0;left:0;right:0;height:60px;
-  background:rgba(7,7,17,.97);
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-around;
-  z-index:60;backdrop-filter:blur(30px);
-  padding-bottom:env(safe-area-inset-bottom,0);
-}
-.bni{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  cursor:pointer;padding:5px 8px;border-radius:12px;transition:.2s;
-  position:relative;flex:1;max-width:64px;
-}
-.bni:active{transform:scale(.9)}
-.bnico{
-  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
-  font-size:17px;border-radius:9px;transition:.2s;
-}
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;height:58px;background:rgba(6,6,15,.97);border-top:1px solid rgba(139,92,246,.1);display:flex;align-items:center;justify-content:space-around;z-index:60;backdrop-filter:blur(28px);padding-bottom:env(safe-area-inset-bottom,0)}
+.bni{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:5px 8px;border-radius:11px;transition:.15s;position:relative;flex:1;max-width:64px}
+.bni:active{transform:scale(.88)}
+.bnico{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:17px;border-radius:8px;transition:.15s}
 .bnil{font-size:9px;color:var(--t3);font-weight:600;white-space:nowrap}
-.bni.act .bnico{
-  background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(167,139,250,.2));
-  color:var(--p2);box-shadow:0 4px 12px rgba(139,92,246,.3);
-}
+.bni.act .bnico{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(167,139,250,.16));box-shadow:0 4px 12px rgba(139,92,246,.25)}
 .bni.act .bnil{color:var(--p2)}
-.bni[data-c]:not([data-c="0"])::after{
-  content:attr(data-c);position:absolute;top:0px;right:2px;
-  background:linear-gradient(135deg,var(--red),#dc2626);
-  color:#fff;font-size:9px;font-weight:700;border-radius:8px;
-  padding:1px 5px;min-width:15px;text-align:center;
-}
+.bni[data-c]:not([data-c="0"])::after{content:attr(data-c);position:absolute;top:1px;right:3px;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:7px;padding:1px 4px;min-width:14px;text-align:center}
 
-/* ── VIEWS ── */
-.vw{
-  position:absolute;inset:0;overflow-y:auto;display:none;
-  flex-direction:column;padding:16px 12px 80px;
-  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
-}
+/* VIEWS */
+.vw{position:absolute;inset:0;overflow-y:auto;display:none;flex-direction:column;padding:14px 12px 76px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .vw.on{display:flex}
 
-/* ── PAGE HEADER ── */
-.ph{margin-bottom:16px}
-.ph-title{
-  font-size:20px;font-weight:800;
-  background:linear-gradient(135deg,#fff,var(--p2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.ph-sub{font-size:12px;color:var(--t2);margin-top:2px}
+/* SERVER HOME */
+#vsrv-home{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+#vsrv-home.on{display:flex}
+.srv-home-hdr{padding:0 12px;height:48px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:9px;background:rgba(6,6,15,.92);backdrop-filter:blur(20px);flex-shrink:0}
 
-/* ── CARDS ── */
-.card{
-  background:rgba(139,92,246,.06);border:1px solid var(--border);
-  border-radius:16px;padding:14px;
-  backdrop-filter:blur(10px);
-}
-.card-glow{box-shadow:var(--glow2)}
+/* PAGE HEADER */
+.ph{margin-bottom:15px}
+.ph-t{font-size:20px;font-weight:800;background:linear-gradient(135deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ph-s{font-size:12px;color:var(--t2);margin-top:2px}
 
-/* ── MARKET ── */
-.plancard{
-  border-radius:18px;padding:20px;border:1px solid var(--border2);
-  margin-bottom:14px;background:rgba(255,255,255,.03);
-  position:relative;overflow:hidden;
-}
-.plancard::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(139,92,246,.5),transparent);
-}
-.plancard.gold{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
-.plancard.gold::before{background:linear-gradient(90deg,transparent,rgba(245,158,11,.6),transparent)}
-.plancard.diam{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.06);margin-top:20px}
-.plancard.diam::after{
-  content:'✨ Önerilen';position:absolute;top:-12px;left:50%;transform:translateX(-50%);
-  background:linear-gradient(135deg,var(--p3),var(--pink));color:#fff;
-  font-size:11px;font-weight:700;padding:3px 14px;border-radius:18px;white-space:nowrap;
-}
-.pname{font-size:15px;font-weight:800;display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}
-.pbadge{font-size:10px;padding:2px 9px;border-radius:14px;font-weight:600}
-.pbadge.gold-b{background:rgba(245,158,11,.2);color:var(--yellow);border:1px solid rgba(245,158,11,.2)}
-.pbadge.diam-b{background:rgba(139,92,246,.2);color:var(--p2);border:1px solid rgba(139,92,246,.2)}
-.pprice{font-size:28px;font-weight:900;margin-bottom:14px;letter-spacing:-1px}
-.pprice span{font-size:13px;color:var(--t2);font-weight:400}
-.pfeats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
-.pfeats li{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.4}
-.pfeats li::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0;margin-top:1px}
-.pbtn{width:100%;padding:14px;border:none;border-radius:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
-.pbtn:active{transform:scale(.97)}
-.gbtn{background:linear-gradient(135deg,#d97706,var(--yellow));color:#000;box-shadow:0 4px 20px rgba(245,158,11,.3)}
-.dbtn{background:linear-gradient(135deg,var(--p4),var(--purple),var(--p2));color:#fff;box-shadow:0 4px 20px rgba(139,92,246,.4)}
+/* CARDS */
+.card{background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:14px;padding:13px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.4),transparent)}
 
-/* Payment modal */
-.pstep{
-  background:rgba(139,92,246,.06);border:1px solid var(--border);
-  border-radius:14px;padding:14px;margin-bottom:10px;
-}
-.psn{
-  display:inline-flex;width:24px;height:24px;border-radius:50%;
-  background:linear-gradient(135deg,var(--p3),var(--purple));
-  color:#fff;font-size:11px;font-weight:700;
-  align-items:center;justify-content:center;margin-right:8px;flex-shrink:0;
-  box-shadow:0 2px 8px rgba(139,92,246,.4);
-}
-.pst{font-size:13px;font-weight:600;display:flex;align-items:center;margin-bottom:10px}
-.pnum-box{
-  background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(167,139,250,.08));
-  border:1px solid rgba(139,92,246,.25);border-radius:12px;
-  padding:12px;text-align:center;margin-bottom:7px;cursor:pointer;
-}
-.pnum-box:active{background:rgba(139,92,246,.2)}
-.pnum-lbl{font-size:11px;color:var(--t2);margin-bottom:5px}
-.pnum-val{
-  font-size:24px;font-weight:800;letter-spacing:4px;
-  color:var(--p2);font-family:'JetBrains Mono',monospace;
-}
-.pnum-hint{font-size:11px;color:var(--t3);margin-top:4px}
-.upa{
-  border:2px dashed rgba(139,92,246,.25);border-radius:12px;
-  padding:24px 16px;text-align:center;cursor:pointer;transition:.2s;
-}
-.upa:active{border-color:var(--purple);background:rgba(139,92,246,.05)}
-.upa.hf{border-color:var(--green);background:rgba(16,185,129,.05);border-style:solid}
-.psub{
-  width:100%;padding:14px;
-  background:linear-gradient(135deg,var(--p3),var(--purple),var(--p2));
-  border:none;border-radius:14px;color:#fff;
-  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
-  cursor:pointer;margin-top:14px;
-  box-shadow:0 4px 20px rgba(139,92,246,.4);transition:.2s;
-}
-.psub:active{transform:scale(.97)}
-.psub:disabled{opacity:.4;cursor:not-allowed;transform:none}
+/* SERVER CARDS (discover) */
+.srv-card{background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:10px;cursor:pointer;transition:.15s;position:relative}
+.srv-card:active{transform:scale(.98);background:rgba(139,92,246,.1)}
+.srv-card-banner{width:100%;height:80px;object-fit:cover;background:linear-gradient(135deg,var(--p3),var(--pink));display:flex;align-items:center;justify-content:center;font-size:32px}
+.srv-card-body{padding:10px 13px}
+.srv-card-av{width:44px;height:44px;border-radius:50%;border:3px solid var(--bg2);background:linear-gradient(135deg,var(--p3),var(--pink));display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:-22px;margin-bottom:6px;overflow:hidden;flex-shrink:0}
+.srv-card-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.srv-card-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.srv-card-desc{font-size:12px;color:var(--t2);line-height:1.4;margin-bottom:8px}
+.srv-card-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t2)}
+.srv-card-join{padding:7px 16px;background:linear-gradient(135deg,var(--p3),var(--p));border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:.15s;margin-left:auto}
+.srv-card-join:active{transform:scale(.95)}
+.srv-card-join.joined{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
 
-/* ── FRIENDS ── */
-.fr-tabs{
-  display:flex;gap:3px;margin-bottom:14px;
-  background:rgba(255,255,255,.04);border-radius:12px;padding:3px;
-  border:1px solid var(--border2);
-}
-.fr-tab{flex:1;padding:7px;border:none;border-radius:10px;background:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:.2s}
-.fr-tab.act{background:linear-gradient(135deg,var(--p3),var(--purple));color:#fff;box-shadow:0 4px 12px rgba(139,92,246,.3)}
-.fi{
-  display:flex;align-items:center;gap:11px;padding:12px 14px;
-  background:rgba(139,92,246,.06);border:1px solid var(--border);
-  border-radius:14px;margin-bottom:8px;
-  transition:.15s;
-}
+/* MY SERVERS LIST */
+.msrv-item{display:flex;align-items:center;gap:11px;padding:11px 13px;background:rgba(139,92,246,.05);border:1px solid var(--border);border-radius:13px;margin-bottom:8px;cursor:pointer;transition:.15s}
+.msrv-item:active{background:rgba(139,92,246,.1);transform:scale(.98)}
+.msrv-av{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--p3),var(--pink));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;border:1px solid rgba(139,92,246,.2)}
+.msrv-av img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.msrv-info{flex:1;min-width:0}
+.msrv-name{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msrv-sub{font-size:11px;color:var(--t2)}
+
+/* FRIENDS */
+.fr-tabs{display:flex;gap:3px;margin-bottom:13px;background:rgba(255,255,255,.04);border-radius:11px;padding:3px;border:1px solid var(--bd2)}
+.fr-tab{flex:1;padding:6px;border:none;border-radius:9px;background:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s}
+.fr-tab.act{background:linear-gradient(135deg,var(--p3),var(--p));color:#fff;box-shadow:0 4px 12px rgba(139,92,246,.28)}
+.fi{display:flex;align-items:center;gap:10px;padding:11px 12px;background:rgba(139,92,246,.05);border:1px solid var(--border);border-radius:13px;margin-bottom:7px;transition:.15s}
 .fi:active{background:rgba(139,92,246,.1)}
-.fi-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;overflow:hidden}
+.fi-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pink));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;overflow:hidden}
 .fi-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .fi-info{flex:1;min-width:0}
 .fi-name{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fi-sub{font-size:11px;color:var(--t2);margin-top:2px}
 .fi-acts{display:flex;gap:5px;flex-shrink:0}
-.fi-btn{padding:6px 12px;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+.fi-btn{padding:6px 11px;border:none;border-radius:7px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.15s}
 .fi-btn:active{transform:scale(.9)}
-.fi-acc{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
-.fi-rej{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.2)}
-.fi-dm{background:rgba(139,92,246,.15);color:var(--p2);border:1px solid rgba(139,92,246,.2)}
+.fi-acc{background:rgba(16,185,129,.14);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.fi-rej{background:rgba(239,68,68,.14);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.fi-dm{background:rgba(139,92,246,.14);color:var(--p2);border:1px solid rgba(139,92,246,.2)}
 
-/* ── ADMIN ── */
-.astat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.astb{
-  background:rgba(139,92,246,.07);border:1px solid var(--border);
-  border-radius:13px;padding:11px 8px;text-align:center;
-  position:relative;overflow:hidden;
-}
-.astb::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--purple),transparent);
-}
-.astn{font-size:20px;font-weight:800;color:var(--p2)}
-.astl{font-size:10px;color:var(--t3);margin-top:2px}
-.atabs{display:flex;gap:3px;margin-bottom:14px;background:rgba(255,255,255,.04);border-radius:12px;padding:3px;border:1px solid var(--border2)}
-.atab{flex:1;padding:7px 3px;border:none;border-radius:10px;background:none;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;transition:.2s;text-align:center}
-.atab.act{background:linear-gradient(135deg,var(--p3),var(--purple));color:#fff;box-shadow:0 4px 12px rgba(139,92,246,.3)}
-.aitem{
-  background:rgba(139,92,246,.05);border:1px solid var(--border);
-  border-radius:14px;padding:12px 14px;margin-bottom:9px;
-}
-.aname{font-size:13px;font-weight:600}
-.asub2{font-size:11px;color:var(--t2);margin-top:3px;word-break:break-all;line-height:1.4}
-.aacts{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
-.abtn{padding:5px 11px;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
+/* MARKET */
+.plancard{border-radius:16px;padding:18px;border:1px solid var(--bd2);margin-bottom:13px;background:rgba(255,255,255,.025);position:relative;overflow:hidden}
+.plancard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.4),transparent)}
+.plancard.gold{border-color:rgba(245,158,11,.28);background:rgba(245,158,11,.04)}
+.plancard.gold::before{background:linear-gradient(90deg,transparent,rgba(245,158,11,.5),transparent)}
+.plancard.diam{border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.06);margin-top:18px}
+.plancard.diam::after{content:'✨ Önerilen';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--p3),var(--pink));color:#fff;font-size:10px;font-weight:700;padding:2px 12px;border-radius:16px;white-space:nowrap}
+.pname{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px}
+.pbadge{font-size:10px;padding:2px 8px;border-radius:12px;font-weight:600}
+.pbg-g{background:rgba(245,158,11,.18);color:var(--yellow);border:1px solid rgba(245,158,11,.2)}
+.pbg-d{background:rgba(139,92,246,.18);color:var(--p2);border:1px solid rgba(139,92,246,.2)}
+.pprice{font-size:26px;font-weight:900;margin-bottom:12px}
+.pprice span{font-size:12px;color:var(--t2);font-weight:400}
+.pfeats{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.pfeats li{display:flex;align-items:flex-start;gap:7px;font-size:13px;line-height:1.4}
+.pfeats li::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0}
+.pbtn{width:100%;padding:13px;border:none;border-radius:13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.15s}
+.pbtn:active{transform:scale(.97)}
+.gbtn{background:linear-gradient(135deg,#d97706,var(--yellow));color:#000;box-shadow:0 4px 18px rgba(245,158,11,.28)}
+.dbtn{background:linear-gradient(135deg,var(--p4),var(--p),var(--p2));color:#fff;box-shadow:0 4px 18px rgba(139,92,246,.35)}
+
+/* PAYMENT */
+.pstep{background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:13px;padding:13px;margin-bottom:9px}
+.psn{display:inline-flex;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--p3),var(--p));color:#fff;font-size:10px;font-weight:700;align-items:center;justify-content:center;margin-right:7px;flex-shrink:0;box-shadow:0 2px 7px rgba(139,92,246,.4)}
+.pst{font-size:12px;font-weight:600;display:flex;align-items:center;margin-bottom:9px}
+.pnum-box{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(167,139,250,.07));border:1px solid rgba(139,92,246,.22);border-radius:11px;padding:11px;text-align:center;cursor:pointer;margin-bottom:6px}
+.pnum-box:active{background:rgba(139,92,246,.2)}
+.pnum-lbl{font-size:11px;color:var(--t2);margin-bottom:4px}
+.pnum-val{font-size:22px;font-weight:800;letter-spacing:3px;color:var(--p2);font-family:'JetBrains Mono',monospace}
+.pnum-hint{font-size:11px;color:var(--t3);margin-top:3px}
+.upa{border:2px dashed rgba(139,92,246,.22);border-radius:11px;padding:22px 14px;text-align:center;cursor:pointer;transition:.2s}
+.upa:active{border-color:var(--p);background:rgba(139,92,246,.06)}
+.upa.hf{border-color:var(--green);background:rgba(16,185,129,.05);border-style:solid}
+.psub{width:100%;padding:13px;background:linear-gradient(135deg,var(--p3),var(--p),var(--p2));border:none;border-radius:13px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:13px;box-shadow:0 4px 18px rgba(139,92,246,.38);transition:.15s}
+.psub:active{transform:scale(.97)}
+.psub:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ADMIN */
+.astat{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:13px}
+.astb{background:rgba(139,92,246,.07);border:1px solid var(--border);border-radius:12px;padding:10px 7px;text-align:center;position:relative;overflow:hidden}
+.astb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--p),transparent)}
+.astn{font-size:18px;font-weight:800;color:var(--p2)}
+.astl{font-size:10px;color:var(--t3);margin-top:1px}
+.atabs{display:flex;gap:3px;margin-bottom:12px;background:rgba(255,255,255,.04);border-radius:11px;padding:3px;border:1px solid var(--bd2)}
+.atab{flex:1;padding:7px 3px;border:none;border-radius:9px;background:none;font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s;text-align:center}
+.atab.act{background:linear-gradient(135deg,var(--p3),var(--p));color:#fff;box-shadow:0 4px 10px rgba(139,92,246,.28)}
+.aitem{background:rgba(139,92,246,.05);border:1px solid var(--border);border-radius:13px;padding:12px 13px;margin-bottom:8px}
+.aname{font-size:12px;font-weight:600}
+.asub2{font-size:11px;color:var(--t2);margin-top:2px;word-break:break-all;line-height:1.4}
+.aacts{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.abtn{padding:5px 10px;border:none;border-radius:7px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.15s}
 .abtn:active{transform:scale(.9)}
-.ab-ok{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
-.ab-no{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.ab-ok{background:rgba(16,185,129,.14);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.ab-no{background:rgba(239,68,68,.14);color:#f87171;border:1px solid rgba(239,68,68,.2)}
 
-/* ── SETTINGS ── */
-.stabs{
-  display:flex;gap:3px;overflow-x:auto;padding:10px 14px;
-  border-bottom:1px solid var(--border2);scrollbar-width:none;
-}
+/* SETTINGS */
+.stabs{display:flex;gap:3px;overflow-x:auto;padding:9px 13px;border-bottom:1px solid var(--bd2);scrollbar-width:none}
 .stabs::-webkit-scrollbar{display:none}
-.stab{
-  padding:7px 14px;border-radius:9px;cursor:pointer;font-size:13px;
-  font-weight:600;color:var(--t2);border:none;background:none;
-  font-family:'Outfit',sans-serif;white-space:nowrap;transition:.2s;
-}
-.stab.act{background:linear-gradient(135deg,var(--p3),var(--purple));color:#fff;box-shadow:0 4px 12px rgba(139,92,246,.3)}
-.sb2{padding:16px}
-.slbl{
-  font-size:10px;font-weight:700;color:var(--p2);
-  text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px;
-}
-.pprev{
-  background:linear-gradient(160deg,rgba(139,92,246,.1),rgba(236,72,153,.06));
-  border:1px solid var(--border);border-radius:18px;padding:20px 16px;
-  text-align:center;margin-bottom:16px;position:relative;overflow:hidden;
-}
-.pprev::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(139,92,246,.5),transparent);
-}
-.pavlg{
-  width:72px;height:72px;border-radius:50%;
-  background:linear-gradient(135deg,var(--p3),var(--pink));
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:700;margin:0 auto 10px;cursor:pointer;
-  overflow:hidden;border:3px solid rgba(139,92,246,.3);
-  box-shadow:0 8px 24px rgba(139,92,246,.3);
-}
+.stab{padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--t2);border:none;background:none;font-family:'Outfit',sans-serif;white-space:nowrap;transition:.15s}
+.stab.act{background:linear-gradient(135deg,var(--p3),var(--p));color:#fff;box-shadow:0 4px 10px rgba(139,92,246,.28)}
+.sb2{padding:15px}
+.slbl{font-size:10px;font-weight:700;color:var(--p2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.pprev{background:linear-gradient(160deg,rgba(139,92,246,.1),rgba(236,72,153,.06));border:1px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
+.pprev::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.5),transparent)}
+.pavlg{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--p3),var(--pink));display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin:0 auto 9px;cursor:pointer;overflow:hidden;border:3px solid rgba(139,92,246,.28);box-shadow:0 7px 22px rgba(139,92,246,.28)}
 .pavlg img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.logb{
-  display:flex;align-items:center;gap:8px;color:#f87171;
-  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);
-  border-radius:12px;padding:12px 14px;cursor:pointer;
-  font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
-  width:100%;margin-top:14px;transition:.2s;
-}
+.logb{display:flex;align-items:center;gap:7px;color:#f87171;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);border-radius:11px;padding:11px 13px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;width:100%;margin-top:13px;transition:.15s}
 .logb:active{background:rgba(239,68,68,.15)}
-.tgl{width:42px;height:23px;background:var(--purple);border-radius:12px;cursor:pointer;position:relative;flex-shrink:0;box-shadow:0 2px 8px rgba(139,92,246,.3);transition:.2s}
-.tgl .kn{position:absolute;width:17px;height:17px;background:#fff;border-radius:50%;top:3px;right:3px;transition:.2s;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+.tgl{width:40px;height:21px;background:var(--p);border-radius:11px;cursor:pointer;position:relative;flex-shrink:0;transition:.2s}
+.tgl .kn{position:absolute;width:15px;height:15px;background:#fff;border-radius:50%;top:3px;right:3px;transition:.2s}
 .tgl.off{background:rgba(255,255,255,.12)}
 .tgl.off .kn{right:auto;left:3px}
-.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.topt{border-radius:12px;border:2px solid var(--border2);overflow:hidden;cursor:pointer;transition:.2s;padding-bottom:48%;position:relative}
-.topt.act{border-color:var(--purple);box-shadow:0 0 16px rgba(139,92,246,.3)}
-.topt-in{position:absolute;inset:0;display:flex;align-items:flex-end;padding:9px}
-.svbtn{
-  padding:12px;
-  background:linear-gradient(135deg,var(--p3),var(--purple));
-  border:none;border-radius:12px;color:#fff;
-  font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;
-  cursor:pointer;width:100%;margin-top:4px;
-  box-shadow:0 4px 16px rgba(139,92,246,.3);transition:.2s;
-}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.topt{border-radius:11px;border:2px solid var(--bd2);overflow:hidden;cursor:pointer;transition:.2s;padding-bottom:46%;position:relative}
+.topt.act{border-color:var(--p);box-shadow:0 0 14px rgba(139,92,246,.28)}
+.topt-in{position:absolute;inset:0;display:flex;align-items:flex-end;padding:8px}
+.svbtn{padding:11px;background:linear-gradient(135deg,var(--p3),var(--p));border:none;border-radius:11px;color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;margin-top:3px;box-shadow:0 4px 14px rgba(139,92,246,.28);transition:.15s}
 .svbtn:active{transform:scale(.97)}
-.accinf{
-  background:rgba(139,92,246,.06);border:1px solid var(--border);
-  border-radius:13px;padding:14px;margin-bottom:14px;
-}
-.acrow{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:5px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,.04);
-}
+.accinf{background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:12px}
+.acrow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,.04)}
 .acrow:last-child{border-bottom:none}
 .acrow span:first-child{color:var(--t2)}
 .acrow span:last-child{color:var(--text);font-weight:600;text-align:right;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pend-b{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.25);color:var(--yellow);border-radius:18px;font-size:11px;font-weight:600}
+.pend-b{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.22);color:var(--yellow);border-radius:16px;font-size:11px;font-weight:600}
 
-/* ── CALL ── */
-#col{
-  position:fixed;inset:0;background:rgba(0,0,0,.92);
-  display:none;flex-direction:column;align-items:center;justify-content:center;
-  z-index:900;backdrop-filter:blur(24px);
-}
+/* CALL */
+#col{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:900;backdrop-filter:blur(24px)}
 #col.on{display:flex}
-.callav{
-  width:80px;height:80px;border-radius:50%;
-  background:linear-gradient(135deg,var(--p3),var(--pink));
-  display:flex;align-items:center;justify-content:center;
-  font-size:32px;margin-bottom:18px;
-  animation:cp 2s infinite;
-}
-@keyframes cp{
-  0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.6)}
-  50%{box-shadow:0 0 0 24px rgba(139,92,246,0)}
-}
-.callname{font-size:20px;font-weight:800;margin-bottom:6px}
-.callst{font-size:13px;color:var(--t2);margin-bottom:32px}
-.cacts{display:flex;gap:18px}
-.cbtn{width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;transition:.2s}
-.cbtn:active{transform:scale(.85)}
-.cend{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 6px 20px rgba(239,68,68,.4)}
-.cmute{background:rgba(255,255,255,.12);color:var(--text);border:1px solid rgba(255,255,255,.1)}
+.callav{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--p3),var(--pink));display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px;animation:cp 2s infinite}
+@keyframes cp{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.55)}50%{box-shadow:0 0 0 22px rgba(139,92,246,0)}}
+.callname{font-size:19px;font-weight:800;margin-bottom:5px}
+.callst{font-size:12px;color:var(--t2);margin-bottom:28px}
+.cacts{display:flex;gap:15px}
+.cbtn{width:54px;height:54px;border-radius:50%;border:none;cursor:pointer;font-size:21px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.cbtn:active{transform:scale(.88)}
+.cend{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 6px 18px rgba(239,68,68,.38)}
+.cmute{background:rgba(255,255,255,.1);color:var(--text);border:1px solid rgba(255,255,255,.1)}
 
-/* ── CREATE CHANNEL ── */
-.ctgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
-.ctb{background:rgba(139,92,246,.06);border:2px solid var(--border);border-radius:14px;padding:15px;cursor:pointer;text-align:center;font-family:'Outfit',sans-serif;transition:.2s}
-.ctb:active,.ctb.sel{border-color:var(--purple);background:rgba(139,92,246,.15);box-shadow:0 4px 16px rgba(139,92,246,.2)}
-.ctio{font-size:26px;margin-bottom:6px}
-.ctn{font-size:13px;font-weight:700;color:var(--text)}
-.ctd{font-size:11px;color:var(--t3);margin-top:3px}
+/* CREATE CHANNEL */
+.ctgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:9px 0}
+.ctb{background:rgba(139,92,246,.06);border:2px solid var(--border);border-radius:12px;padding:13px;cursor:pointer;text-align:center;font-family:'Outfit',sans-serif;transition:.15s}
+.ctb:active,.ctb.sel{border-color:var(--p);background:rgba(139,92,246,.14)}
+.ctio{font-size:24px;margin-bottom:5px}
+.ctn{font-size:12px;font-weight:700;color:var(--text)}
+.ctd{font-size:10px;color:var(--t3);margin-top:2px}
 
-/* ── MEMBERS PANEL ── */
-.mpdwr{
-  position:fixed;top:0;right:-270px;width:255px;bottom:60px;
-  background:linear-gradient(180deg,#0d0d22,#0a0a1a);
-  border-left:1px solid var(--border);z-index:200;
-  transition:right .3s cubic-bezier(.4,0,.2,1);
-  overflow-y:auto;padding:12px 10px;
-}
-.mpdwr.open{right:0;box-shadow:-12px 0 50px rgba(0,0,0,.5)}
-.mpl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:14px}
-.mpuser{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:12px;color:var(--t2)}
-.mpuser .av{width:26px;height:26px;font-size:10px}
+/* MEMBERS DRAWER */
+.mpdwr{position:fixed;right:-260px;top:0;bottom:58px;width:248px;background:linear-gradient(180deg,#0c0c20,#080818);border-left:1px solid var(--bd2);z-index:200;transition:.3s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:12px 9px}
+.mpdwr.open{right:0;box-shadow:-10px 0 40px rgba(0,0,0,.5)}
+.mpl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;margin-top:12px}
+.mpuser{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;color:var(--t2)}
+.mpuser .av{width:24px;height:24px;font-size:9px}
 
-/* ── DM ── */
-.dmi{
-  display:flex;align-items:center;gap:11px;padding:11px 14px;
-  background:rgba(139,92,246,.06);border:1px solid var(--border);
-  border-radius:14px;margin-bottom:8px;cursor:pointer;transition:.15s;
-}
+/* DM */
+.dmi{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(139,92,246,.05);border:1px solid var(--border);border-radius:12px;margin-bottom:7px;cursor:pointer;transition:.15s}
 .dmi:active{background:rgba(139,92,246,.1);transform:scale(.98)}
 
-/* ── EMPTY ── */
-.empty{text-align:center;padding:50px 20px;color:var(--t2)}
-.empty-ico{font-size:42px;margin-bottom:12px;opacity:.7}
-.empty-ttl{font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px}
-.empty-sub{font-size:12px;line-height:1.5}
-
-/* ── SEARCH INPUT ── */
-.srch{
-  display:flex;gap:8px;margin-bottom:14px;
-}
-.srch input{
-  flex:1;background:rgba(139,92,246,.07);border:1px solid var(--border);
-  border-radius:12px;padding:11px 14px;color:var(--text);
-  font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:.2s;
-}
-.srch input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+/* SRCH */
+.srch{display:flex;gap:7px;margin-bottom:13px}
+.srch input{flex:1;background:rgba(139,92,246,.07);border:1px solid var(--border);border-radius:11px;padding:10px 13px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:.2s}
+.srch input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(139,92,246,.1)}
 .srch input::placeholder{color:var(--t3)}
-.srch button{
-  background:linear-gradient(135deg,var(--p3),var(--purple));border:none;
-  border-radius:12px;padding:11px 16px;color:#fff;cursor:pointer;
-  font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;
-  white-space:nowrap;box-shadow:0 4px 14px rgba(139,92,246,.35);transition:.2s;
-}
+.srch button{background:linear-gradient(135deg,var(--p3),var(--p));border:none;border-radius:11px;padding:10px 14px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 4px 12px rgba(139,92,246,.3);transition:.15s}
 .srch button:active{transform:scale(.95)}
 
 /* BADGE */
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700}
-.badge-on{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
-.badge-off{background:rgba(100,116,139,.1);color:var(--t2);border:1px solid var(--border2)}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:11px;font-size:10px;font-weight:700}
+.badge-on{background:rgba(16,185,129,.14);color:#34d399;border:1px solid rgba(16,185,129,.18)}
+.badge-off{background:rgba(100,116,139,.1);color:var(--t2);border:1px solid var(--bd2)}
+
+/* EMPTY */
+.empty{text-align:center;padding:50px 18px;color:var(--t2)}
+.empty-ico{font-size:40px;margin-bottom:11px;opacity:.7}
+.empty-ttl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.empty-sub{font-size:12px;line-height:1.5}
 
 /* PERM HELP */
-.phbox{
-  position:fixed;bottom:68px;left:10px;right:10px;
-  background:linear-gradient(160deg,rgba(15,15,36,.98),rgba(10,10,26,.98));
-  border:1px solid rgba(239,68,68,.3);border-radius:16px;
-  padding:14px;z-index:999;backdrop-filter:blur(20px);
-  box-shadow:0 -8px 40px rgba(0,0,0,.5);
-}
+.phbox{position:fixed;bottom:66px;left:9px;right:9px;background:linear-gradient(160deg,rgba(15,15,38,.98),rgba(10,10,26,.98));border:1px solid rgba(239,68,68,.28);border-radius:15px;padding:13px;z-index:999;backdrop-filter:blur(20px);box-shadow:0 -6px 30px rgba(0,0,0,.5)}
+
+/* SERVER CREATE FORM */
+.srv-emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin:9px 0}
+.srv-emo{font-size:22px;padding:7px;cursor:pointer;border-radius:9px;background:rgba(139,92,246,.06);border:2px solid transparent;text-align:center;transition:.15s}
+.srv-emo.sel,.srv-emo:active{border-color:var(--p);background:rgba(139,92,246,.18)}
 </style>
 </head>
 <body>
-
-<!-- LOADING -->
 <div id="ld">
   <div class="ld-logo">💬</div>
   <div class="ld-bar"><div class="ld-fill"></div></div>
-  <p class="ld-txt">CesiChat yüklənir...</p>
+  <p class="ld-t">CesiChat yüklənir...</p>
 </div>
-
-<!-- TOAST -->
 <div id="tc"></div>
 
-<!-- ═══════ AUTH ═══════ -->
+<!-- ═══ AUTH ═══ -->
 <div id="aw">
   <div class="ac" id="lv">
     <div class="ac-logo">💬</div>
-    <h1 class="ac-title">CesiChat</h1>
-    <p class="ac-sub">Hesabına daxil ol</p>
-    <button class="btn bg3" onclick="gsi()">
-      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    <h1 class="ac-t">CesiChat</h1>
+    <p class="ac-s">Hesabına daxil ol</p>
+    <button class="btn bg" onclick="gsi()">
+      <svg width="15" height="15" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Google ilə daxil ol
     </button>
     <div class="dv">və ya</div>
@@ -792,9 +422,9 @@ textarea.mi::placeholder{color:var(--t3)}
   </div>
   <div class="ac" id="rv" style="display:none">
     <div class="ac-logo">✨</div>
-    <h1 class="ac-title">Hesab Yarat</h1>
-    <p class="ac-sub">CesiChat'a qoşul</p>
-    <div style="display:flex;gap:9px">
+    <h1 class="ac-t">Hesab Yarat</h1>
+    <p class="ac-s">CesiChat'a qoşul</p>
+    <div style="display:flex;gap:8px">
       <div class="fl" style="flex:1"><label>İstifadəçi adı</label><input type="text" id="ru" placeholder="istifadeci" maxlength="20" autocomplete="username"></div>
       <div class="fl" style="flex:1"><label>Görünən ad</label><input type="text" id="rd" placeholder="Ad" maxlength="30"></div>
     </div>
@@ -810,8 +440,8 @@ textarea.mi::placeholder{color:var(--t3)}
   <div class="md ctr">
     <div class="dh"></div>
     <div class="mh"><div class="mtt">👤 İstifadəçi Adı Seç</div></div>
-    <div class="mb3">
-      <p style="color:var(--t2);font-size:13px;margin-bottom:14px;line-height:1.5">Dostların seni bu adla tapacaq (3-20 simvol)</p>
+    <div class="mb">
+      <p style="color:var(--t2);font-size:12px;margin-bottom:12px;line-height:1.5">Dostların seni bu adla tapacaq (3-20 simvol)</p>
       <div class="fl"><label>İstifadəçi adı</label><input type="text" id="unu" placeholder="istifadeci_adi" maxlength="20" autocomplete="off"></div>
       <div class="fl"><label>Görünən ad</label><input type="text" id="und" placeholder="Ad Soyad" maxlength="30"></div>
       <button class="btn bp" id="unbtn" onclick="svu()">Davam Et ➜</button>
@@ -819,55 +449,60 @@ textarea.mi::placeholder{color:var(--t3)}
   </div>
 </div>
 
-<!-- ═══════ APP ═══════ -->
+<!-- ═══ APP ═══ -->
 <div id="app">
 
   <!-- Sidebar overlay -->
   <div class="sb-ov" id="sb-ov" onclick="csb()"></div>
 
-  <!-- Sidebar -->
+  <!-- Server Rail -->
+  <div class="srv-rail" id="srv-rail">
+    <div class="srv-ic pbg" onclick="smv('home')" title="Ana Sayfa">💬</div>
+    <div class="srv-sep"></div>
+    <div id="srv-list-rail"></div>
+    <div class="srv-sep"></div>
+    <div class="srv-add" onclick="openCreateServer()" title="Server Yarat">＋</div>
+  </div>
+
+  <!-- Channel Sidebar -->
   <div class="sb" id="sb">
     <div class="sbh">
-      <div class="sb-logo">💬</div>
-      <span class="sb-name">CesiChat</span>
-      <button class="xb" onclick="csb()">✕</button>
+      <span class="sbh-name" id="sbh-name">CesiChat</span>
+      <button class="xb" onclick="csb()" style="font-size:15px">✕</button>
     </div>
     <div class="sbody">
       <div class="sbs">
-        <div class="sbl">Mətn <button class="ach" onclick="occh('text')" title="Kanal əlavə et">＋</button></div>
+        <div class="sbl">Mətn <button class="ach" onclick="occh('text')" id="add-ch-btn">＋</button></div>
         <div id="tchs"></div>
       </div>
       <div class="sbs">
-        <div class="sbl">Ses <button class="ach" onclick="occh('voice')">＋</button></div>
+        <div class="sbl">Ses <button class="ach" onclick="occh('voice')" id="add-vc-btn">＋</button></div>
         <div id="vchs"></div>
       </div>
     </div>
     <div class="sbf">
-      <div id="stmn" style="display:none">
-        <div class="stmn-card">
+      <div id="sbf-stmn" class="sbf-stmn">
+        <div class="stmn-c">
           <div class="stmi" onclick="sst('online')"><div class="sdot" style="background:#10b981"></div>Çevrimiçi</div>
           <div class="stmi" onclick="sst('away')"><div class="sdot" style="background:#f59e0b"></div>Uzaqta</div>
           <div class="stmi" onclick="sst('busy')"><div class="sdot" style="background:#ef4444"></div>Məşğul</div>
           <div class="stmi" onclick="sst('invisible')"><div class="sdot" style="background:#6b7280"></div>Görünməz</div>
-          <div class="stsep"></div>
+          <div style="height:1px;background:var(--bd2);margin:4px 0"></div>
           <div class="stmi" onclick="tset();cstmn()">⚙️ Ayarlar</div>
           <div class="stmi" onclick="dso()" style="color:#f87171">🚪 Çıxış</div>
         </div>
       </div>
       <div class="urow" onclick="tgstmn()">
-        <div class="av" id="ftav" style="width:34px;height:34px;font-size:13px"><span id="ftal">?</span><div class="dot" id="ftdot"></div></div>
-        <div class="ui">
-          <div class="un" id="ftn">...</div>
-          <div class="ust" id="ftst">Çevrimiçi</div>
-        </div>
-        <span style="font-size:12px;color:var(--t2)">⌃</span>
+        <div class="av" id="ftav" style="width:32px;height:32px;font-size:12px"><span id="ftal">?</span><div class="dot" id="ftdot"></div></div>
+        <div class="ui"><div class="un" id="ftn">...</div><div class="ust" id="ftst">Çevrimiçi</div></div>
+        <span style="font-size:11px;color:var(--t2)">⚙</span>
       </div>
     </div>
   </div>
 
-  <!-- Members drawer -->
+  <!-- Members Drawer -->
   <div class="mpdwr" id="mpdwr">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
       <span style="font-size:13px;font-weight:700">👥 Üyeler</span>
       <button class="xb" onclick="document.getElementById('mpdwr').classList.remove('open')">✕</button>
     </div>
@@ -875,24 +510,36 @@ textarea.mi::placeholder{color:var(--t3)}
     <div class="mpl">Üyeler — <span id="mpcnt">0</span></div><div id="mpmb"></div>
   </div>
 
-  <!-- Main area -->
+  <!-- Main -->
   <div class="main">
 
-    <!-- CHAT -->
-    <div id="vchat">
+    <!-- SERVER HOME / WELCOME -->
+    <div id="vsrv-home">
+      <div class="srv-home-hdr">
+        <button class="chdr-btn" onclick="osb()">☰</button>
+        <span id="srv-home-name" style="font-size:14px;font-weight:700;flex:1">CesiChat</span>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:20px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+        <div id="srv-home-ico" style="font-size:48px;margin-bottom:14px">💬</div>
+        <div style="font-size:20px;font-weight:800;background:linear-gradient(135deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px" id="srv-home-ttl">CesiChat'a Xoş Gəldin!</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.6;max-width:280px;margin-bottom:20px" id="srv-home-desc">Bir server yarat və ya mövcud serverə qatıl</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+          <button onclick="openCreateServer()" class="btn bp" style="width:auto;padding:10px 20px">＋ Server Yarat</button>
+          <button onclick="smv('discover')" class="btn" style="width:auto;padding:10px 20px;background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.3);color:var(--p2)">🔍 Server Kəşfet</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT VIEW -->
+    <div id="vchat" style="display:none;flex-direction:column;position:absolute;inset:0">
       <div class="chdr">
         <button class="chdr-btn" onclick="osb()">☰</button>
-        <div class="chdr-info">
-          <div class="chdr-ch">
-            <span id="chico" style="color:var(--t2);font-size:15px">#</span>
-            <span id="chn" style="font-size:14px;font-weight:700">genel</span>
-          </div>
+        <div class="chdr-t">
+          <div class="chdr-ch"><span id="chico" style="color:var(--t2);font-size:14px">#</span><span id="chn">genel</span></div>
         </div>
         <button class="chdr-btn" onclick="document.getElementById('mpdwr').classList.toggle('open')">👥</button>
       </div>
-
       <div class="msgs" id="msgs"></div>
-
       <div style="position:relative">
         <div class="ep" id="ep">
           <button class="epb" onclick="ae('😀')">😀</button><button class="epb" onclick="ae('😂')">😂</button>
@@ -907,17 +554,17 @@ textarea.mi::placeholder{color:var(--t3)}
           <button class="epb" onclick="ae('⭐')">⭐</button><button class="epb" onclick="ae('🎵')">🎵</button>
           <button class="epb" onclick="ae('😈')">😈</button><button class="epb" onclick="ae('💀')">💀</button>
           <button class="epb" onclick="ae('🤣')">🤣</button><button class="epb" onclick="ae('🥰')">🥰</button>
-          <button class="epb" onclick="ae('🫡')">🫡</button><button class="epb" onclick="ae('🤯')">🤯</button>
-          <button class="epb" onclick="ae('🫠')">🫠</button><button class="epb" onclick="ae('💥')">💥</button>
-          <button class="epb" onclick="ae('🌊')">🌊</button><button class="epb" onclick="ae('⚡')">⚡</button>
+          <button class="epb" onclick="ae('🫡')">🫡</button><button class="epb" onclick="ae('💥')">💥</button>
+          <button class="epb" onclick="ae('⚡')">⚡</button><button class="epb" onclick="ae('🌊')">🌊</button>
+          <button class="epb" onclick="ae('🍕')">🍕</button><button class="epb" onclick="ae('🏆')">🏆</button>
         </div>
-        <div class="rbar" id="rbar"><div class="rdot"></div><span>Yazılır... <span id="rtm">0:00</span></span><button onclick="crec()" style="margin-left:auto;background:none;border:none;color:#f87171;cursor:pointer;font-size:12px;padding:2px 8px">İptal</button></div>
+        <div class="rbar" id="rbar"><div class="rdot"></div><span>Yazılır... <span id="rtm">0:00</span></span><button onclick="crec()" style="margin-left:auto;background:none;border:none;color:#f87171;cursor:pointer;font-size:11px;padding:2px 7px">İptal</button></div>
         <div class="iw">
           <div class="ib">
             <div class="iac">
-              <button class="iab" onclick="tep()" title="Emoji">😊</button>
-              <button class="iab" onclick="timg()" title="Şəkil">🖼️</button>
-              <button class="iab" id="rb2" onclick="trec()" title="Səs">🎙️</button>
+              <button class="iab" onclick="tep()">😊</button>
+              <button class="iab" onclick="timg()">🖼️</button>
+              <button class="iab" id="rb2" onclick="trec()">🎙️</button>
             </div>
             <textarea class="mi" id="mi" placeholder="Bir şeyler yaz..." rows="1" onkeydown="omk(event)" oninput="ari(this)"></textarea>
             <button class="sbtn" id="sb2" onclick="sm()">➤</button>
@@ -927,12 +574,25 @@ textarea.mi::placeholder{color:var(--t3)}
       </div>
     </div>
 
-    <!-- FRIENDS -->
-    <div class="vw" id="vfr">
-      <div class="ph">
-        <div class="ph-title">👥 Dostlar</div>
-        <div class="ph-sub" id="frcnt">0 dost</div>
+    <!-- DISCOVER VIEW -->
+    <div class="vw" id="vdisc">
+      <div class="ph"><div class="ph-t">🔍 Server Kəşfet</div><div class="ph-s">Yeni serverlər tap və qatıl</div></div>
+      <div class="srch">
+        <input type="text" id="disc-srch" placeholder="Server axtar...">
+        <button onclick="discSearch()">Axtar</button>
       </div>
+      <div id="disc-list"></div>
+    </div>
+
+    <!-- MY SERVERS VIEW -->
+    <div class="vw" id="vmysrv">
+      <div class="ph"><div class="ph-t">📋 Serverlərim</div><div class="ph-s">Qatıldığın serverlər</div></div>
+      <div id="mysrv-list"></div>
+    </div>
+
+    <!-- FRIENDS VIEW -->
+    <div class="vw" id="vfr">
+      <div class="ph"><div class="ph-t">👥 Dostlar</div><div class="ph-s" id="frcnt">0 dost</div></div>
       <div class="srch">
         <input type="text" id="fri" placeholder="@ istifadəçi adı ilə dost əlavə et">
         <button onclick="addfr()">Ekle</button>
@@ -945,36 +605,27 @@ textarea.mi::placeholder{color:var(--t3)}
       <div id="frlist"></div>
     </div>
 
-    <!-- DMs -->
+    <!-- DM VIEW -->
     <div class="vw" id="vdms">
-      <div class="ph">
-        <div class="ph-title">✉️ Mesajlar</div>
-        <div class="ph-sub">İstifadəçi ilə birbaşa söhbət</div>
-      </div>
+      <div class="ph"><div class="ph-t">✉️ Mesajlar</div><div class="ph-s">Birbaşa söhbətlər</div></div>
       <div class="srch">
         <input type="text" id="dmsrch" placeholder="@ istifadəçi axtar">
         <button onclick="sdmu()">Axtar</button>
       </div>
       <div id="dmres" style="margin-bottom:10px"></div>
-      <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Son Söhbətlər</div>
+      <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px">Son Söhbətlər</div>
       <div id="dmlist"></div>
     </div>
 
-    <!-- MARKET -->
+    <!-- MARKET VIEW -->
     <div class="vw" id="vmk">
-      <div class="ph">
-        <div class="ph-title">🛒 Market</div>
-        <div class="ph-sub">Premium üzvlüklə daha çox imkan</div>
-      </div>
-      <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(236,72,153,.06));border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:14px 16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px">
-        <span style="font-size:24px;flex-shrink:0">📱</span>
-        <div>
-          <div style="font-size:14px;font-weight:700;margin-bottom:4px">M10 ilə ödə, anında aktiv et</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">Nömrəyə pul göndər → Çeki yüklə → Admin təsdiqləsin → Premium aktiv!</div>
-        </div>
+      <div class="ph"><div class="ph-t">🛒 Market</div><div class="ph-s">Premium üzvlüklə daha çox imkan</div></div>
+      <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(236,72,153,.06));border:1px solid rgba(139,92,246,.18);border-radius:15px;padding:13px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px">
+        <span style="font-size:22px;flex-shrink:0">📱</span>
+        <div><div style="font-size:13px;font-weight:700;margin-bottom:3px">M10 ilə ödə, anında aktiv et</div><div style="font-size:12px;color:var(--t2);line-height:1.5">Nömrəyə pul göndər → Çeki yüklə → Admin təsdiqləsin → Premium aktiv!</div></div>
       </div>
       <div class="plancard gold">
-        <div class="pname">👑 CesiChat PLUS <span class="pbadge gold-b">Erken Destekçi</span></div>
+        <div class="pname">👑 CesiChat PLUS <span class="pbadge pbg-g">Erken Destekçi</span></div>
         <div class="pprice">₼10 <span>/ ay</span></div>
         <ul class="pfeats">
           <li>İsminin yanında qızıl 👑 rozeti</li>
@@ -986,7 +637,7 @@ textarea.mi::placeholder{color:var(--t3)}
         <button class="pbtn gbtn" onclick="opay('plus')">₼10 / ay — Abone Ol</button>
       </div>
       <div class="plancard diam">
-        <div class="pname">💎 CesiChat Destekçisi <span class="pbadge diam-b">Ən Yaxşı</span></div>
+        <div class="pname">💎 CesiChat Destekçisi <span class="pbadge pbg-d">Ən Yaxşı</span></div>
         <div class="pprice">₼20 <span>/ ay</span></div>
         <ul class="pfeats">
           <li>İsminin yanında mor elmas 💎 rozeti</li>
@@ -1000,14 +651,11 @@ textarea.mi::placeholder{color:var(--t3)}
       </div>
     </div>
 
-    <!-- ADMIN (only cesicoder@gmail.com) -->
+    <!-- ADMIN VIEW (cesicoder@gmail.com only) -->
     <div class="vw" id="vadm">
-      <div class="ph">
-        <div class="ph-title">👑 Admin Panel</div>
-        <div class="ph-sub">Sunucu idarəçisi</div>
-      </div>
+      <div class="ph"><div class="ph-t">👑 Admin Panel</div><div class="ph-s">Sunucu idarəçisi</div></div>
       <div class="astat">
-        <div class="astb"><div class="astn" id="adtot">0</div><div class="astl">Toplam</div></div>
+        <div class="astb"><div class="astn" id="adtot">0</div><div class="astl">İstifadəçi</div></div>
         <div class="astb"><div class="astn" style="color:var(--green)" id="adonl">0</div><div class="astl">Online</div></div>
         <div class="astb"><div class="astn" style="color:var(--yellow)" id="adpnd">0</div><div class="astl">Gözl.</div></div>
         <div class="astb"><div class="astn" id="admsg">0</div><div class="astl">Mesaj</div></div>
@@ -1015,7 +663,7 @@ textarea.mi::placeholder{color:var(--t3)}
       <div class="atabs">
         <button class="atab act" onclick="lat('pay',this)">💳 Ödənişlər</button>
         <button class="atab" onclick="lat('usr',this)">👥 İstifadəçilər</button>
-        <button class="atab" onclick="lat('chs',this)">📢 Kanallar</button>
+        <button class="atab" onclick="lat('srv',this)">📡 Serverlər</button>
       </div>
       <div id="adcon"></div>
     </div>
@@ -1024,7 +672,8 @@ textarea.mi::placeholder{color:var(--t3)}
 
   <!-- BOTTOM NAV -->
   <div class="bnav">
-    <div class="bni act" onclick="smv('chat')" data-v="chat"><div class="bnico">💬</div><span class="bnil">Söhbət</span></div>
+    <div class="bni act" onclick="smv('home')" data-v="home"><div class="bnico">🏠</div><span class="bnil">Ana</span></div>
+    <div class="bni" onclick="smv('discover')" data-v="discover"><div class="bnico">🔍</div><span class="bnil">Kəşfet</span></div>
     <div class="bni" onclick="smv('dms')" data-v="dms"><div class="bnico">✉️</div><span class="bnil">DM</span></div>
     <div class="bni" onclick="smv('friends')" data-v="friends"><div class="bnico">👥</div><span class="bnil">Dostlar</span></div>
     <div class="bni" onclick="smv('market')" data-v="market"><div class="bnico">🛒</div><span class="bnil">Market</span></div>
@@ -1034,12 +683,14 @@ textarea.mi::placeholder{color:var(--t3)}
 
 </div><!-- /app -->
 
-<!-- ═══════ PAYMENT MODAL ═══════ -->
+<!-- ═══ MODALS ═══ -->
+
+<!-- PAYMENT -->
 <div class="ol hd" id="payol">
   <div class="md">
     <div class="dh"></div>
     <div class="mh"><div class="mtt" id="payttl">💳 Ödəniş</div><button class="xb" onclick="cpay()">✕</button></div>
-    <div class="mb3">
+    <div class="mb">
       <div class="pstep">
         <div class="pst"><span class="psn">1</span>M10 nömrəsinə pul köçür</div>
         <div class="pnum-box" onclick="cpnum()">
@@ -1047,26 +698,55 @@ textarea.mi::placeholder{color:var(--t3)}
           <div class="pnum-val">0707 888 025</div>
           <div class="pnum-hint">Klik edərək kopyalanır</div>
         </div>
-        <div style="font-size:13px;color:var(--t2);text-align:center" id="pamttl">Göndəriləcək: <b style="color:var(--text)">₼10</b></div>
+        <div style="font-size:12px;color:var(--t2);text-align:center" id="pamttl">Göndəriləcək: <b style="color:var(--text)">₼10</b></div>
       </div>
       <div class="pstep">
         <div class="pst"><span class="psn">2</span>Ödəniş çekini yüklə</div>
         <div class="upa" id="upa" onclick="document.getElementById('chekf').click()">
-          <div style="font-size:28px;margin-bottom:7px">📸</div>
-          <div style="font-size:14px;font-weight:600">Çek şəklini seç</div>
-          <div style="font-size:12px;color:var(--t2);margin-top:3px">Klik edərək yüklə (maks 5MB)</div>
+          <div style="font-size:26px;margin-bottom:6px">📸</div>
+          <div style="font-size:13px;font-weight:600">Çek şəklini seç</div>
+          <div style="font-size:11px;color:var(--t2);margin-top:2px">Klik edərək yüklə (maks 5MB)</div>
         </div>
         <input type="file" id="chekf" accept="image/*" style="display:none" onchange="hchek(event)">
-        <div id="chekprev" style="display:none;margin-top:10px;text-align:center">
-          <img id="chekimg" style="max-width:100%;max-height:160px;border-radius:12px;border:1px solid var(--border)">
-          <div style="font-size:12px;color:#34d399;margin-top:6px;font-weight:600">✓ Şəkil seçildi</div>
+        <div id="chekprev" style="display:none;margin-top:9px;text-align:center">
+          <img id="chekimg" style="max-width:100%;max-height:150px;border-radius:11px;border:1px solid var(--border)">
+          <div style="font-size:12px;color:#34d399;margin-top:5px;font-weight:600">✓ Şəkil seçildi</div>
         </div>
       </div>
       <div class="pstep">
         <div class="pst"><span class="psn">3</span>Göndər və gözlə</div>
-        <p style="font-size:13px;color:var(--t2);line-height:1.7">Admin çeki yoxlayacaq. Təsdiqlənən kimi premium statusun avtomatik aktivləşəcək. Adətən <b style="color:var(--text)">1-24 saat</b> ərzində cavab verilir.</p>
+        <p style="font-size:12px;color:var(--t2);line-height:1.6">Admin çeki yoxlayacaq. Təsdiqlənən kimi premium statusun avtomatik aktivləşəcək. Adətən <b style="color:var(--text)">1-24 saat</b> ərzində cavab verilir.</p>
       </div>
       <button class="psub" id="psubbtn" onclick="spay()">📤 Ödəniş Göndər</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE SERVER -->
+<div class="ol hd" id="csr-ol">
+  <div class="md">
+    <div class="dh"></div>
+    <div class="mh"><div class="mtt">📡 Server Yarat</div><button class="xb" onclick="document.getElementById('csr-ol').classList.add('hd')">✕</button></div>
+    <div class="mb">
+      <div class="fl"><label>Server adı</label><input type="text" id="csr-name" placeholder="Mənim Serverim" maxlength="40"></div>
+      <div class="fl"><label>Açıqlama (opsiyonal)</label><textarea id="csr-desc" placeholder="Server haqqında..." rows="2" maxlength="200" style="resize:none"></textarea></div>
+      <div class="fl"><label>Server emoji / ikonu</label>
+        <div class="srv-emoji-grid" id="srv-emo-grid">
+          <div class="srv-emo sel" data-e="💬">💬</div><div class="srv-emo" data-e="🎮">🎮</div>
+          <div class="srv-emo" data-e="🎵">🎵</div><div class="srv-emo" data-e="🎨">🎨</div>
+          <div class="srv-emo" data-e="📚">📚</div><div class="srv-emo" data-e="🏆">🏆</div>
+          <div class="srv-emo" data-e="🌍">🌍</div><div class="srv-emo" data-e="🔥">🔥</div>
+          <div class="srv-emo" data-e="⚡">⚡</div><div class="srv-emo" data-e="🚀">🚀</div>
+          <div class="srv-emo" data-e="💡">💡</div><div class="srv-emo" data-e="🎯">🎯</div>
+        </div>
+      </div>
+      <div class="fl"><label>Açıq / Gizli</label>
+        <select id="csr-pub">
+          <option value="public">Açıq — Hər kəs qatıla bilər</option>
+          <option value="private">Gizli — Yalnız dəvət ilə</option>
+        </select>
+      </div>
+      <button class="btn bp" onclick="createServer()">📡 Server Yarat</button>
     </div>
   </div>
 </div>
@@ -1076,8 +756,8 @@ textarea.mi::placeholder{color:var(--t3)}
   <div class="md">
     <div class="dh"></div>
     <div class="mh"><div class="mtt">📢 Kanal Yarat</div><button class="xb" onclick="ccc()">✕</button></div>
-    <div class="mb3">
-      <div class="slbl" style="margin-bottom:8px">Kanal növü</div>
+    <div class="mb">
+      <div class="slbl" style="margin-bottom:7px">Kanal növü</div>
       <div class="ctgrid">
         <button class="ctb sel" id="cttext" onclick="sct('text')"><div class="ctio">#</div><div class="ctn">Mətn</div><div class="ctd">Mesaj, şəkil, ses</div></button>
         <button class="ctb" id="ctvoice" onclick="sct('voice')"><div class="ctio">🔊</div><div class="ctn">Ses</div><div class="ctd">Danışıq kanalı</div></button>
@@ -1103,79 +783,68 @@ textarea.mi::placeholder{color:var(--t3)}
       <button class="stab" onclick="ss2('th',this)">Görünüm</button>
     </div>
     <div class="sb2">
-      <!-- PROFILE -->
       <div id="spr">
         <div class="pprev">
           <button class="pavlg" id="setav" onclick="document.getElementById('avf').click()"><span id="setavl">?</span></button>
-          <div style="font-size:15px;font-weight:800;margin-top:4px" id="setavn">...</div>
-          <div style="font-size:12px;color:var(--t2);margin-top:3px" id="setave">...</div>
-          <div id="setpb" style="margin-top:8px;display:none"></div>
-          <button onclick="smv('market');tset()" style="background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(167,139,250,.1));border:1px solid rgba(139,92,246,.3);border-radius:9px;padding:5px 14px;color:var(--p2);font-size:11px;font-weight:700;cursor:pointer;margin-top:10px;font-family:'Outfit',sans-serif">✨ Destekçi ol →</button>
+          <div style="font-size:14px;font-weight:800;margin-top:4px" id="setavn">...</div>
+          <div style="font-size:12px;color:var(--t2);margin-top:2px" id="setave">...</div>
+          <div id="setpb" style="margin-top:7px;display:none"></div>
+          <button onclick="smv('market');tset()" style="background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(167,139,250,.1));border:1px solid rgba(139,92,246,.28);border-radius:9px;padding:5px 13px;color:var(--p2);font-size:11px;font-weight:700;cursor:pointer;margin-top:9px;font-family:'Outfit',sans-serif">✨ Destekçi ol →</button>
         </div>
-        <div class="slbl">İstifadəçi Adı</div>
-        <div class="fl"><label>@ istifadəçi adı (3-20)</label><input type="text" id="setu" maxlength="20" autocomplete="off"></div>
-        <div class="slbl">Görünən Ad</div>
+        <div class="slbl">Profil Məlumatları</div>
+        <div class="fl"><label>@ İstifadəçi adı (3-20)</label><input type="text" id="setu" maxlength="20" autocomplete="off"></div>
         <div class="fl"><label>Görünən ad</label><input type="text" id="setd" maxlength="30"></div>
-        <div class="slbl">Özel Durum</div>
-        <div class="fl"><label>128 simvol</label><input type="text" id="setcs" placeholder="🎮 Bir şeyler yaz..." maxlength="128"></div>
-        <div class="slbl">Haqqımda</div>
-        <div class="fl"><label>190 simvol</label><textarea id="setab" rows="3" maxlength="190" style="resize:none"></textarea></div>
+        <div class="fl"><label>Özel Durum (128)</label><input type="text" id="setcs" placeholder="🎮 Bir şeyler yaz..." maxlength="128"></div>
+        <div class="fl"><label>Haqqımda (190)</label><textarea id="setab" rows="3" maxlength="190" style="resize:none"></textarea></div>
         <button class="svbtn" onclick="spro()">Dəyişiklikləri Saxla</button>
         <input type="file" id="avf" accept="image/*" style="display:none" onchange="hav(event)">
       </div>
-      <!-- ACCOUNT -->
       <div id="sac" style="display:none">
         <div class="slbl">Hesab Bilgiləri</div>
         <div class="accinf">
           <div class="acrow"><span>E-poçt</span><span id="ace">...</span></div>
           <div class="acrow"><span>Üyelik tarixi</span><span id="acjd">...</span></div>
           <div class="acrow"><span>Premium</span><span id="acpr">Yoxdur</span></div>
-          <div class="acrow"><span>İstifadəçi ID</span><span id="acuid" style="font-family:'JetBrains Mono';font-size:10px">...</span></div>
+          <div class="acrow"><span>ID</span><span id="acuid" style="font-family:'JetBrains Mono';font-size:10px">...</span></div>
         </div>
         <div class="slbl">Şifrə Dəyiş</div>
         <div class="fl"><label>Yeni şifrə (min 8)</label><input type="password" id="np1" placeholder="Yeni şifrə"></div>
         <div class="fl"><label>Şifrəni təsdiqlə</label><input type="password" id="np2" placeholder="Təkrar yaz"></div>
-        <button class="svbtn" onclick="chpw()">Şifrəyi Yenilə</button>
-        <div class="slbl" style="margin-top:18px">İki Faktorlu Doğrulama</div>
-        <div style="background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:13px;padding:14px;display:flex;justify-content:space-between;align-items:center">
-          <div><div style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px">🔒 TOTP Doğrulama</div><div style="font-size:11px;color:var(--t2);margin-top:3px">Google Authenticator ilə</div></div>
-          <span style="font-size:11px;color:var(--t2);background:rgba(255,255,255,.07);padding:4px 10px;border-radius:7px;font-weight:600">Qapalı</span>
+        <button class="svbtn" onclick="chpw()" style="margin-bottom:13px">Şifrəyi Yenilə</button>
+        <div class="slbl">İki Faktorlu Doğrulama</div>
+        <div style="background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:12px;padding:13px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:12px;font-weight:600">🔒 TOTP Doğrulama</div><div style="font-size:11px;color:var(--t2);margin-top:2px">Google Authenticator ilə</div></div>
+          <span style="font-size:11px;color:var(--t2);background:rgba(255,255,255,.06);padding:3px 9px;border-radius:6px;font-weight:600">Qapalı</span>
         </div>
         <button class="logb" onclick="dso()">🚪 Çıxış Yap</button>
       </div>
-      <!-- SOUND -->
       <div id="ssn" style="display:none">
         <div class="slbl">Zil Sesi</div>
-        <div style="background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🔔</span><div><div style="font-size:13px;font-weight:600">Varsayılan zil</div><div style="font-size:11px;color:var(--t2)">Yerleşik ton</div></div></div>
-          <button onclick="tsnd()" style="background:rgba(139,92,246,.12);border:1px solid var(--border);border-radius:8px;padding:6px 13px;color:var(--text);cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600">Test Et</button>
+        <div style="background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:12px;padding:13px;display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+          <div style="display:flex;align-items:center;gap:9px"><span style="font-size:19px">🔔</span><div><div style="font-size:12px;font-weight:600">Varsayılan zil</div><div style="font-size:10px;color:var(--t2)">Yerleşik ton</div></div></div>
+          <button onclick="tsnd()" style="background:rgba(139,92,246,.1);border:1px solid var(--border);border-radius:7px;padding:5px 12px;color:var(--text);cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600">Test Et</button>
         </div>
-        <div style="font-size:12px;color:var(--t2);margin-bottom:10px">MP3, WAV veya OGG dosyası yüklə (maks. 3MB)</div>
-        <button onclick="document.getElementById('sndf').click()" style="background:linear-gradient(135deg,var(--p3),var(--purple));border:none;border-radius:10px;padding:11px 18px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:18px">📤 Ses Dosyası Yüklə</button>
-        <input type="file" id="sndf" accept="audio/*" style="display:none">
         <div class="slbl">Mikrofon</div>
-        <div style="background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🎙️</span><div><div style="font-size:13px;font-weight:600">Gürültü Engelleme</div><div style="font-size:11px;color:var(--t2)">Arka plan seslerini azaldır</div></div></div>
+        <div style="background:rgba(139,92,246,.06);border:1px solid var(--border);border-radius:12px;padding:13px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:9px"><span style="font-size:19px">🎙️</span><div><div style="font-size:12px;font-weight:600">Gürültü Engelleme</div><div style="font-size:10px;color:var(--t2)">Arka plan seslerini azaldır</div></div></div>
           <div class="tgl" id="ntgl" onclick="this.classList.toggle('off')"><div class="kn"></div></div>
         </div>
       </div>
-      <!-- THEME -->
       <div id="sth" style="display:none">
         <div class="slbl">Arkaplan Temaı</div>
-        <p style="font-size:12px;color:var(--t2);margin-bottom:12px">Seçdiyin tema anında tətbiq olunur</p>
+        <p style="font-size:12px;color:var(--t2);margin-bottom:9px">Seçdiyin tema anında tətbiq olunur</p>
         <div class="tgrid">
-          <div class="topt act" onclick="ath('dp',this)" style="background:linear-gradient(135deg,#070711,#13132a)"><div class="topt-in"><div><div style="font-size:12px;font-weight:700;color:#fff">Koyu Mor</div><div style="font-size:10px;color:rgba(255,255,255,.5)">Varsayılan ✓</div></div></div></div>
-          <div class="topt" onclick="ath('bk',this)" style="background:#000"><div class="topt-in"><div><div style="font-size:12px;font-weight:700;color:#fff">Siyah</div><div style="font-size:10px;color:rgba(255,255,255,.4)">Saf siyah</div></div></div></div>
-          <div class="topt" onclick="ath('nv',this)" style="background:linear-gradient(135deg,#020a1a,#0d1533)"><div class="topt-in"><div><div style="font-size:12px;font-weight:700;color:#fff">Lacivert</div><div style="font-size:10px;color:rgba(255,255,255,.4)">Koyu mavi</div></div></div></div>
-          <div class="topt" onclick="ath('ch',this)" style="background:linear-gradient(135deg,#0a0a0a,#1a1a1a)"><div class="topt-in"><div><div style="font-size:12px;font-weight:700;color:#fff">Antrasit</div><div style="font-size:10px;color:rgba(255,255,255,.4)">Koyu gri</div></div></div></div>
+          <div class="topt act" onclick="ath('dp',this)" style="background:linear-gradient(135deg,#06060f,#12122a)"><div class="topt-in"><div><div style="font-size:11px;font-weight:700;color:#fff">Koyu Mor</div><div style="font-size:9px;color:rgba(255,255,255,.4)">Varsayılan ✓</div></div></div></div>
+          <div class="topt" onclick="ath('bk',this)" style="background:#000"><div class="topt-in"><div><div style="font-size:11px;font-weight:700;color:#fff">Siyah</div><div style="font-size:9px;color:rgba(255,255,255,.4)">Saf siyah</div></div></div></div>
+          <div class="topt" onclick="ath('nv',this)" style="background:linear-gradient(135deg,#020a1a,#0d1533)"><div class="topt-in"><div><div style="font-size:11px;font-weight:700;color:#fff">Lacivert</div><div style="font-size:9px;color:rgba(255,255,255,.4)">Koyu mavi</div></div></div></div>
+          <div class="topt" onclick="ath('ch',this)" style="background:linear-gradient(135deg,#080808,#181818)"><div class="topt-in"><div><div style="font-size:11px;font-weight:700;color:#fff">Antrasit</div><div style="font-size:9px;color:rgba(255,255,255,.4)">Koyu gri</div></div></div></div>
         </div>
-        <div style="margin-top:18px">
+        <div style="margin-top:16px">
           <div class="slbl">Özel Arkaplan</div>
-          <p style="font-size:12px;color:var(--t2);margin-bottom:10px">Kendi fotoğrafını yüklə (maks. 10MB)</p>
-          <button onclick="document.getElementById('bgf').click()" style="background:linear-gradient(135deg,var(--p3),var(--purple));border:none;border-radius:10px;padding:11px 18px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px">📷 Fotoğraf Yüklə</button>
+          <button onclick="document.getElementById('bgf').click()" style="background:linear-gradient(135deg,var(--p3),var(--p));border:none;border-radius:9px;padding:10px 16px;color:#fff;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;gap:7px">📷 Fotoğraf Yüklə</button>
           <input type="file" id="bgf" accept="image/*" style="display:none" onchange="hbg(event)">
         </div>
-        <div style="margin-top:22px;padding-top:14px;border-top:1px solid var(--border2);font-size:11px;color:var(--t3);text-align:center" id="setftr">...</div>
+        <div style="margin-top:20px;padding-top:13px;border-top:1px solid var(--bd2);font-size:11px;color:var(--t3);text-align:center" id="setftr">...</div>
       </div>
     </div>
   </div>
@@ -1197,9 +866,9 @@ textarea.mi::placeholder{color:var(--t3)}
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // FIREBASE CONFIG
-// ════════════════════════════════════
+// ════════════════════════════════════════
 firebase.initializeApp({
   apiKey:"AIzaSyCp-E7VijsIa7SUH0QG4eGPIDP00aLns3o",
   authDomain:"anonimchat-769cc.firebaseapp.com",
@@ -1209,24 +878,27 @@ firebase.initializeApp({
   messagingSenderId:"807134985346",
   appId:"1:807134985346:web:a65ca5499b3bb5d3eb489b"
 });
-const auth=firebase.auth(),db=firebase.database();
-const ADMIN='cesicoder@gmail.com'; // Only this email sees admin panel
+const auth=firebase.auth(), db=firebase.database();
+const ADMIN='cesicoder@gmail.com';
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // STATE
-// ════════════════════════════════════
-let CU=null,UD=null,PGU=null,CC='genel',moff=null;
+// ════════════════════════════════════════
+let CU=null,UD=null,PGU=null;
+let CS=null; // current server id
+let CC='genel',CChType='text'; // current channel
+let moff=null;
 let isrec=false,mrec=null,rch=[],rint=null,rsec=0,eop=false;
 let cstr=null,cmut=false,nct2='text',pplan=null,chekd=null;
+let selEmo='💬'; // selected emoji for new server
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // UTILS
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function t(m,tp='i'){
   const c=document.getElementById('tc'),el=document.createElement('div');
   el.className='tn '+tp;
-  const icons={s:'✅',e:'❌',i:'💬'};
-  el.innerHTML=`<span>${icons[tp]||'💬'}</span><span>${m}</span>`;
+  el.innerHTML=`<span>${{s:'✅',e:'❌',i:'💬'}[tp]||'💬'}</span><span>${m}</span>`;
   c.appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(30px)';el.style.transition='.3s';setTimeout(()=>el.remove(),300)},3800);
 }
@@ -1234,20 +906,15 @@ const esc=x=>String(x||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 const ft=ts=>new Date(ts).toLocaleTimeString('az-AZ',{hour:'2-digit',minute:'2-digit'});
 const fd=ts=>new Date(ts).toLocaleDateString('az-AZ');
 const gi=n=>(n||'?').charAt(0).toUpperCase();
-function pb(u){
-  if(!u)return'';
-  if(u.premium==='diamond')return' <span style="font-size:13px">💎</span>';
-  if(u.premium==='plus')return' <span style="font-size:13px">👑</span>';
-  if(u.email===ADMIN)return' <span style="font-size:13px">⭐</span>';
-  return'';
-}
+function pb(u){if(!u)return'';if(u.premium==='diamond')return' <span>💎</span>';if(u.premium==='plus')return' <span>👑</span>';if(u.email===ADMIN)return' <span>⭐</span>';return''}
 function sv(id){['lv','rv'].forEach(v=>{const e=document.getElementById(v);if(e)e.style.display=v===id?'block':'none'})}
+function ge(id){return document.getElementById(id)}
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // AUTH STATE
-// ════════════════════════════════════
+// ════════════════════════════════════════
 auth.onAuthStateChanged(async u=>{
-  document.getElementById('ld').style.display='none';
+  ge('ld').style.display='none';
   if(u){
     CU=u;
     try{
@@ -1258,19 +925,15 @@ auth.onAuthStateChanged(async u=>{
         son();sapp();
       }else{
         if(u.providerData[0]?.providerId==='google.com'){
-          PGU=u;
-          document.getElementById('unol').classList.remove('hd');
-          document.getElementById('aw').style.display='none';
+          PGU=u;ge('unol').classList.remove('hd');ge('aw').style.display='none';
         }else{
-          await mku(u,u.displayName||u.email.split('@')[0],u.displayName||'');
-          son();sapp();
+          await mku(u,u.displayName||u.email.split('@')[0],u.displayName||'');son();sapp();
         }
       }
     }catch(e){son();sapp();}
   }else{
     CU=null;UD=null;
-    document.getElementById('app').style.display='none';
-    document.getElementById('aw').style.display='flex';
+    ge('app').style.display='none';ge('aw').style.display='flex';
   }
 });
 
@@ -1288,45 +951,31 @@ async function mku(u,un,dn){
 }
 
 function sapp(){
-  document.getElementById('aw').style.display='none';
-  document.getElementById('unol').classList.add('hd');
-  const app=document.getElementById('app');
-  app.style.display='flex';
-  ['vfr','vdms','vmk','vadm'].forEach(id=>{const e=document.getElementById(id);if(e){e.style.display='none';e.classList.remove('on')}});
-  document.getElementById('vchat').style.display='flex';
+  ge('aw').style.display='none';ge('unol').classList.add('hd');
+  ge('app').style.display='block';
   iapp();
 }
 
-// ════════════════════════════════════
-// LOGIN / REGISTER
-// ════════════════════════════════════
+// ════════════════════════════════════════
+// AUTH FUNCTIONS
+// ════════════════════════════════════════
 async function lei(){
-  const e=document.getElementById('le').value.trim(),p=document.getElementById('lp').value;
+  const e=ge('le').value.trim(),p=ge('lp').value;
   if(!e||!p){t('E-poçt və şifrəni daxil edin','e');return}
-  const b=document.getElementById('lbtn');b.disabled=true;b.textContent='Yüklənir...';
+  const b=ge('lbtn');b.disabled=true;b.textContent='Yüklənir...';
   try{await auth.signInWithEmailAndPassword(e,p);t('Giriş uğurlu! ✅','s')}
-  catch(err){
-    const m={'auth/user-not-found':'Hesab tapılmadı','auth/wrong-password':'Yanlış şifrə','auth/invalid-credential':'E-poçt/şifrə yanlışdır','auth/invalid-email':'Yanlış e-poçt formatı','auth/too-many-requests':'Çox cəhd edildi, gözləyin'};
-    t(m[err.code]||err.message,'e');
-  }
+  catch(err){const m={'auth/user-not-found':'Hesab tapılmadı','auth/wrong-password':'Yanlış şifrə','auth/invalid-credential':'E-poçt/şifrə yanlışdır','auth/invalid-email':'Yanlış e-poçt','auth/too-many-requests':'Çox cəhd edildi'};t(m[err.code]||err.message,'e')}
   b.disabled=false;b.textContent='Daxil Ol';
 }
 
 async function rei(){
-  const u=document.getElementById('ru').value.trim(),d=document.getElementById('rd').value.trim(),e=document.getElementById('re').value.trim(),p=document.getElementById('rp').value;
+  const u=ge('ru').value.trim(),d=ge('rd').value.trim(),e=ge('re').value.trim(),p=ge('rp').value;
   if(!u||!e||!p){t('Bütün sahələri doldurun','e');return}
   if(u.length<3){t('İstifadəçi adı min 3 simvol','e');return}
   if(p.length<8){t('Şifrə min 8 simvol','e');return}
-  const b=document.getElementById('rbtn');b.disabled=true;b.textContent='Qeydiyyat...';
-  try{
-    const c=await auth.createUserWithEmailAndPassword(e,p);
-    await c.user.updateProfile({displayName:d||u});
-    await mku(c.user,u,d||u);
-    t('Qeydiyyat uğurlu! 🎉','s');
-  }catch(err){
-    const m={'auth/email-already-in-use':'Bu e-poçt artıq istifadə olunur','auth/weak-password':'Şifrə çox zəifdir','auth/invalid-email':'Yanlış e-poçt formatı'};
-    t(m[err.code]||err.message,'e');
-  }
+  const b=ge('rbtn');b.disabled=true;b.textContent='Qeydiyyat...';
+  try{const c=await auth.createUserWithEmailAndPassword(e,p);await c.user.updateProfile({displayName:d||u});await mku(c.user,u,d||u);t('Qeydiyyat uğurlu! 🎉','s')}
+  catch(err){const m={'auth/email-already-in-use':'Bu e-poçt artıq istifadə olunur','auth/weak-password':'Şifrə çox zəifdir'};t(m[err.code]||err.message,'e')}
   b.disabled=false;b.textContent='Qeydiyyatdan Keç';
 }
 
@@ -1337,9 +986,9 @@ async function gsi(){
 
 async function svu(){
   if(!PGU){t('Xəta','e');return}
-  const u=document.getElementById('unu').value.trim(),d=document.getElementById('und').value.trim();
+  const u=ge('unu').value.trim(),d=ge('und').value.trim();
   if(!u||u.length<3){t('İstifadəçi adı min 3 simvol','e');return}
-  const b=document.getElementById('unbtn');b.disabled=true;b.textContent='...';
+  const b=ge('unbtn');b.disabled=true;b.textContent='...';
   try{CU=PGU;await mku(PGU,u,d||u);son();PGU=null;t('Xoş gəldiniz! 🎉','s');sapp();}
   catch(e){t('Xəta: '+e.message,'e')}
   b.disabled=false;b.textContent='Davam Et ➜';
@@ -1348,130 +997,410 @@ async function svu(){
 async function dso(){
   try{
     if(CU){try{await db.ref('users/'+CU.uid).update({status:'offline',lastSeen:Date.now()})}catch(e){}}
-    try{db.ref('messages').off();db.ref('users').off();db.ref('channels').off();db.ref('payments').off();db.ref('.info/connected').off()}catch(e){}
-    moff=null;CU=null;UD=null;
-    document.getElementById('setol').classList.add('hd');
-    document.getElementById('app').style.display='none';
+    try{db.ref('messages').off();db.ref('users').off();db.ref('channels').off();db.ref('payments').off();db.ref('servers').off();db.ref('.info/connected').off()}catch(e){}
+    moff=null;CU=null;UD=null;CS=null;
+    ge('setol').classList.add('hd');ge('app').style.display='none';
     await auth.signOut();
-    document.getElementById('aw').style.display='flex';
-    sv('lv');
-    document.getElementById('le').value='';document.getElementById('lp').value='';
+    ge('aw').style.display='flex';sv('lv');
+    ge('le').value='';ge('lp').value='';
     t('Çıxış edildi','i');
   }catch(e){t('Xəta: '+e.message,'e')}
 }
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // APP INIT
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function iapp(){
-  uftr();lch();lus();
-  [{key:'genel',d:{name:'genel',type:'text',createdBy:'system',perm:'all',order:0}},
-   {key:'ses-kanali',d:{name:'ses-kanali',type:'voice',createdBy:'system',perm:'all',order:1}}
-  ].forEach(x=>db.ref('channels/'+x.key).once('value').then(s=>{if(!s.exists())db.ref('channels/'+x.key).set(x.d).catch(()=>{})}));
-  sws('genel','text');
-  // ── ADMIN: ONLY show for cesicoder@gmail.com ──
+  uftr();loadMyServers();lus();
+  showSrvHome(null);
   if(CU?.email===ADMIN){
-    const b=document.getElementById('badm');if(b)b.classList.remove('hd');
+    const b=ge('badm');if(b)b.classList.remove('hd');
     wpay();
   }
-  try{const th=localStorage.getItem('cc-th3');if(th){const o=JSON.parse(th);Object.entries(o).forEach(([k,v])=>document.documentElement.style.setProperty(k,v))}}catch(e){}
+  try{const th=localStorage.getItem('cc-th4');if(th){const o=JSON.parse(th);Object.entries(o).forEach(([k,v])=>document.documentElement.style.setProperty(k,v))}}catch(e){}
+  // emoji selector for server create
+  document.querySelectorAll('.srv-emo').forEach(el=>{
+    el.onclick=()=>{
+      document.querySelectorAll('.srv-emo').forEach(x=>x.classList.remove('sel'));
+      el.classList.add('sel');selEmo=el.dataset.e;
+    };
+  });
 }
 
 function uftr(){
   if(!UD||!CU)return;
   const nm=UD.displayName||UD.username||'?';
-  const ftn=document.getElementById('ftn');if(ftn)ftn.innerHTML=esc(nm)+pb(UD);
-  const ftu=document.getElementById('ftu');
+  const ftn=ge('ftn');if(ftn)ftn.innerHTML=esc(nm)+pb(UD);
   const sc={online:'#10b981',away:'#f59e0b',busy:'#ef4444',invisible:'#6b7280'};
   const sl={online:'Çevrimiçi',away:'Uzaqta',busy:'Məşğul',invisible:'Görünməz'};
-  const ftd=document.getElementById('ftdot');if(ftd)ftd.style.background=sc[UD.status||'online'];
-  const fts=document.getElementById('ftst');if(fts)fts.textContent=sl[UD.status||'online'];
-  const fa=document.getElementById('ftav');
+  const ftd=ge('ftdot');if(ftd)ftd.style.background=sc[UD.status||'online'];
+  const fts=ge('ftst');if(fts)fts.textContent=sl[UD.status||'online'];
+  const fa=ge('ftav');
   if(fa){
     if(UD.avatar)fa.innerHTML=`<img src="${UD.avatar}" onerror="this.parentElement.innerHTML='<span>${gi(nm)}</span>'"><div class="dot" id="ftdot" style="background:${sc[UD.status||'online']}"></div>`;
-    else{const al=document.getElementById('ftal');if(al)al.textContent=gi(nm)}
+    else{const al=ge('ftal');if(al)al.textContent=gi(nm)}
   }
 }
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // VIEWS
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function smv(n){
-  ['vchat','vfr','vdms','vmk','vadm'].forEach(id=>{
-    const e=document.getElementById(id);
-    if(e){e.style.display='none';e.classList.remove('on')}
+  // Hide all
+  ['vsrv-home','vchat','vdisc','vmysrv','vfr','vdms','vmk','vadm'].forEach(id=>{
+    const e=ge(id);if(e){e.style.display='none';e.classList.remove('on')}
   });
-  const map={chat:'vchat',friends:'vfr',dms:'vdms',market:'vmk',admin:'vadm'};
-  const el=document.getElementById(map[n]);
-  if(el){el.style.display='flex';el.classList.add('on')}
+  // Nav highlight
   document.querySelectorAll('.bni[data-v]').forEach(x=>x.classList.remove('act'));
   const li=document.querySelector(`.bni[data-v="${n}"]`);if(li)li.classList.add('act');
+
+  const map={home:'vsrv-home',discover:'vdisc',myservers:'vmysrv',friends:'vfr',dms:'vdms',market:'vmk',admin:'vadm'};
+
+  if(n==='chat'){
+    const e=ge('vchat');if(e){e.style.display='flex';}
+    // Update nav
+    const li2=document.querySelector('.bni[data-v="home"]');if(li2)li2.classList.add('act');
+  }else if(map[n]){
+    const el=ge(map[n]);
+    if(el){el.style.display='flex';el.classList.add('on')}
+  }
+
   if(n==='admin'&&CU?.email===ADMIN)setTimeout(()=>{const ab=document.querySelector('.atab.act');if(ab)lat('pay',ab)},100);
   if(n==='dms')loadDMs();
   if(n==='friends')loadFriends();
+  if(n==='discover')loadDiscover();
+  if(n==='myservers')loadMyServersList();
   csb();
 }
 
-// ════════════════════════════════════
-// CHANNELS
-// ════════════════════════════════════
-function lch(){
-  db.ref('channels').orderByChild('order').on('value',s=>{
-    const te=document.getElementById('tchs'),ve=document.getElementById('vchs');
-    if(!te||!ve)return;
-    te.innerHTML='';ve.innerHTML='';
-    s.forEach(c=>{
-      const d=c.val();
-      const locked=d.perm==='premium'&&UD?.premium!=='plus'&&UD?.premium!=='diamond'&&CU?.email!==ADMIN;
-      const el=document.createElement('div');
-      el.className='chi '+(CC===d.name?'act':'');
-      el.onclick=()=>{
-        if(locked){t('Bu kanal yalnız premium üzvlər üçündür 🔒','e');return}
-        if(d.type==='voice')jv(d.name);else{sws(d.name,'text');csb()}
-      };
-      el.innerHTML=`<span class="chi-ico">${d.type==='voice'?'🔊':'#'}</span><span class="chi-nm">${esc(d.name)}</span>${locked?'<span style="font-size:10px">🔒</span>':''}`;
-      if(d.type==='voice')ve.appendChild(el);else te.appendChild(el);
+// Show server home
+function showSrvHome(srvId){
+  smv('home');
+  if(!srvId){
+    ge('srv-home-ico').textContent='💬';
+    ge('srv-home-ttl').textContent="CesiChat'a Xoş Gəldin!";
+    ge('srv-home-desc').textContent='Bir server yarat və ya mövcud serverə qatıl';
+    ge('sbh-name').textContent='CesiChat';
+    ge('tchs').innerHTML='';ge('vchs').innerHTML='';
+    CS=null;
+    return;
+  }
+  db.ref('servers/'+srvId).once('value').then(s=>{
+    if(!s.exists())return;
+    const srv=s.val();
+    CS=srvId;
+    ge('srv-home-ico').textContent=srv.emoji||'📡';
+    ge('srv-home-ttl').textContent=srv.name;
+    ge('srv-home-desc').textContent=srv.desc||'Bu serverin başlanğıcıdır';
+    ge('sbh-name').textContent=srv.name;
+    loadChannels(srvId);
+    loadServerMembers(srvId);
+    // Auto open first text channel
+    db.ref('channels/'+srvId).orderByChild('order').limitToFirst(1).once('value').then(cs=>{
+      let first=null;cs.forEach(c=>{if(!first&&c.val().type==='text')first=c.val()});
+      if(first)sws(srvId,first.name,'text');
+      else smv('chat');
     });
   });
 }
 
-function sws(name,tp='text'){
-  CC=name;
-  const cn=document.getElementById('chn');if(cn)cn.textContent=name;
-  const ci=document.getElementById('chico');if(ci)ci.textContent=tp==='voice'?'🔊':'#';
-  lmsg(name);
-  document.querySelectorAll('.chi').forEach(el=>el.classList.toggle('act',el.querySelector('.chi-nm')?.textContent===name));
-  smv('chat');
-}
+// ════════════════════════════════════════
+// SERVER MANAGEMENT
+// ════════════════════════════════════════
+function openCreateServer(){ge('csr-ol').classList.remove('hd')}
 
-function occh(tp){nct2=tp;sct(tp);document.getElementById('ccol').classList.remove('hd')}
-function ccc(){document.getElementById('ccol').classList.add('hd')}
-function sct(tp){nct2=tp;['text','voice'].forEach(x=>{const e=document.getElementById('ct'+x);if(e)e.classList.toggle('sel',x===tp)})}
-
-async function cch(){
-  const nm=document.getElementById('cchn').value.trim();
-  const perm=document.getElementById('cchp').value;
-  if(!nm){t('Kanal adı daxil edin','e');return}
-  if(!CU){t('Giriş edin','e');return}
+async function createServer(){
+  const name=ge('csr-name').value.trim();
+  const desc=ge('csr-desc').value.trim();
+  const pub=ge('csr-pub').value;
+  if(!name){t('Server adı daxil edin','e');return}
+  if(!CU||!UD){t('Giriş edin','e');return}
   try{
-    const s=await db.ref('channels').once('value');
-    await db.ref('channels/'+nm).set({name:nm,type:nct2,createdBy:CU.uid,perm,order:s.numChildren(),createdAt:Date.now()});
-    ccc();t('Kanal yaradıldı: #'+nm,'s');
-    if(nct2==='text')sws(nm,'text');
+    const srvRef=db.ref('servers').push();
+    const srvId=srvRef.key;
+    await srvRef.set({
+      id:srvId,name,desc,emoji:selEmo,owner:CU.uid,ownerName:UD.displayName||UD.username,
+      public:pub==='public',members:1,createdAt:Date.now()
+    });
+    // Add creator as member
+    await db.ref('serverMembers/'+srvId+'/'+CU.uid).set({uid:CU.uid,name:UD.displayName||UD.username,avatar:UD.avatar||'',joinedAt:Date.now(),role:'owner'});
+    // Create default channels
+    await db.ref('channels/'+srvId+'/genel').set({name:'genel',type:'text',perm:'all',order:0,createdAt:Date.now()});
+    await db.ref('channels/'+srvId+'/ses-kanali').set({name:'ses-kanali',type:'voice',perm:'all',order:1,createdAt:Date.now()});
+    // Add to user's servers list
+    await db.ref('users/'+CU.uid+'/servers/'+srvId).set(true);
+    ge('csr-ol').classList.add('hd');
+    ge('csr-name').value='';ge('csr-desc').value='';
+    t('Server yaradıldı: '+name+' 🎉','s');
+    loadMyServers();
+    showSrvHome(srvId);
   }catch(e){
     if(e.message?.includes('PERMISSION_DENIED'))sph();
     else t('Xəta: '+e.message,'e');
   }
 }
 
-// ════════════════════════════════════
+async function joinServer(srvId){
+  if(!CU||!UD){t('Giriş edin','e');return}
+  // Check if already member
+  const existing=await db.ref('serverMembers/'+srvId+'/'+CU.uid).once('value');
+  if(existing.exists()){t('Artıq bu serverinsən','i');showSrvHome(srvId);csb();return}
+  try{
+    await db.ref('serverMembers/'+srvId+'/'+CU.uid).set({uid:CU.uid,name:UD.displayName||UD.username,avatar:UD.avatar||'',joinedAt:Date.now(),role:'member'});
+    await db.ref('users/'+CU.uid+'/servers/'+srvId).set(true);
+    // Increment member count
+    db.ref('servers/'+srvId+'/members').transaction(c=>(c||0)+1);
+    t('Serverə qatıldın! 🎉','s');
+    loadMyServers();
+    showSrvHome(srvId);csb();
+  }catch(e){
+    if(e.message?.includes('PERMISSION_DENIED'))sph();
+    else t('Xəta: '+e.message,'e');
+  }
+}
+
+async function leaveServer(srvId,srvName){
+  if(!confirm(srvName+' serverdən çıxılsın?'))return;
+  try{
+    await db.ref('serverMembers/'+srvId+'/'+CU.uid).remove();
+    await db.ref('users/'+CU.uid+'/servers/'+srvId).remove();
+    db.ref('servers/'+srvId+'/members').transaction(c=>Math.max(0,(c||1)-1));
+    t('Serverdən çıxıldı','i');
+    loadMyServers();
+    showSrvHome(null);
+  }catch(e){t('Xəta: '+e.message,'e')}
+}
+
+async function deleteServer(srvId,srvName){
+  if(!confirm(srvName+' serveri silinsin? Bu əməliyyat geri qaytarıla bilməz!'))return;
+  try{
+    // Get all members and remove server from their list
+    const mems=await db.ref('serverMembers/'+srvId).once('value');
+    const promises=[];
+    mems.forEach(m=>promises.push(db.ref('users/'+m.key+'/servers/'+srvId).remove()));
+    await Promise.all(promises);
+    await db.ref('serverMembers/'+srvId).remove();
+    await db.ref('channels/'+srvId).remove();
+    await db.ref('messages/'+srvId).remove();
+    await db.ref('servers/'+srvId).remove();
+    t('Server silindi','s');
+    loadMyServers();showSrvHome(null);
+  }catch(e){t('Xəta: '+e.message,'e')}
+}
+
+// Load servers in rail
+async function loadMyServers(){
+  if(!CU)return;
+  const rail=ge('srv-list-rail');if(!rail)return;
+  try{
+    const s=await db.ref('users/'+CU.uid+'/servers').once('value');
+    rail.innerHTML='';
+    if(!s.exists())return;
+    const promises=[];
+    s.forEach(srv=>promises.push(db.ref('servers/'+srv.key).once('value')));
+    const results=await Promise.all(promises);
+    results.forEach(res=>{
+      if(!res.exists())return;
+      const d=res.val();
+      const el=document.createElement('div');el.className='srv-ico';
+      const ic=document.createElement('div');ic.className='srv-ic'+(CS===d.id?' act':'');
+      ic.title=d.name;
+      ic.innerHTML=d.avatar?`<img src="${d.avatar}">`:(d.emoji||d.name.charAt(0).toUpperCase());
+      ic.style.fontSize='18px';
+      ic.onclick=()=>showSrvHome(d.id);
+      el.appendChild(ic);
+      rail.appendChild(el);
+    });
+  }catch(e){}
+}
+
+async function loadMyServersList(){
+  if(!CU)return;
+  const list=ge('mysrv-list');if(!list)return;
+  list.innerHTML='<div style="color:var(--t2);text-align:center;padding:20px;font-size:13px">Yüklənir...</div>';
+  try{
+    const s=await db.ref('users/'+CU.uid+'/servers').once('value');
+    if(!s.exists()){list.innerHTML='<div class="empty"><div class="empty-ico">📡</div><div class="empty-ttl">Hələ serverə qatılmamısan</div><div class="empty-sub">Server yarat və ya kəşfet</div></div>';return}
+    list.innerHTML='';
+    const promises=[];
+    s.forEach(srv=>promises.push(db.ref('servers/'+srv.key).once('value')));
+    const results=await Promise.all(promises);
+    results.forEach(res=>{
+      if(!res.exists())return;
+      const d=res.val();
+      const isOwner=d.owner===CU.uid;
+      const el=document.createElement('div');el.className='msrv-item';
+      el.innerHTML=`<div class="msrv-av">${d.avatar?`<img src="${d.avatar}">`:(d.emoji||d.name.charAt(0).toUpperCase())}</div>
+        <div class="msrv-info"><div class="msrv-name">${esc(d.name)}</div><div class="msrv-sub">${d.members||1} üye · ${isOwner?'👑 Sahibi':'Üye'}</div></div>
+        <div style="display:flex;gap:5px">
+          <button onclick="showSrvHome('${d.id}')" style="background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.22);border-radius:8px;padding:5px 11px;color:var(--p2);font-size:11px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif">Aç</button>
+          ${isOwner?`<button onclick="deleteServer('${d.id}','${esc(d.name)}')" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:5px 9px;color:#f87171;font-size:11px;cursor:pointer">🗑</button>`:`<button onclick="leaveServer('${d.id}','${esc(d.name)}')" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:5px 9px;color:#f87171;font-size:11px;cursor:pointer">Çıx</button>`}
+        </div>`;
+      list.appendChild(el);
+    });
+  }catch(e){list.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-ttl">Yüklənmədi</div><div class="empty-sub">Firebase qaydalarını yeniləyin</div></div>'}
+}
+
+async function loadDiscover(){
+  const list=ge('disc-list');if(!list)return;
+  list.innerHTML='<div style="color:var(--t2);text-align:center;padding:20px;font-size:13px">Yüklənir...</div>';
+  try{
+    const s=await db.ref('servers').orderByChild('public').equalTo(true).once('value');
+    if(!s.exists()){list.innerHTML='<div class="empty"><div class="empty-ico">🔍</div><div class="empty-ttl">Server tapılmadı</div><div class="empty-sub">İlk serveri sən yarat!</div></div>';return}
+    list.innerHTML='';
+    const srvs=[];s.forEach(c=>srvs.push(c.val()));
+    srvs.sort((a,b)=>(b.members||1)-(a.members||1));
+    for(const d of srvs){
+      const isMember=CU?(await db.ref('serverMembers/'+d.id+'/'+CU.uid).once('value')).exists():false;
+      const el=document.createElement('div');el.className='srv-card';
+      el.innerHTML=`<div class="srv-card-banner">${d.emoji||'📡'}</div>
+        <div class="srv-card-body">
+          <div style="display:flex;align-items:flex-end;gap:9px">
+            <div class="srv-card-av">${d.emoji||d.name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1;padding-bottom:3px"><div class="srv-card-name">${esc(d.name)}</div></div>
+            <button class="srv-card-join ${isMember?'joined':''}" onclick="isMember?showSrvHome('${d.id}'):joinServer('${d.id}')">${isMember?'✓ Qatılmısan':'Qatıl'}</button>
+          </div>
+          ${d.desc?`<div class="srv-card-desc">${esc(d.desc)}</div>`:''}
+          <div class="srv-card-meta">
+            <span>👥 ${d.members||1} üye</span>
+            <span>📅 ${fd(d.createdAt||Date.now())}</span>
+          </div>
+        </div>`;
+      list.appendChild(el);
+    }
+  }catch(e){list.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-ttl">Yüklənmədi</div><div class="empty-sub">Firebase qaydalarını yeniləyin</div></div>'}
+}
+
+async function discSearch(){
+  const q=ge('disc-srch').value.trim().toLowerCase();
+  if(!q){loadDiscover();return}
+  const list=ge('disc-list');
+  list.innerHTML='<div style="color:var(--t2);text-align:center;padding:16px;font-size:13px">Axtar...</div>';
+  try{
+    const s=await db.ref('servers').once('value');
+    list.innerHTML='';
+    let found=false;
+    for(const c of Array.from({length:0})){} // placeholder
+    const srvs=[];s.forEach(c=>{const d=c.val();if(d.public&&d.name.toLowerCase().includes(q))srvs.push(d)});
+    if(!srvs.length){list.innerHTML=`<div class="empty"><div class="empty-ico">🔍</div><div class="empty-ttl">"${esc(q)}" üçün nəticə yoxdur</div></div>`;return}
+    for(const d of srvs){
+      const isMember=CU?(await db.ref('serverMembers/'+d.id+'/'+CU.uid).once('value')).exists():false;
+      const el=document.createElement('div');el.className='srv-card';
+      el.innerHTML=`<div class="srv-card-banner">${d.emoji||'📡'}</div>
+        <div class="srv-card-body">
+          <div style="display:flex;align-items:flex-end;gap:9px">
+            <div class="srv-card-av">${d.emoji||d.name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1;padding-bottom:3px"><div class="srv-card-name">${esc(d.name)}</div></div>
+            <button class="srv-card-join ${isMember?'joined':''}" onclick="${isMember?`showSrvHome('${d.id}')`:`joinServer('${d.id}')`}">${isMember?'✓ Qatılmısan':'Qatıl'}</button>
+          </div>
+          ${d.desc?`<div class="srv-card-desc">${esc(d.desc)}</div>`:''}
+          <div class="srv-card-meta"><span>👥 ${d.members||1} üye</span></div>
+        </div>`;
+      list.appendChild(el);
+    }
+  }catch(e){t('Axtar xətası','e')}
+}
+
+// ════════════════════════════════════════
+// CHANNELS
+// ════════════════════════════════════════
+function loadChannels(srvId){
+  db.ref('channels/'+srvId).orderByChild('order').on('value',s=>{
+    const te=ge('tchs'),ve=ge('vchs');
+    if(!te||!ve)return;
+    te.innerHTML='';ve.innerHTML='';
+    s.forEach(c=>{
+      const d=c.val();
+      const locked=d.perm==='premium'&&UD?.premium!=='plus'&&UD?.premium!=='diamond'&&CU?.email!==ADMIN;
+      const el=document.createElement('div');
+      el.className='chi '+(CC===d.name&&CS===srvId?'act':'');
+      el.onclick=()=>{
+        if(locked){t('Bu kanal yalnız premium üzvlər üçündür 🔒','e');return}
+        if(d.type==='voice')jv(d.name);else{sws(srvId,d.name,'text');csb()}
+      };
+      el.innerHTML=`<span style="font-size:12px;color:var(--t2);width:15px;flex-shrink:0">${d.type==='voice'?'🔊':'#'}</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.name)}</span>${locked?'<span style="font-size:10px">🔒</span>':''}`;
+      if(d.type==='voice')ve.appendChild(el);else te.appendChild(el);
+    });
+    // show/hide add channel buttons based on ownership
+    db.ref('servers/'+srvId).once('value').then(srv=>{
+      const isOwner=srv.exists()&&srv.val().owner===CU?.uid||CU?.email===ADMIN;
+      const abtn=ge('add-ch-btn');if(abtn)abtn.style.display=isOwner?'':'none';
+      const avbtn=ge('add-vc-btn');if(avbtn)avbtn.style.display=isOwner?'':'none';
+    });
+  });
+}
+
+function sws(srvId,name,tp='text'){
+  CS=srvId;CC=name;CChType=tp;
+  const cn=ge('chn');if(cn)cn.textContent=name;
+  const ci=ge('chico');if(ci)ci.textContent=tp==='voice'?'🔊':'#';
+  lmsg(srvId,name);
+  document.querySelectorAll('.chi').forEach(el=>el.classList.toggle('act',el.querySelector('span:nth-child(2)')?.textContent===name));
+  smv('chat');
+  // Update server home icon in rail
+  loadMyServers();
+}
+
+let nct2g='text';
+function occh(tp){
+  if(!CS){t('Əvvəlcə bir serverə qatıl','e');return}
+  // Check ownership
+  db.ref('servers/'+CS).once('value').then(s=>{
+    if(!s.exists()||(s.val().owner!==CU?.uid&&CU?.email!==ADMIN)){t('Yalnız server sahibi kanal yarada bilər','e');return}
+    nct2g=tp;sct(tp);ge('ccol').classList.remove('hd');
+  });
+}
+function ccc(){ge('ccol').classList.add('hd')}
+function sct(tp){nct2g=tp;['text','voice'].forEach(x=>{const e=ge('ct'+x);if(e)e.classList.toggle('sel',x===tp)})}
+
+async function cch(){
+  const nm=ge('cchn').value.trim();
+  const perm=ge('cchp').value;
+  if(!nm){t('Kanal adı daxil edin','e');return}
+  if(!CS){t('Server seçin','e');return}
+  try{
+    const s=await db.ref('channels/'+CS).once('value');
+    await db.ref('channels/'+CS+'/'+nm).set({name:nm,type:nct2g,perm,order:s.numChildren(),createdAt:Date.now()});
+    ccc();t('Kanal yaradıldı: #'+nm,'s');
+    if(nct2g==='text')sws(CS,nm,'text');
+  }catch(e){
+    if(e.message?.includes('PERMISSION_DENIED'))sph();
+    else t('Xəta: '+e.message,'e');
+  }
+}
+
+// Server members
+async function loadServerMembers(srvId){
+  const oe=ge('mpown'),me=ge('mpmb'),ce=ge('mpcnt');
+  if(!oe)return;oe.innerHTML='';me.innerHTML='';
+  try{
+    const [mems,srvData]=await Promise.all([
+      db.ref('serverMembers/'+srvId).once('value'),
+      db.ref('servers/'+srvId).once('value')
+    ]);
+    const owner=srvData.exists()?srvData.val().owner:null;
+    let cnt=0;
+    const mbArr=[];mems.forEach(m=>mbArr.push(m.val()));if(ce)ce.textContent=mbArr.length;
+    mbArr.forEach(u=>{
+      cnt++;
+      const init=gi(u.name);
+      const avh=u.avatar?`<img src="${u.avatar}" onerror="this.parentElement.innerHTML='${init}'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:init;
+      const el=document.createElement('div');el.className='mpuser';
+      el.innerHTML=`<div class="av" style="width:24px;height:24px;font-size:9px">${avh}</div><span style="font-size:12px">${esc(u.name)}</span>${u.role==='owner'?'<span style="font-size:11px;margin-left:auto">👑</span>':''}`;
+      if(u.uid===owner)oe.appendChild(el);else me.appendChild(el);
+    });
+  }catch(e){}
+}
+
+// ════════════════════════════════════════
 // MESSAGES
-// ════════════════════════════════════
-function lmsg(ch){
-  if(moff){try{moff()}catch(e){}try{db.ref('messages/'+CC).off()}catch(e){}}
-  const ref=db.ref('messages/'+ch).orderByChild('ts').limitToLast(100);
+// ════════════════════════════════════════
+function lmsg(srvId,ch){
+  if(moff){try{moff()}catch(e){}}
+  const path='messages/'+srvId+'/'+ch;
+  const ref=db.ref(path).orderByChild('ts').limitToLast(100);
   ref.on('value',s=>{
-    const a=document.getElementById('msgs');if(!a)return;
+    const a=ge('msgs');if(!a)return;
     const msgs=[];s.forEach(c=>msgs.push({id:c.key,...c.val()}));
     rmsg(msgs,a);
   });
@@ -1482,18 +1411,17 @@ function rmsg(msgs,area){
   const wb=area.scrollHeight-area.clientHeight-area.scrollTop<160;
   area.innerHTML='';
   if(!msgs.length){
-    area.innerHTML=`<div style="text-align:center;padding:60px 16px;color:var(--t2)">
-      <div style="font-size:40px;margin-bottom:12px;animation:ldPop .5s ease">👋</div>
-      <div style="font-size:16px;font-weight:800;background:linear-gradient(135deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px"># ${esc(CC)}</div>
-      <div style="font-size:13px">Bu kanalın başlanğıcıdır. Söhbətə başla!</div>
-    </div>`;
-    return;
+    area.innerHTML=`<div style="text-align:center;padding:60px 14px;color:var(--t2)">
+      <div style="font-size:38px;margin-bottom:10px">👋</div>
+      <div style="font-size:15px;font-weight:800;background:linear-gradient(135deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px"># ${esc(CC)}</div>
+      <div style="font-size:12px">Bu kanalın başlanğıcıdır!</div>
+    </div>`;return;
   }
   msgs.forEach((msg,i)=>{
     const own=msg.uid===CU?.uid,prev=msgs[i-1],sa=prev&&prev.uid===msg.uid&&(msg.ts-prev.ts)<240000;
     const row=document.createElement('div');row.className='mr '+(own?'own':'');
     const init=gi(msg.name);
-    const avh=msg.photo?`<div class="mav-w"><div class="av" style="width:28px;height:28px;font-size:10px"><img src="${msg.photo}" onerror="this.parentElement.innerHTML='${init}'"></div></div>`:`<div class="mav-w"><div class="av" style="width:28px;height:28px;font-size:10px">${init}</div></div>`;
+    const avh=msg.photo?`<div class="mav-w"><div class="av" style="width:26px;height:26px;font-size:9px"><img src="${msg.photo}" onerror="this.parentElement.innerHTML='${init}'"></div></div>`:`<div class="mav-w"><div class="av" style="width:26px;height:26px;font-size:9px">${init}</div></div>`;
     const avh2=sa?`<div class="msp"></div>`:avh;
     const meta=!sa?`<div class="mmeta"><span class="mauth">${esc(msg.name||'?')}</span><span>${ft(msg.ts||Date.now())}</span></div>`:'';
     let ct='';
@@ -1501,7 +1429,7 @@ function rmsg(msgs,area){
     else if(msg.type==='audio')ct=`<audio controls src="${msg.data||msg.text}"></audio>`;
     else ct=esc(msg.text||'').replace(/\n/g,'<br>');
     const tm=sa?`<div class="mtime">${ft(msg.ts||Date.now())}</div>`:'';
-    row.innerHTML=`${own?'':avh2}<div class="mc">${meta}<div class="mb3x">${ct}</div>${tm}</div>${own?avh2:''}`;
+    row.innerHTML=`${own?'':avh2}<div class="mc">${meta}<div class="mb2">${ct}</div>${tm}</div>${own?avh2:''}`;
     area.appendChild(row);
   });
   if(wb||msgs[msgs.length-1]?.uid===CU?.uid)area.scrollTop=area.scrollHeight;
@@ -1509,16 +1437,13 @@ function rmsg(msgs,area){
 
 async function sm(){
   if(!CU||!UD){t('Giriş edin','e');return}
-  const inp=document.getElementById('mi'),tx=inp.value.trim();
-  if(!tx)return;
-  const sb=document.getElementById('sb2');if(sb)sb.disabled=true;
-  cep();
+  if(!CS){t('Əvvəlcə bir serverə qatıl','e');return}
+  const inp=ge('mi'),tx=inp.value.trim();if(!tx)return;
+  const sb=ge('sb2');if(sb)sb.disabled=true;cep();
   try{
-    await db.ref('messages/'+CC).push({
-      text:tx,uid:CU.uid,
-      name:UD.displayName||UD.username||'?',
-      photo:UD.avatar||CU.photoURL||'',
-      ts:firebase.database.ServerValue.TIMESTAMP,type:'text'
+    await db.ref('messages/'+CS+'/'+CC).push({
+      text:tx,uid:CU.uid,name:UD.displayName||UD.username||'?',
+      photo:UD.avatar||CU.photoURL||'',ts:firebase.database.ServerValue.TIMESTAMP,type:'text'
     });
     inp.value='';inp.style.height='auto';
   }catch(e){
@@ -1529,12 +1454,11 @@ async function sm(){
 }
 
 async function smed(tp,data){
-  if(!CU||!UD)return;
+  if(!CU||!UD||!CS)return;
   try{
-    await db.ref('messages/'+CC).push({
+    await db.ref('messages/'+CS+'/'+CC).push({
       data,uid:CU.uid,name:UD.displayName||UD.username,
-      photo:UD.avatar||CU.photoURL||'',
-      ts:firebase.database.ServerValue.TIMESTAMP,type:tp
+      photo:UD.avatar||CU.photoURL||'',ts:firebase.database.ServerValue.TIMESTAMP,type:tp
     });
     t(tp==='image'?'Şəkil göndərildi 🖼️':'Səs mesajı göndərildi 🎙️','s');
   }catch(e){
@@ -1543,70 +1467,58 @@ async function smed(tp,data){
   }
 }
 
-// ════════════════════════════════════
-// PERMISSION HELP
-// ════════════════════════════════════
+// ════════════════════════════════════════
+// PERM HELP
+// ════════════════════════════════════════
 function sph(){
-  if(document.getElementById('phb'))return;
+  if(ge('phb'))return;
   const d=document.createElement('div');d.id='phb';d.className='phbox';
   const r=`{
   "rules": {
-    "messages":{"$ch":{".read":"auth!=null",".write":"auth!=null"}},
+    "messages":{"$s":{"$ch":{".read":"auth!=null",".write":"auth!=null"}}},
     "users":{"$uid":{".read":"auth!=null",".write":"auth!=null"}},
-    "channels":{".read":"auth!=null",".write":"auth!=null"},
+    "servers":{".read":"auth!=null","$s":{".write":"auth!=null"}},
+    "serverMembers":{"$s":{".read":"auth!=null",".write":"auth!=null"}},
+    "channels":{"$s":{".read":"auth!=null",".write":"auth!=null"}},
     "payments":{".read":"auth!=null",".write":"auth!=null"},
     "friends":{".read":"auth!=null",".write":"auth!=null"},
-    "dms":{".read":"auth!=null",".write":"auth!=null"}
+    "dms":{"$d":{".read":"auth!=null",".write":"auth!=null"}}
   }
 }`;
-  d.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
-    <b style="color:#f87171;font-size:13px">⚠️ Firebase İcazə Xətası</b>
-    <button onclick="document.getElementById('phb').remove()" style="background:none;border:none;color:var(--t2);cursor:pointer;font-size:16px;padding:3px 7px">✕</button>
+  d.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <b style="color:#f87171;font-size:12px">⚠️ Firebase İcazə Xətası</b>
+    <button onclick="ge('phb').remove()" style="background:none;border:none;color:var(--t2);cursor:pointer;font-size:15px;padding:3px 6px">✕</button>
   </div>
-  <p style="font-size:12px;color:var(--t2);margin-bottom:9px;line-height:1.5">Firebase Console → Realtime Database → Rules bölməsindəki qaydaları aşağıdakılarla əvəz edin:</p>
-  <pre id="phpre" style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:9px;padding:10px;font-size:10px;color:#c4b5fd;overflow-x:auto;white-space:pre-wrap;max-height:110px;overflow-y:auto;font-family:'JetBrains Mono'">${r}</pre>
-  <div style="display:flex;gap:8px;margin-top:10px">
-    <button onclick="navigator.clipboard.writeText(document.getElementById('phpre').textContent).then(()=>t('Kopyalandı! ✅','s'))" style="flex:1;background:linear-gradient(135deg,var(--p3),var(--purple));border:none;border-radius:9px;padding:9px;color:#fff;cursor:pointer;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif">📋 Kopyala</button>
-    <a href="https://console.firebase.google.com" target="_blank" style="flex:1;background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:9px;padding:9px;color:var(--text);text-decoration:none;font-size:12px;font-weight:600;text-align:center">🔗 Console Aç</a>
+  <p style="font-size:11px;color:var(--t2);margin-bottom:8px">Firebase Console → Realtime Database → Rules bölməsindəki qaydaları aşağıdakılarla əvəz edin:</p>
+  <pre id="phpre" style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:8px;padding:9px;font-size:10px;color:#c4b5fd;overflow-x:auto;white-space:pre-wrap;max-height:110px;overflow-y:auto;font-family:'JetBrains Mono'">${r}</pre>
+  <div style="display:flex;gap:7px;margin-top:9px">
+    <button onclick="navigator.clipboard.writeText(ge('phpre').textContent).then(()=>t('Kopyalandı! ✅','s'))" style="flex:1;background:linear-gradient(135deg,var(--p3),var(--p));border:none;border-radius:8px;padding:8px;color:#fff;cursor:pointer;font-size:11px;font-weight:700;font-family:'Outfit',sans-serif">📋 Kopyala</button>
+    <a href="https://console.firebase.google.com" target="_blank" style="flex:1;background:rgba(255,255,255,.06);border:1px solid var(--bd2);border-radius:8px;padding:8px;color:var(--text);text-decoration:none;font-size:11px;font-weight:600;text-align:center">🔗 Console</a>
   </div>`;
   document.body.appendChild(d);
 }
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // USERS
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function lus(){
   db.ref('users').on('value',s=>{
     const us=[];s.forEach(c=>us.push(c.val()));
-    rmp(us);
-    const el1=document.getElementById('adtot');if(el1)el1.textContent=us.length;
-    const el2=document.getElementById('adonl');if(el2)el2.textContent=us.filter(u=>u.status==='online').length;
+    const el1=ge('adtot');if(el1)el1.textContent=us.length;
+    const el2=ge('adonl');if(el2)el2.textContent=us.filter(u=>u.status==='online').length;
   });
 }
 
-function rmp(us){
-  const oe=document.getElementById('mpown'),me=document.getElementById('mpmb'),ce=document.getElementById('mpcnt');
-  if(!oe)return;
-  oe.innerHTML='';me.innerHTML='';if(ce)ce.textContent=us.length;
-  us.forEach(u=>{
-    const on=u.status==='online',init=gi(u.displayName||u.username);
-    const avh=u.avatar?`<img src="${u.avatar}" onerror="this.parentElement.innerHTML='${init}'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:init;
-    const el=document.createElement('div');el.className='mpuser';
-    el.innerHTML=`<div class="av" style="width:26px;height:26px;font-size:9px;opacity:${on?1:.5}">${avh}<div class="dot" style="background:${on?'#10b981':'#6b7280'}"></div></div><span style="font-size:12px;color:${on?'var(--text)':'var(--t2)'}">${esc(u.displayName||u.username)}${pb(u)}</span>`;
-    if(u.email===ADMIN)oe.appendChild(el);else me.appendChild(el);
-  });
-}
-
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // INPUT
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function omk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sm()}}
-function ari(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px'}
-function timg(){document.getElementById('imgf').click()}
+function ari(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,80)+'px'}
+function timg(){ge('imgf').click()}
 function hi(e){const f=e.target.files[0];if(!f)return;if(f.size>5*1024*1024){t('Maks 5MB','e');return}const r=new FileReader();r.onload=ev=>smed('image',ev.target.result);r.readAsDataURL(f);e.target.value=''}
-function tep(){eop=!eop;document.getElementById('ep').classList.toggle('open',eop)}
-function cep(){eop=false;const e=document.getElementById('ep');if(e)e.classList.remove('open')}
-function ae(em){const i=document.getElementById('mi');const p=i.selectionStart;i.value=i.value.slice(0,p)+em+i.value.slice(p);i.selectionStart=i.selectionEnd=p+em.length;i.focus();cep()}
+function tep(){eop=!eop;ge('ep').classList.toggle('open',eop)}
+function cep(){eop=false;const e=ge('ep');if(e)e.classList.remove('open')}
+function ae(em){const i=ge('mi');const p=i.selectionStart;i.value=i.value.slice(0,p)+em+i.value.slice(p);i.selectionStart=i.selectionEnd=p+em.length;i.focus();cep()}
 
 async function trec(){
   if(isrec){srec();return}
@@ -1614,89 +1526,75 @@ async function trec(){
     const s=await navigator.mediaDevices.getUserMedia({audio:true});
     mrec=new MediaRecorder(s);rch=[];
     mrec.ondataavailable=e=>rch.push(e.data);
-    mrec.onstop=async()=>{
-      const bl=new Blob(rch,{type:'audio/webm'});s.getTracks().forEach(tr=>tr.stop());
-      if(bl.size>3*1024*1024){t('Çox böyük','e');return}
-      const r=new FileReader();r.onload=ev=>smed('audio',ev.target.result);r.readAsDataURL(bl);
-    };
+    mrec.onstop=async()=>{const bl=new Blob(rch,{type:'audio/webm'});s.getTracks().forEach(tr=>tr.stop());if(bl.size>3*1024*1024){t('Çox böyük','e');return}const r=new FileReader();r.onload=ev=>smed('audio',ev.target.result);r.readAsDataURL(bl)};
     mrec.start();isrec=true;rsec=0;
-    const rb=document.getElementById('rbar');if(rb)rb.classList.add('on');
-    const rb2=document.getElementById('rb2');if(rb2)rb2.textContent='⏹️';
-    rint=setInterval(()=>{rsec++;const m=Math.floor(rsec/60),s2=rsec%60;const rt=document.getElementById('rtm');if(rt)rt.textContent=`${m}:${s2.toString().padStart(2,'0')}`},1000);
+    const rb=ge('rbar');if(rb)rb.classList.add('on');
+    const rb2=ge('rb2');if(rb2)rb2.textContent='⏹️';
+    rint=setInterval(()=>{rsec++;const m=Math.floor(rsec/60),s2=rsec%60;const rt=ge('rtm');if(rt)rt.textContent=`${m}:${s2.toString().padStart(2,'0')}`},1000);
     t('Yazılır... ⏺️','i');
   }catch(e){t('Mikrofon icazəsi verilmədi','e')}
 }
-function srec(){if(mrec&&mrec.state!=='inactive')mrec.stop();clearInterval(rint);isrec=false;const rb=document.getElementById('rbar');if(rb)rb.classList.remove('on');const rb2=document.getElementById('rb2');if(rb2)rb2.textContent='🎙️'}
-function crec(){if(mrec&&mrec.state!=='inactive'){mrec.ondataavailable=null;mrec.onstop=null;mrec.stop()}clearInterval(rint);isrec=false;rch=[];const rb=document.getElementById('rbar');if(rb)rb.classList.remove('on');const rb2=document.getElementById('rb2');if(rb2)rb2.textContent='🎙️';t('Ləğv edildi','i')}
+function srec(){if(mrec&&mrec.state!=='inactive')mrec.stop();clearInterval(rint);isrec=false;const rb=ge('rbar');if(rb)rb.classList.remove('on');const rb2=ge('rb2');if(rb2)rb2.textContent='🎙️'}
+function crec(){if(mrec&&mrec.state!=='inactive'){mrec.ondataavailable=null;mrec.onstop=null;mrec.stop()}clearInterval(rint);isrec=false;rch=[];const rb=ge('rbar');if(rb)rb.classList.remove('on');const rb2=ge('rb2');if(rb2)rb2.textContent='🎙️';t('Ləğv edildi','i')}
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // SIDEBAR
-// ════════════════════════════════════
-function osb(){document.getElementById('sb').classList.add('open');document.getElementById('sb-ov').classList.add('show')}
-function csb(){document.getElementById('sb').classList.remove('open');document.getElementById('sb-ov').classList.remove('show')}
-function tgstmn(){const m=document.getElementById('stmn');if(m)m.style.display=m.style.display==='none'?'block':'none'}
-function cstmn(){const m=document.getElementById('stmn');if(m)m.style.display='none'}
+// ════════════════════════════════════════
+function osb(){ge('sb').classList.add('open');ge('sb-ov').classList.add('show')}
+function csb(){ge('sb').classList.remove('open');ge('sb-ov').classList.remove('show')}
+function tgstmn(){const m=ge('sbf-stmn');if(m)m.style.display=m.style.display==='none'?'block':'none'}
+function cstmn(){const m=ge('sbf-stmn');if(m)m.style.display='none'}
 
 async function sst(s){
   if(!CU)return;
   await db.ref('users/'+CU.uid).update({status:s}).catch(()=>{});
   if(UD)UD.status=s;uftr();cstmn();
-  const sl={online:'Çevrimiçi 🟢',away:'Uzaqta 🟡',busy:'Məşğul 🔴',invisible:'Görünməz ⚫'};
-  t(sl[s]||'Durum dəyişdirildi','i');
+  t({online:'Çevrimiçi 🟢',away:'Uzaqta 🟡',busy:'Məşğul 🔴',invisible:'Görünməz ⚫'}[s]||'OK','i');
 }
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // VOICE
-// ════════════════════════════════════
+// ════════════════════════════════════════
 async function jv(name){
   try{
     cstr=await navigator.mediaDevices.getUserMedia({audio:true});
-    const c=document.getElementById('col');if(c)c.classList.add('on');
-    const cn=document.getElementById('callcn');if(cn)cn.textContent='# '+name;
-    const cs=document.getElementById('callst');if(cs)cs.textContent='Bağlandı ✓';
+    const c=ge('col');if(c)c.classList.add('on');
+    const cn=ge('callcn');if(cn)cn.textContent='# '+name;
+    const cs=ge('callst');if(cs)cs.textContent='Bağlandı ✓';
     t('Ses kanalına qatıldın: #'+name,'s');
   }catch(e){t('Mikrofon icazəsi verilmədi','e')}
 }
-function tmute(){if(!cstr)return;cmut=!cmut;cstr.getAudioTracks().forEach(tr=>tr.enabled=!cmut);const b=document.getElementById('muteb');if(b)b.textContent=cmut?'🔇':'🎙️';t(cmut?'Susturuldu 🔇':'Söz verildi 🎙️','i')}
-function eCall(){if(cstr){cstr.getTracks().forEach(tr=>tr.stop());cstr=null}const c=document.getElementById('col');if(c)c.classList.remove('on');cmut=false;const b=document.getElementById('muteb');if(b)b.textContent='🎙️';t('Ses kanalından çıxıldı','i')}
+function tmute(){if(!cstr)return;cmut=!cmut;cstr.getAudioTracks().forEach(tr=>tr.enabled=!cmut);const b=ge('muteb');if(b)b.textContent=cmut?'🔇':'🎙️';t(cmut?'Susturuldu 🔇':'Söz verildi 🎙️','i')}
+function eCall(){if(cstr){cstr.getTracks().forEach(tr=>tr.stop());cstr=null}const c=ge('col');if(c)c.classList.remove('on');cmut=false;const b=ge('muteb');if(b)b.textContent='🎙️';t('Ses kanalından çıxıldı','i')}
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // PAYMENT
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function opay(plan){
   if(UD?.premiumStatus==='pending'){t('Ödəniş artıq göndərilib ⏳','i');return}
   if(UD?.premium===plan||(plan==='plus'&&UD?.premium==='diamond')){t('Bu plan artıq aktivdir! 🎉','i');return}
   pplan=plan;chekd=null;
-  const pt=document.getElementById('payttl');if(pt)pt.textContent=plan==='diamond'?'💎 Destekçi Aboneliyi':'👑 PLUS Aboneliyi';
-  const pm=document.getElementById('pamttl');if(pm)pm.innerHTML=`Göndəriləcək: <b style="color:var(--text)">₼${plan==='diamond'?20:10}</b>`;
-  const cp=document.getElementById('chekprev');if(cp)cp.style.display='none';
-  const up=document.getElementById('upa');if(up)up.classList.remove('hf');
-  document.getElementById('payol').classList.remove('hd');
+  const pt=ge('payttl');if(pt)pt.textContent=plan==='diamond'?'💎 Destekçi Aboneliyi':'👑 PLUS Aboneliyi';
+  const pm=ge('pamttl');if(pm)pm.innerHTML=`Göndəriləcək: <b style="color:var(--text)">₼${plan==='diamond'?20:10}</b>`;
+  const cp=ge('chekprev');if(cp)cp.style.display='none';
+  const up=ge('upa');if(up)up.classList.remove('hf');
+  ge('payol').classList.remove('hd');
 }
-function cpay(){document.getElementById('payol').classList.add('hd');pplan=null;chekd=null}
-function cpnum(){navigator.clipboard.writeText('0707888025').then(()=>t('Nömrə kopyalandı! 📋','s')).catch(()=>t('Nömrə: 0707888025 — özün kopyala','i'))}
+function cpay(){ge('payol').classList.add('hd');pplan=null;chekd=null}
+function cpnum(){navigator.clipboard.writeText('0707888025').then(()=>t('Nömrə kopyalandı! 📋','s')).catch(()=>t('Nömrə: 0707888025','i'))}
 function hchek(e){
   const f=e.target.files[0];if(!f)return;
-  if(f.size>5*1024*1024){t('Şəkil 5MB-dan böyük ola bilməz','e');return}
+  if(f.size>5*1024*1024){t('5MB-dan böyük ola bilməz','e');return}
   const r=new FileReader();
-  r.onload=ev=>{
-    chekd=ev.target.result;
-    const ci=document.getElementById('chekimg');if(ci)ci.src=chekd;
-    const cp=document.getElementById('chekprev');if(cp)cp.style.display='block';
-    const up=document.getElementById('upa');if(up)up.classList.add('hf');
-  };
+  r.onload=ev=>{chekd=ev.target.result;const ci=ge('chekimg');if(ci)ci.src=chekd;const cp=ge('chekprev');if(cp)cp.style.display='block';const up=ge('upa');if(up)up.classList.add('hf')};
   r.readAsDataURL(f);e.target.value='';
 }
 async function spay(){
-  if(!chekd){t('Zəhmət olmasa çek şəklini yükləyin','e');return}
+  if(!chekd){t('Çek şəklini yükləyin','e');return}
   if(!CU||!UD){t('Giriş edin','e');return}
-  const b=document.getElementById('psubbtn');b.disabled=true;b.textContent='Göndərilir...';
+  const b=ge('psubbtn');b.disabled=true;b.textContent='Göndərilir...';
   try{
-    await db.ref('payments').push({
-      uid:CU.uid,username:UD.username,displayName:UD.displayName,
-      email:CU.email,plan:pplan,amount:pplan==='diamond'?20:10,
-      chekImage:chekd,status:'pending',submittedAt:Date.now()
-    });
+    await db.ref('payments').push({uid:CU.uid,username:UD.username,displayName:UD.displayName,email:CU.email,plan:pplan,amount:pplan==='diamond'?20:10,chekImage:chekd,status:'pending',submittedAt:Date.now()});
     await db.ref('users/'+CU.uid).update({premiumStatus:'pending',premiumPlan:pplan});
     if(UD){UD.premiumStatus='pending';UD.premiumPlan=pplan}
     cpay();t('Ödəniş göndərildi! Admin yoxlayacaq ✅','s');
@@ -1707,46 +1605,42 @@ async function spay(){
   b.disabled=false;b.textContent='📤 Ödəniş Göndər';
 }
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // ADMIN (Only ADMIN email)
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function wpay(){
-  if(CU?.email!==ADMIN)return; // Double check
+  if(CU?.email!==ADMIN)return;
   db.ref('payments').orderByChild('status').equalTo('pending').on('value',s=>{
     const c=s.numChildren();
-    const el=document.getElementById('badm');if(el)el.dataset.c=c;
-    const pe=document.getElementById('adpnd');if(pe)pe.textContent=c;
+    const el=ge('badm');if(el)el.dataset.c=c;
+    const pe=ge('adpnd');if(pe)pe.textContent=c;
   });
 }
 
 function lat(tab,btn){
-  if(CU?.email!==ADMIN)return; // Security check
+  if(CU?.email!==ADMIN)return;
   document.querySelectorAll('.atab').forEach(b=>b.classList.remove('act'));
   if(btn)btn.classList.add('act');
-  const con=document.getElementById('adcon');
-  if(con)con.innerHTML='<div style="padding:18px;color:var(--t2);text-align:center;font-size:13px">Yüklənir...</div>';
+  const con=ge('adcon');if(con)con.innerHTML='<div style="padding:16px;color:var(--t2);text-align:center">Yüklənir...</div>';
   if(tab==='pay')lapay();
   else if(tab==='usr')lausr();
-  else if(tab==='chs')lachs();
+  else if(tab==='srv')lasrv();
 }
 
 async function lapay(){
   if(CU?.email!==ADMIN)return;
   const s=await db.ref('payments').once('value').catch(()=>null);
-  const con=document.getElementById('adcon');if(!con)return;
+  const con=ge('adcon');if(!con)return;
   if(!s){con.innerHTML='<div style="padding:14px;color:#f87171">⚠️ Firebase qaydalarını yeniləyin</div>';return}
   const pays=[];s.forEach(c=>pays.push({id:c.key,...c.val()}));
-  if(!pays.length){con.innerHTML='<div style="text-align:center;padding:32px;color:var(--t2)"><div style="font-size:32px;margin-bottom:10px">💳</div>Hələ ödəniş yoxdur</div>';return}
-  const pend=pays.filter(p=>p.status==='pending');
-  const done=pays.filter(p=>p.status!=='pending');
+  if(!pays.length){con.innerHTML='<div style="text-align:center;padding:30px;color:var(--t2)"><div style="font-size:30px;margin-bottom:9px">💳</div>Hələ ödəniş yoxdur</div>';return}
   let h='<div>';
-  [...pend,...done].forEach(p=>{
+  [...pays.filter(p=>p.status==='pending'),...pays.filter(p=>p.status!=='pending')].forEach(p=>{
     const ip=p.status==='pending';
-    const pl=p.plan==='diamond'?'💎 Destekçi':'👑 PLUS';
     h+=`<div class="aitem">
-      <div class="aname">${esc(p.displayName||p.username)} <span style="color:var(--t2);font-size:11px">@${esc(p.username)}</span></div>
-      <div class="asub2">${esc(p.email)} · ${pl} · ₼${p.amount} · ${fd(p.submittedAt)}</div>
-      ${p.chekImage?`<img src="${p.chekImage}" style="max-width:100%;max-height:140px;border-radius:10px;border:1px solid var(--border);margin-top:10px;display:block;cursor:pointer" onclick="window.open(this.src)" title="Böyüdmək üçün klik et">`:'' }
+      <div class="aname">${esc(p.displayName||p.username)} <span style="color:var(--t2);font-size:10px">@${esc(p.username)}</span></div>
+      <div class="asub2">${esc(p.email)} · ${p.plan==='diamond'?'💎':' 👑'} ₼${p.amount} · ${fd(p.submittedAt)}</div>
+      ${p.chekImage?`<img src="${p.chekImage}" style="max-width:100%;max-height:130px;border-radius:9px;border:1px solid var(--border);margin-top:8px;display:block;cursor:pointer" onclick="window.open(this.src)">`:'' }
       <div class="aacts">
         ${ip?`<button class="abtn ab-ok" onclick="appr('${p.id}','${p.uid}','${p.plan}')">✓ Təsdiqlə</button><button class="abtn ab-no" onclick="arej('${p.id}','${p.uid}')">✕ Rədd</button>`:`<span class="badge ${p.status==='approved'?'badge-on':'badge-off'}">${p.status==='approved'?'✓ Təsdiqləndi':'✕ Rədd edildi'}</span>`}
       </div>
@@ -1758,7 +1652,7 @@ async function lapay(){
 async function lausr(){
   if(CU?.email!==ADMIN)return;
   const s=await db.ref('users').once('value').catch(()=>null);
-  const con=document.getElementById('adcon');if(!con)return;
+  const con=ge('adcon');if(!con)return;
   if(!s){con.innerHTML='<div style="padding:14px;color:#f87171">Firebase qaydalarını yeniləyin</div>';return}
   const us=[];s.forEach(c=>us.push({id:c.key,...c.val()}));
   us.sort((a,b)=>(b.status==='online'?1:0)-(a.status==='online'?1:0));
@@ -1766,8 +1660,8 @@ async function lausr(){
   us.forEach(u=>{
     const on=u.status==='online',init=gi(u.displayName||u.username);
     const avh=u.avatar?`<img src="${u.avatar}" onerror="this.parentElement.innerHTML='${init}'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:init;
-    h+=`<div class="aitem" style="display:flex;gap:10px;align-items:flex-start">
-      <div class="av" style="width:36px;height:36px;font-size:13px;flex-shrink:0">${avh}</div>
+    h+=`<div class="aitem" style="display:flex;gap:9px;align-items:flex-start">
+      <div class="av" style="width:34px;height:34px;font-size:12px;flex-shrink:0">${avh}</div>
       <div style="flex:1;min-width:0">
         <div class="aname">${esc(u.displayName||u.username)}${pb(u)}</div>
         <div class="asub2">${esc(u.email)} · @${esc(u.username)}<br>${u.joinDate?fd(u.joinDate):''} ${u.banned?'· <span style="color:#f87171">🚫 Banned</span>':''}</div>
@@ -1779,22 +1673,25 @@ async function lausr(){
     </div>`;
   });
   h+='</div>';
-  db.ref('messages').once('value').then(ms=>{let c=0;ms.forEach(ch=>c+=ch.numChildren());const el=document.getElementById('admsg');if(el)el.textContent=c});
+  db.ref('messages').once('value').then(ms=>{let c=0;ms.forEach(s2=>s2.forEach(ch=>c+=ch.numChildren()));const el=ge('admsg');if(el)el.textContent=c});
   con.innerHTML=h;
 }
 
-async function lachs(){
+async function lasrv(){
   if(CU?.email!==ADMIN)return;
-  const s=await db.ref('channels').once('value').catch(()=>null);
-  const con=document.getElementById('adcon');if(!con)return;
-  if(!s){con.innerHTML='<div style="padding:14px;color:#f87171">Firebase qaydalarını yeniləyin</div>';return}
+  const s=await db.ref('servers').once('value').catch(()=>null);
+  const con=ge('adcon');if(!con)return;
+  if(!s||!s.exists()){con.innerHTML='<div style="text-align:center;padding:28px;color:var(--t2)">Server yoxdur</div>';return}
   let h='<div>';
   s.forEach(c=>{
     const d=c.val();
-    h+=`<div class="aitem" style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:18px">${d.type==='voice'?'🔊':'#'}</span>
-      <div style="flex:1"><div class="aname">${esc(d.name)}</div><div class="asub2">${d.type==='voice'?'Ses':'Mətn'} · ${d.perm==='premium'?'🔒 Premium':'Hamı'}${d.createdAt?' · '+fd(d.createdAt):''}</div></div>
-      ${c.key!=='genel'?`<button class="abtn ab-no" onclick="dch('${c.key}')">Sil</button>`:'<span style="font-size:10px;color:var(--t3)">Sistem</span>'}
+    h+=`<div class="aitem" style="display:flex;gap:9px;align-items:center">
+      <span style="font-size:22px">${d.emoji||'📡'}</span>
+      <div style="flex:1;min-width:0">
+        <div class="aname">${esc(d.name)}</div>
+        <div class="asub2">${d.public?'Açıq':'Gizli'} · ${d.members||1} üye · ${fd(d.createdAt||Date.now())}<br>Sahibi: ${esc(d.ownerName||'')}</div>
+      </div>
+      <button class="abtn ab-no" onclick="deleteServer('${c.key}','${esc(d.name)}')">Sil 🗑</button>
     </div>`;
   });
   h+='</div>';con.innerHTML=h;
@@ -1802,155 +1699,57 @@ async function lachs(){
 
 async function appr(pid,uid,plan){
   if(CU?.email!==ADMIN)return;
-  try{
-    await db.ref('payments/'+pid).update({status:'approved',approvedAt:Date.now()});
-    await db.ref('users/'+uid).update({premium:plan,premiumStatus:'active',premiumPlan:plan,premiumSince:Date.now()});
-    t('✅ Premium verildi: '+plan,'s');lapay();
-    if(CU?.uid===uid){const s=await db.ref('users/'+uid).once('value');if(s.exists()){UD=s.val();uftr();lch()}}
-  }catch(e){t('Xəta: '+e.message,'e')}
+  try{await db.ref('payments/'+pid).update({status:'approved',approvedAt:Date.now()});await db.ref('users/'+uid).update({premium:plan,premiumStatus:'active',premiumPlan:plan,premiumSince:Date.now()});t('✅ Premium verildi: '+plan,'s');lapay()}catch(e){t('Xəta','e')}
 }
 async function arej(pid,uid){
   if(CU?.email!==ADMIN)return;
-  try{
-    await db.ref('payments/'+pid).update({status:'rejected',rejectedAt:Date.now()});
-    await db.ref('users/'+uid).update({premiumStatus:'rejected',premiumPlan:null});
-    t('Ödəniş rədd edildi','i');lapay();
-  }catch(e){t('Xəta: '+e.message,'e')}
+  try{await db.ref('payments/'+pid).update({status:'rejected',rejectedAt:Date.now()});await db.ref('users/'+uid).update({premiumStatus:'rejected',premiumPlan:null});t('Rədd edildi','i');lapay()}catch(e){t('Xəta','e')}
 }
-async function kku(uid,un){
-  if(CU?.email!==ADMIN)return;
-  if(!confirm('@'+un+' ban edilsin?'))return;
-  try{await db.ref('users/'+uid).update({banned:true,status:'offline'});t('@'+un+' ban edildi 🚫','s');lausr()}catch(e){t('Xəta','e')}
-}
-async function unban(uid,un){
-  if(CU?.email!==ADMIN)return;
-  try{await db.ref('users/'+uid).update({banned:false});t('@'+un+' ban götürüldü ✅','s');lausr()}catch(e){t('Xəta','e')}
-}
-async function dch(key){
-  if(CU?.email!==ADMIN)return;
-  if(!confirm('#'+key+' silinsin?'))return;
-  try{await db.ref('channels/'+key).remove();await db.ref('messages/'+key).remove();t('Kanal silindi','s');lachs();if(CC===key)sws('genel','text')}catch(e){t('Xəta','e')}
-}
+async function kku(uid,un){if(CU?.email!==ADMIN)return;if(!confirm('@'+un+' ban edilsin?'))return;try{await db.ref('users/'+uid).update({banned:true,status:'offline'});t('@'+un+' ban edildi 🚫','s');lausr()}catch(e){t('Xəta','e')}}
+async function unban(uid,un){if(CU?.email!==ADMIN)return;try{await db.ref('users/'+uid).update({banned:false});t('@'+un+' ban götürüldü ✅','s');lausr()}catch(e){t('Xəta','e')}}
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // SETTINGS
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function tset(){
-  const el=document.getElementById('setol');
-  el.classList.toggle('hd');
+  const el=ge('setol');el.classList.toggle('hd');
   if(!el.classList.contains('hd'))pset();
   document.querySelectorAll('.bni[data-v]').forEach(x=>x.classList.remove('act'));
-  const li=document.querySelector('.bni[data-v="chat"]');if(li)li.classList.add('act');
+  const li=document.querySelector('.bni[data-v="home"]');if(li)li.classList.add('act');
 }
-
 function pset(){
   if(!UD||!CU)return;
   const nm=UD.displayName||UD.username||'?';
-  ['setavn','setave','ace','acjd','acuid'].forEach(id=>{
-    const e=document.getElementById(id);if(!e)return;
-    if(id==='setavn')e.textContent=nm;
-    else if(id==='setave')e.textContent=CU.email||'';
-    else if(id==='ace')e.textContent=CU.email||'';
-    else if(id==='acjd')e.textContent=UD.joinDate?fd(UD.joinDate):'';
-    else if(id==='acuid')e.textContent=(CU.uid||'').slice(0,22)+'...';
-  });
-  const su=document.getElementById('setu');if(su)su.value=UD.username||'';
-  const sd=document.getElementById('setd');if(sd)sd.value=UD.displayName||'';
-  const sc=document.getElementById('setcs');if(sc)sc.value=UD.customStatus||'';
-  const sa2=document.getElementById('setab');if(sa2)sa2.value=UD.about||'';
-  const acpr=document.getElementById('acpr');
-  if(acpr){
-    if(UD.premium==='diamond')acpr.innerHTML='💎 Destekçisi';
-    else if(UD.premium==='plus')acpr.innerHTML='👑 PLUS';
-    else if(UD.premiumStatus==='pending')acpr.innerHTML='<span class="pend-b">⏳ Gözləyir</span>';
-    else acpr.textContent='Yoxdur';
-  }
-  const sav=document.getElementById('setav');
-  if(sav){
-    if(UD.avatar)sav.innerHTML=`<img src="${UD.avatar}" onerror="this.innerHTML='<span>${gi(nm)}</span>'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    else{const al=document.getElementById('setavl');if(al)al.textContent=gi(nm)}
-  }
-  const pb2=document.getElementById('setpb');
-  if(pb2){
-    if(UD.premium){pb2.style.display='block';pb2.innerHTML=`<span style="background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(167,139,250,.1));border:1px solid rgba(139,92,246,.3);border-radius:10px;padding:3px 12px;color:var(--p2);font-size:12px;font-weight:700">${pb(UD)} Premium Aktiv</span>`}
-    else pb2.style.display='none';
-  }
-  const sf=document.getElementById('setftr');
-  if(sf)sf.textContent=(UD.displayName||UD.username||'')+(CU.email?' · '+CU.email:'');
+  const ids={setavn:nm,setave:CU.email||'',ace:CU.email||'',acjd:UD.joinDate?fd(UD.joinDate):'',acuid:(CU.uid||'').slice(0,22)+'...'};
+  Object.entries(ids).forEach(([id,v])=>{const e=ge(id);if(e)e.textContent=v});
+  ['setu','setd','setcs','setab'].forEach((id,i)=>{const e=ge(id);if(e)e.value=[UD.username||'',UD.displayName||'',UD.customStatus||'',UD.about||''][i]});
+  const acpr=ge('acpr');
+  if(acpr){if(UD.premium==='diamond')acpr.innerHTML='💎 Destekçisi';else if(UD.premium==='plus')acpr.innerHTML='👑 PLUS';else if(UD.premiumStatus==='pending')acpr.innerHTML='<span class="pend-b">⏳ Gözləyir</span>';else acpr.textContent='Yoxdur'}
+  const sav=ge('setav');
+  if(sav){if(UD.avatar)sav.innerHTML=`<img src="${UD.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;else{const al=ge('setavl');if(al)al.textContent=gi(nm)}}
+  const pb2=ge('setpb');
+  if(pb2){if(UD.premium){pb2.style.display='block';pb2.innerHTML=`<span style="background:rgba(139,92,246,.18);border:1px solid rgba(139,92,246,.28);border-radius:9px;padding:3px 12px;color:var(--p2);font-size:11px;font-weight:700">${pb(UD)} Premium Aktiv</span>`}else pb2.style.display='none'}
+  const sf=ge('setftr');if(sf)sf.textContent=(UD.displayName||UD.username||'')+(CU.email?' · '+CU.email:'');
 }
-
-function ss2(tab,btn){
-  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('act'));btn.classList.add('act');
-  ['pr','ac','sn','th'].forEach(t2=>{const e=document.getElementById('s'+t2);if(e)e.style.display=t2===tab?'block':'none'});
-}
-
+function ss2(tab,btn){document.querySelectorAll('.stab').forEach(b=>b.classList.remove('act'));btn.classList.add('act');['pr','ac','sn','th'].forEach(t2=>{const e=ge('s'+t2);if(e)e.style.display=t2===tab?'block':'none'})}
 async function spro(){
   if(!CU||!UD)return;
-  const upd={
-    username:(document.getElementById('setu').value||'').trim()||UD.username,
-    displayName:(document.getElementById('setd').value||'').trim()||UD.displayName,
-    customStatus:(document.getElementById('setcs').value||'').trim(),
-    about:(document.getElementById('setab').value||'').trim()
-  };
-  try{
-    await db.ref('users/'+CU.uid).update(upd);
-    Object.assign(UD,upd);uftr();pset();
-    t('Profil saxlanıldı ✅','s');
-  }catch(e){
-    if(e.message?.includes('PERMISSION_DENIED'))sph();
-    else t('Xəta: '+e.message,'e');
-  }
+  const upd={username:(ge('setu').value||'').trim()||UD.username,displayName:(ge('setd').value||'').trim()||UD.displayName,customStatus:(ge('setcs').value||'').trim(),about:(ge('setab').value||'').trim()};
+  try{await db.ref('users/'+CU.uid).update(upd);Object.assign(UD,upd);uftr();pset();t('Profil saxlanıldı ✅','s')}
+  catch(e){if(e.message?.includes('PERMISSION_DENIED'))sph();else t('Xəta: '+e.message,'e')}
 }
-
-async function chpw(){
-  const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;
-  if(!p1||!p2){t('Şifrəni daxil edin','e');return}
-  if(p1!==p2){t('Şifrələr uyğun deyil','e');return}
-  if(p1.length<8){t('Min 8 simvol','e');return}
-  try{await CU.updatePassword(p1);t('Şifrə yeniləndi ✅','s');document.getElementById('np1').value='';document.getElementById('np2').value=''}
-  catch(e){t('Xəta: '+e.message,'e')}
-}
-
-function hav(e){
-  const f=e.target.files[0];if(!f)return;
-  if(f.size>2*1024*1024){t('Avatar maks 2MB','e');return}
-  const r=new FileReader();
-  r.onload=async ev=>{
-    try{
-      await db.ref('users/'+CU.uid).update({avatar:ev.target.result});
-      if(UD)UD.avatar=ev.target.result;pset();uftr();t('Avatar yeniləndi ✅','s');
-    }catch(err){
-      if(err.message?.includes('PERMISSION_DENIED'))sph();
-      else t('Saxlanmadı','e');
-    }
-  };
-  r.readAsDataURL(f);e.target.value='';
-}
-
-function ath(th,el){
-  document.querySelectorAll('.topt').forEach(x=>x.classList.remove('act'));el.classList.add('act');
-  const m={
-    dp:{'--bg':'#070711','--bg2':'#0d0d1c','--bg3':'#13132a'},
-    bk:{'--bg':'#000','--bg2':'#050505','--bg3':'#0a0a0a'},
-    nv:{'--bg':'#020a1a','--bg2':'#030e24','--bg3':'#061530'},
-    ch:{'--bg':'#080808','--bg2':'#101010','--bg3':'#181818'}
-  };
-  const o=m[th]||m.dp;
-  Object.entries(o).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
-  localStorage.setItem('cc-th3',JSON.stringify(o));
-  t('Tema dəyişdirildi','i');
-}
-
+async function chpw(){const p1=ge('np1').value,p2=ge('np2').value;if(!p1||!p2){t('Daxil edin','e');return}if(p1!==p2){t('Uyğun deyil','e');return}if(p1.length<8){t('Min 8 simvol','e');return}try{await CU.updatePassword(p1);t('Şifrə yeniləndi ✅','s');ge('np1').value='';ge('np2').value=''}catch(e){t('Xəta: '+e.message,'e')}}
+function hav(e){const f=e.target.files[0];if(!f)return;if(f.size>2*1024*1024){t('Maks 2MB','e');return}const r=new FileReader();r.onload=async ev=>{try{await db.ref('users/'+CU.uid).update({avatar:ev.target.result});if(UD)UD.avatar=ev.target.result;pset();uftr();t('Avatar yeniləndi ✅','s')}catch(err){t('Saxlanmadı','e')}};r.readAsDataURL(f);e.target.value=''}
+function ath(th,el){document.querySelectorAll('.topt').forEach(x=>x.classList.remove('act'));el.classList.add('act');const m={dp:{'--bg':'#06060f','--bg2':'#0c0c1e','--bg3':'#12122a'},bk:{'--bg':'#000','--bg2':'#040404','--bg3':'#090909'},nv:{'--bg':'#020a1a','--bg2':'#030e24','--bg3':'#061530'},ch:{'--bg':'#070707','--bg2':'#0f0f0f','--bg3':'#161616'}};const o=m[th]||m.dp;Object.entries(o).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));localStorage.setItem('cc-th4',JSON.stringify(o));t('Tema dəyişdirildi','i')}
 function hbg(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{document.body.style.backgroundImage=`url(${ev.target.result})`;document.body.style.backgroundSize='cover';document.body.style.backgroundPosition='center';t('Arxa fon dəyişdirildi ✅','s')};r.readAsDataURL(f)}
-function tsnd(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;g.gain.value=.12;o.start();o.stop(ctx.currentTime+.3)}catch(e){}}
+function tsnd(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;g.gain.value=.11;o.start();o.stop(ctx.currentTime+.28)}catch(e){}}
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // FRIENDS
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function sft(tab,btn){document.querySelectorAll('.fr-tab').forEach(b=>b.classList.remove('act'));btn.classList.add('act')}
-
 async function addfr(){
-  const inp=document.getElementById('fri'),un=inp.value.trim().replace('@','');
+  const inp=ge('fri'),un=inp.value.trim().replace('@','');
   if(!un){t('İstifadəçi adı daxil edin','e');return}
   if(!CU||!UD){t('Giriş edin','e');return}
   try{
@@ -1963,27 +1762,16 @@ async function addfr(){
     if(ex.exists()){t('@'+un+' artıq dost siyahında','i');return}
     await db.ref('friends/'+fkey).set({from:CU.uid,to:tu.uid,fromName:UD.displayName||UD.username,toName:tu.displayName||tu.username,status:'pending',createdAt:Date.now()});
     inp.value='';t('@'+un+' istəyi göndərildi! ✅','s');
-  }catch(e){
-    if(e.message?.includes('PERMISSION_DENIED'))sph();
-    else t('Xəta: '+e.message,'e');
-  }
+  }catch(e){if(e.message?.includes('PERMISSION_DENIED'))sph();else t('Xəta: '+e.message,'e')}
 }
-
 async function loadFriends(){
-  if(!CU)return;
-  const list=document.getElementById('frlist');if(!list)return;
+  if(!CU)return;const list=ge('frlist');if(!list)return;
   try{
     const s=await db.ref('friends').once('value');
-    const frds=[];
-    s.forEach(c=>{const d=c.val();if(d.from===CU.uid||d.to===CU.uid)frds.push({id:c.key,...d})});
-    const cnt=document.getElementById('frcnt');
-    if(!frds.length){
-      if(cnt)cnt.textContent='0 dost';
-      list.innerHTML='<div class="empty"><div class="empty-ico">👤</div><div class="empty-ttl">Henüz dostun yok</div><div class="empty-sub">@ ilə axtarıb dost əlavə et</div></div>';
-      return;
-    }
-    const acc=frds.filter(f=>f.status==='accepted').length;
-    if(cnt)cnt.textContent=acc+' dost';
+    const frds=[];s.forEach(c=>{const d=c.val();if(d.from===CU.uid||d.to===CU.uid)frds.push({id:c.key,...d})});
+    const cnt=ge('frcnt');
+    if(!frds.length){if(cnt)cnt.textContent='0 dost';list.innerHTML='<div class="empty"><div class="empty-ico">👤</div><div class="empty-ttl">Henüz dostun yok</div><div class="empty-sub">@ ilə dost əlavə et</div></div>';return}
+    const acc=frds.filter(f=>f.status==='accepted').length;if(cnt)cnt.textContent=acc+' dost';
     list.innerHTML='';
     frds.sort((a,b)=>b.createdAt-a.createdAt).forEach(f=>{
       const isFrom=f.from===CU.uid,name=isFrom?f.toName:f.fromName;
@@ -1998,62 +1786,52 @@ async function loadFriends(){
     });
   }catch(e){list.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div><div class="empty-ttl">Yüklənmədi</div><div class="empty-sub">Firebase qaydalarını yeniləyin</div></div>'}
 }
-
 async function accfr(id){try{await db.ref('friends/'+id).update({status:'accepted'});t('Dost qəbul edildi! 🎉','s');loadFriends()}catch(e){t('Xəta','e')}}
 async function rejfr(id){try{await db.ref('friends/'+id).remove();t('Rədd edildi','i');loadFriends()}catch(e){t('Xəta','e')}}
 
-// ════════════════════════════════════
+// ════════════════════════════════════════
 // DMs
-// ════════════════════════════════════
+// ════════════════════════════════════════
 function openDM(uid,name){
+  // DMs use a special server id "dm"
   const dmkey=[CU.uid,uid].sort().join('_');
-  sws('dm_'+dmkey,'text');
-  const cn=document.getElementById('chn');if(cn)cn.textContent='✉️ '+name;
-  const ci=document.getElementById('chico');if(ci)ci.textContent='✉️';
-  t('DM açıldı: '+name,'i');
+  CS='dm_'+dmkey;CC='main';
+  const cn=ge('chn');if(cn)cn.textContent='✉️ '+name;
+  const ci=ge('chico');if(ci)ci.textContent='✉️';
+  lmsg('dm_'+dmkey,'main');
   smv('chat');
+  ge('sb').classList.remove('open');ge('sb-ov').classList.remove('show');
 }
-
 async function sdmu(){
-  const inp=document.getElementById('dmsrch'),un=inp.value.trim().replace('@','');
+  const inp=ge('dmsrch'),un=inp.value.trim().replace('@','');
   if(!un){t('İstifadəçi adı daxil edin','e');return}
-  const res=document.getElementById('dmres');
+  const res=ge('dmres');
   try{
     const s=await db.ref('users').orderByChild('username').equalTo(un).once('value');
-    if(!s.exists()){res.innerHTML=`<div style="color:#f87171;font-size:13px;padding:10px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);border-radius:11px">@${esc(un)} tapılmadı</div>`;return}
+    if(!s.exists()){res.innerHTML=`<div style="color:#f87171;font-size:12px;padding:9px 12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.14);border-radius:10px">@${esc(un)} tapılmadı</div>`;return}
     let u=null;s.forEach(c=>{u=c.val()});
-    const init=gi(u.displayName||u.username);
     res.innerHTML=`<div class="dmi">
-      <div class="fi-av" style="width:38px;height:38px;font-size:15px">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:init}</div>
+      <div class="fi-av" style="width:38px;height:38px">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:gi(u.displayName||u.username)}</div>
       <div style="flex:1"><div style="font-size:13px;font-weight:600">${esc(u.displayName||u.username)}</div><div style="font-size:11px;color:${u.status==='online'?'var(--green)':'var(--t2)'};margin-top:2px">${u.status==='online'?'🟢 Online':'⚫ Offline'}</div></div>
       <button class="fi-btn fi-dm" onclick="openDM('${u.uid}','${esc(u.displayName||u.username)}')">💬 Mesaj</button>
     </div>`;
   }catch(e){t('Xəta','e')}
 }
-
 async function loadDMs(){
-  if(!CU)return;
-  const list=document.getElementById('dmlist');if(!list)return;
+  if(!CU)return;const list=ge('dmlist');if(!list)return;
   try{
     const s=await db.ref('messages').once('value');
     const dms=[];
-    s.forEach(ch=>{
-      if(ch.key.startsWith('dm_')&&ch.key.includes(CU.uid)){
-        const parts=ch.key.replace('dm_','').split('_');
-        const oid=parts.find(p=>p!==CU.uid);
-        if(oid)dms.push({key:ch.key,uid:oid});
-      }
-    });
-    if(!dms.length){list.innerHTML='<div style="color:var(--t2);font-size:13px;text-align:center;padding:24px">Hələ DM yoxdur</div>';return}
+    s.forEach(ch=>{if(ch.key.startsWith('dm_')&&ch.key.includes(CU.uid)){const parts=ch.key.replace('dm_','').split('_');const oid=parts.find(p=>p!==CU.uid);if(oid)dms.push({key:ch.key,uid:oid})}});
+    if(!dms.length){list.innerHTML='<div style="color:var(--t2);font-size:12px;text-align:center;padding:22px">Hələ DM yoxdur</div>';return}
     list.innerHTML='';
     for(const dm of dms.slice(0,15)){
       try{
-        const us=await db.ref('users/'+dm.uid).once('value');
-        if(!us.exists())continue;
+        const us=await db.ref('users/'+dm.uid).once('value');if(!us.exists())continue;
         const u=us.val();
         const el=document.createElement('div');el.className='dmi';
         el.onclick=()=>openDM(dm.uid,u.displayName||u.username);
-        el.innerHTML=`<div class="fi-av" style="width:36px;height:36px;font-size:14px">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:gi(u.displayName||u.username)}</div>
+        el.innerHTML=`<div class="fi-av" style="width:34px;height:34px">${u.avatar?`<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:gi(u.displayName||u.username)}</div>
           <div><div style="font-size:13px;font-weight:600">${esc(u.displayName||u.username)}</div><div style="font-size:11px;color:${u.status==='online'?'var(--green)':'var(--t2)'};margin-top:2px">${u.status==='online'?'🟢 Online':'⚫ Offline'}</div></div>`;
         list.appendChild(el);
       }catch(e){}
@@ -2061,25 +1839,24 @@ async function loadDMs(){
   }catch(e){}
 }
 
-// ════════════════════════════════════
-// OUTSIDE CLICK
-// ════════════════════════════════════
+// ════════════════════════════════════════
+// EVENTS
+// ════════════════════════════════════════
 document.addEventListener('click',e=>{
   if(eop&&!e.target.closest('.ep')&&!e.target.closest('.iab'))cep();
-  if(!e.target.closest('#stmn')&&!e.target.closest('.urow'))cstmn();
+  if(!e.target.closest('#sbf-stmn')&&!e.target.closest('.urow'))cstmn();
 });
 
 document.addEventListener('touchmove',function(e){
-  if(!e.target.closest('.msgs')&&!e.target.closest('.vw')&&!e.target.closest('.md')&&!e.target.closest('.sb')&&!e.target.closest('.mpdwr'))
+  if(!e.target.closest('.msgs')&&!e.target.closest('.vw')&&!e.target.closest('.md')&&!e.target.closest('.sb')&&!e.target.closest('.mpdwr')&&!e.target.closest('.srv-rail'))
     e.preventDefault();
 },{passive:false});
 
 window.addEventListener('resize',()=>{
-  const sb=document.getElementById('sb');
-  if(sb&&window.innerWidth>900){sb.classList.remove('open');document.getElementById('sb-ov').classList.remove('show')}
+  if(window.innerWidth>900){ge('sb').classList.remove('open');ge('sb-ov').classList.remove('show')}
 });
 
-console.log('CesiChat v3 ✓ Ultra Modern');
+console.log('CesiChat Discord Edition ✓');
 </script>
 </body>
 </html>
