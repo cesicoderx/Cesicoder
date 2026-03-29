@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CESICODER | OMNI GOD TIER BIO</title>
+    <title>CESICODER | VIDEO PROFILE EDITION</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,16 +13,11 @@
             --neon-cyan: #00f3ff;
             --neon-pink: #ff00ea;
             --neon-yellow: #fcee0a;
-            --glass-bg: rgba(5, 5, 10, 0.7);
-            --glass-border: rgba(0, 243, 255, 0.2);
+            --glass-bg: rgba(5, 5, 10, 0.75);
+            --glass-border: rgba(0, 243, 255, 0.25);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Rajdhani', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
 
         body {
             color: #fff;
@@ -39,19 +34,14 @@
         /* Arxa Plan Videosu */
         .video-bg {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
             z-index: -2;
             transform: translate(-50%, -50%);
-            filter: brightness(0.3) contrast(1.4) saturate(1.5);
+            filter: brightness(0.25) contrast(1.3);
             pointer-events: none;
         }
 
-        /* Scanlines */
         .scanlines {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -61,11 +51,10 @@
             pointer-events: none;
         }
 
-        /* Musiqi İdarəetmə Düyməsi */
+        /* Musiqi Düyməsi */
         .music-control {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 20px; right: 20px;
             z-index: 100;
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid var(--neon-cyan);
@@ -74,179 +63,127 @@
             border-radius: 5px;
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.8em;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 0.7em;
             box-shadow: 0 0 10px var(--neon-cyan);
+            transition: 0.3s;
         }
 
-        .music-control:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 20px var(--neon-cyan);
-        }
+        .music-control:hover { background: var(--neon-cyan); color: #000; }
 
         /* Konteyner */
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 450px;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 40px 25px;
             text-align: center;
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.1), inset 0 0 30px rgba(255, 0, 234, 0.05);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
             transform-style: preserve-3d;
-            animation: fadeInScale 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
+        /* VİDEO PROFİL SİSTEMİ */
         .profile-wrapper {
             position: relative;
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             margin: 0 auto 25px auto;
-            transform: translateZ(30px);
+            transform: translateZ(50px);
         }
 
         .profile-wrapper::before {
             content: '';
             position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
             background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow), var(--neon-cyan));
             border-radius: 50%;
             z-index: -1;
             background-size: 400%;
-            animation: glowingBorder 4s linear infinite;
-            filter: blur(8px);
+            animation: glowing 4s linear infinite;
         }
 
-        .profile-pic {
+        .profile-video {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #000;
+            object-fit: cover; /* Videonu dairəyə tam sığdırır */
+            border: 4px solid #000;
+            background: #000;
         }
 
         .title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5em;
+            font-size: 2.3em;
             font-weight: 900;
-            color: #fff;
+            background: linear-gradient(90deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-            transform: translateZ(40px);
-            text-shadow: 0 0 10px var(--neon-cyan);
         }
 
         .owner-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 0, 234, 0.1);
             border: 1px solid var(--neon-pink);
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 6px 18px;
+            border-radius: 20px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
+            font-size: 0.9em;
             color: #fff;
             text-decoration: none;
             margin-bottom: 30px;
-            transition: 0.4s;
-            box-shadow: 0 0 15px rgba(255, 0, 234, 0.3);
-            transform: translateZ(20px);
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.2);
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 35px;
+            gap: 12px;
+            margin-bottom: 30px;
         }
 
         .info-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(0, 243, 255, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 243, 255, 0.2);
             border-radius: 12px;
-            padding: 15px 5px;
-            font-size: 0.85em;
-            transition: 0.3s;
-        }
-
-        .info-card b, .info-card a {
-            display: block;
-            font-size: 1.2em;
-            color: var(--neon-yellow);
-            margin-top: 8px;
-            font-family: 'Orbitron', sans-serif;
-            text-decoration: none;
-        }
-
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 35px;
-        }
-
-        .skill-tag {
-            background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 12px 5px;
             font-size: 0.8em;
-            transition: 0.3s;
         }
+
+        .info-card b { display: block; color: var(--neon-yellow); margin-top: 5px; font-family: 'Orbitron'; }
+
+        .skills-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; }
+        .skill-tag { border: 1px solid var(--neon-cyan); padding: 5px 12px; border-radius: 4px; font-size: 0.75em; }
 
         .channel-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 0, 234, 0.3);
-            border-radius: 10px;
+            padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 234, 0.2);
+            border-radius: 12px;
             color: #fff;
             text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron';
             margin-bottom: 10px;
-            transition: 0.4s;
+            transition: 0.3s;
         }
 
-        .channel-btn:hover {
-            border-color: var(--neon-cyan);
-            transform: translateX(10px);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-        }
+        .channel-btn:hover { border-color: var(--neon-cyan); transform: translateX(8px); }
 
-        @keyframes glowingBorder {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.8) rotateX(-20deg); }
-            100% { opacity: 1; transform: scale(1) rotateX(0deg); }
-        }
+        @keyframes glowing { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     </style>
 </head>
 <body>
 
     <div class="scanlines"></div>
 
-    <!-- Musiqi Düyməsi -->
     <div class="music-control" onclick="toggleMusic()">
-        <i id="music-icon" class="fa-solid fa-play"></i>
-        <span id="music-text">MUSİQİNİ BAŞLAT</span>
+        <i id="music-icon" class="fa-solid fa-play"></i> <span id="music-text">PLAY MUSIC</span>
     </div>
 
     <!-- Arxa Plan Videosu -->
@@ -254,30 +191,30 @@
         <source src="https://cesicoderx.github.io/Cesicoder/video.mp4" type="video/mp4">
     </video>
 
-    <!-- Arxa Plan Mahnısı -->
     <audio id="bgMusic" loop>
         <source src="https://cesicoderx.github.io/Cesicoder/video.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container" id="card">
+        <!-- VİDEO PROFİL BÖLMƏSİ -->
         <div class="profile-wrapper">
-            <img src="https://cesicoderx.github.io/Cesicoder/photo.jpg" alt="Profile" class="profile-pic">
+            <video class="profile-video" autoplay muted loop playsinline>
+                <source src="https://cesicoderx.github.io/Cesicoder/video.mp4" type="video/mp4">
+            </video>
         </div>
         
         <div class="title">CesiPy 𝗕𝗜𝗢</div>
-        <br>
         <a href="https://t.me/Cesicoderx" class="owner-badge">
             <i class="fa-solid fa-crown"></i> OWNER : CESICODER
         </a>
 
         <div class="info-grid">
-            <div class="info-card"><i class="fa-solid fa-earth-americas"></i> ÖLKƏ<b>AZƏRBAYCAN</b></div>
-            <div class="info-card"><i class="fa-solid fa-user-secret"></i> YAŞ<b>GİZLİ 🤫</b></div>
-            <div class="info-card"><i class="fa-solid fa-handshake-angle"></i> DOST<a href="https://t.me/HyposOrginalHack">HYPOS 🗿</a></div>
+            <div class="info-card">🌍 ÖLKƏ<b>AZƏRBAYCAN</b></div>
+            <div class="info-card">⏳ YAŞ<b>GİZLİ 🤫</b></div>
+            <div class="info-card">🤝 DOST<b style="font-size: 0.8em;"><a href="https://t.me/HyposOrginalHack" style="color:var(--neon-yellow); text-decoration:none;">HYPOS 🗿</a></b></div>
         </div>
 
         <div class="section">
-            <h2 style="font-family: 'Orbitron'; margin-bottom: 15px; font-size: 1.1em; color: var(--neon-cyan);">🛠️ EXPERTISE</h2>
             <div class="skills-container">
                 <span class="skill-tag">Ethical Hacking</span>
                 <span class="skill-tag">Web Making</span>
@@ -294,15 +231,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <script>
-        // 3D Tilt Effekt
-        VanillaTilt.init(document.querySelector("#card"), {
-            max: 10,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.3,
-        });
+        VanillaTilt.init(document.querySelector("#card"), { max: 10, speed: 400, glare: true, "max-glare": 0.2 });
 
-        // Musiqi və Video İdarəetməsi
         const music = document.getElementById('bgMusic');
         const video = document.getElementById('bgVideo');
         const icon = document.getElementById('music-icon');
@@ -311,24 +241,15 @@
         function toggleMusic() {
             if (music.paused) {
                 music.play();
-                video.muted = false; // Videonun səsini də aça bilər (əgər videoda səs varsa)
                 video.play();
                 icon.classList.replace('fa-play', 'fa-pause');
-                text.innerText = "MUSİQİNİ DAYANDIR";
+                text.innerText = "PAUSE";
             } else {
                 music.pause();
-                video.pause();
                 icon.classList.replace('fa-pause', 'fa-play');
-                text.innerText = "MUSİQİNİ BAŞLAT";
+                text.innerText = "PLAY";
             }
         }
-        
-        // İlk toxunuşda başlasın (Alternativ)
-        document.body.addEventListener('click', function() {
-            if (music.paused) {
-                // toggleMusic(); // İstəsən bunu aktiv edə bilərsən ki, hara vursa mahnı başlasın
-            }
-        }, { once: true });
     </script>
 </body>
 </html>
