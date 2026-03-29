@@ -294,8 +294,9 @@ textarea.mi::placeholder{color:var(--t3)}
 .astb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--p),transparent)}
 .astn{font-size:18px;font-weight:800;color:var(--p2)}
 .astl{font-size:10px;color:var(--t3);margin-top:1px}
-.atabs{display:flex;gap:3px;margin-bottom:12px;background:rgba(255,255,255,.04);border-radius:11px;padding:3px;border:1px solid var(--bd2)}
-.atab{flex:1;padding:7px 3px;border:none;border-radius:9px;background:none;font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s;text-align:center}
+.atabs{display:flex;gap:2px;margin-bottom:12px;background:rgba(255,255,255,.04);border-radius:11px;padding:3px;border:1px solid var(--bd2);overflow-x:auto;scrollbar-width:none}
+.atabs::-webkit-scrollbar{display:none}
+.atab{flex:1;min-width:60px;padding:7px 4px;border:none;border-radius:9px;background:none;font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s;text-align:center;white-space:nowrap}
 .atab.act{background:linear-gradient(135deg,var(--p3),var(--p));color:#fff;box-shadow:0 4px 10px rgba(139,92,246,.28)}
 .aitem{background:rgba(139,92,246,.05);border:1px solid var(--border);border-radius:13px;padding:12px 13px;margin-bottom:8px}
 .aname{font-size:12px;font-weight:600}
@@ -394,6 +395,71 @@ textarea.mi::placeholder{color:var(--t3)}
 .srv-emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin:9px 0}
 .srv-emo{font-size:22px;padding:7px;cursor:pointer;border-radius:9px;background:rgba(139,92,246,.06);border:2px solid transparent;text-align:center;transition:.15s}
 .srv-emo.sel,.srv-emo:active{border-color:var(--p);background:rgba(139,92,246,.18)}
+
+/* ── ULTRA MODERN ADDITIONS ── */
+/* Neon glow on active elements */
+.chi.act{box-shadow:inset 0 0 8px rgba(139,92,246,.15)}
+.srv-ic.act{box-shadow:0 0 12px rgba(139,92,246,.3)}
+
+/* Message reactions area */
+.msg-react{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.react-btn{padding:2px 7px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:20px;font-size:12px;cursor:pointer;transition:.15s;color:var(--t2)}
+.react-btn:active{background:rgba(139,92,246,.22);transform:scale(.92)}
+
+/* Server banner gradient */
+.srv-banner-grad{
+  width:100%;height:90px;
+  background:linear-gradient(135deg,var(--p3),var(--pink),var(--cyan));
+  display:flex;align-items:center;justify-content:center;font-size:36px;
+}
+
+/* Online indicator pulse */
+@keyframes onPulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
+.dot-online{animation:onPulse 2s infinite}
+
+/* IP ban badge */
+.ip-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2);color:#f87171;border-radius:10px;font-size:10px;font-weight:700;margin-left:5px}
+
+/* Message timestamp on hover */
+.mr:hover .mtime{opacity:1}
+.mtime{opacity:.5;transition:.2s}
+
+/* Channel hover effect */
+.chi::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--p);border-radius:0 2px 2px 0;opacity:0;transition:.2s}
+.chi:hover::after{opacity:.4}
+.chi.act::after{opacity:1}
+
+/* Server rail tooltip */
+.srv-ic::before{content:attr(title);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:rgba(0,0,0,.9);color:#fff;padding:5px 10px;border-radius:8px;font-size:12px;white-space:nowrap;pointer-events:none;opacity:0;transition:.2s;z-index:999;backdrop-filter:blur(10px);border:1px solid var(--border)}
+.srv-ic:hover::before{opacity:1}
+
+/* Typing indicator */
+.typing-ind{display:flex;align-items:center;gap:5px;padding:6px 10px;font-size:12px;color:var(--t2)}
+.typing-dots{display:flex;gap:3px}
+.typing-dots span{width:5px;height:5px;border-radius:50%;background:var(--t2);animation:tdot 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+/* Glassmorphism cards */
+.glass-card{background:rgba(139,92,246,.07);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(139,92,246,.15);border-radius:16px}
+
+/* Admin stats glow */
+.astb:nth-child(2) .astn{color:var(--green)}
+.astb:nth-child(3) .astn{color:var(--yellow)}
+
+/* Scrollbar custom for sidebar */
+.sbody::-webkit-scrollbar{width:2px}
+.sbody::-webkit-scrollbar-thumb{background:rgba(139,92,246,.2);border-radius:2px}
+
+/* Input area background blur */
+.iw{background:rgba(6,6,15,.95)!important}
+
+/* Bottom nav active indicator */
+.bni.act::before{content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--p);border-radius:2px;box-shadow:0 0 6px rgba(139,92,246,.5)}
+
+/* Server card hover */
+.srv-card:hover{border-color:rgba(139,92,246,.3);box-shadow:0 4px 20px rgba(139,92,246,.1)}
 </style>
 </head>
 <body>
@@ -664,6 +730,7 @@ textarea.mi::placeholder{color:var(--t3)}
         <button class="atab act" onclick="lat('pay',this)">💳 Ödənişlər</button>
         <button class="atab" onclick="lat('usr',this)">👥 İstifadəçilər</button>
         <button class="atab" onclick="lat('srv',this)">📡 Serverlər</button>
+        <button class="atab" onclick="lat('ipb',this)">🔒 IP Ban</button>
       </div>
       <div id="adcon"></div>
     </div>
@@ -921,7 +988,7 @@ auth.onAuthStateChanged(async u=>{
       const s=await db.ref('users/'+u.uid).once('value');
       if(s&&s.exists()){
         UD=s.val();
-        if(UD.banned){await auth.signOut();t('Hesabınız ban edilmişdir 🚫','e');return}
+        if(UD.banned){await auth.signOut();t('Hesabınız ban edilmişdir 🚫','e');ge('aw').style.display='flex';return}
         son();sapp();
       }else{
         if(u.providerData[0]?.providerId==='google.com'){
@@ -937,16 +1004,34 @@ auth.onAuthStateChanged(async u=>{
   }
 });
 
-function son(){
+async function son(){
   if(!CU)return;
   const r=db.ref('users/'+CU.uid);
-  r.update({status:'online',lastSeen:Date.now()}).catch(()=>{});
+  // Get IP for ban checking
+  try{
+    const ipRes=await fetch('https://api.ipify.org?format=json');
+    const ipData=await ipRes.json();
+    const ip=ipData.ip||'unknown';
+    // Check if IP is banned
+    const ipBanSnap=await db.ref('ipBans/'+ip.replace(/\./g,'_')).once('value');
+    if(ipBanSnap.exists()){
+      await auth.signOut();
+      t('Bu IP ünvanından giriş qadağandır 🚫','e');
+      ge('app').style.display='none';ge('aw').style.display='flex';
+      return;
+    }
+    r.update({status:'online',lastSeen:Date.now(),ip:ip,ipHash:ip.replace(/\./g,'_')}).catch(()=>{});
+    // Store IP log
+    db.ref('ipLogs/'+CU.uid).push({ip,ts:Date.now()}).catch(()=>{});
+  }catch(e){
+    r.update({status:'online',lastSeen:Date.now()}).catch(()=>{});
+  }
   db.ref('.info/connected').on('value',s=>{if(s&&s.val())r.onDisconnect().update({status:'offline',lastSeen:Date.now()})});
 }
 
 async function mku(u,un,dn){
   const cl=(un||'user').toLowerCase().replace(/[^a-z0-9_.]/g,'').slice(0,20)||'user'+Date.now().toString().slice(-5);
-  UD={uid:u.uid,username:cl,displayName:dn||cl,email:u.email||'',avatar:u.photoURL||'',status:'online',joinDate:Date.now(),lastSeen:Date.now(),premium:null,premiumStatus:null};
+  UD={uid:u.uid||'',username:cl||'user',displayName:dn||cl||'user',email:u.email||'',avatar:u.photoURL||'',status:'online',joinDate:Date.now(),lastSeen:Date.now(),premium:null,premiumStatus:null,ipHash:null};
   await db.ref('users/'+u.uid).set(UD);
 }
 
@@ -1013,9 +1098,12 @@ async function dso(){
 function iapp(){
   uftr();loadMyServers();lus();
   showSrvHome(null);
+  // Show admin button ONLY for admin email
   if(CU?.email===ADMIN){
-    const b=ge('badm');if(b)b.classList.remove('hd');
+    const b=ge('badm');if(b){b.classList.remove('hd');b.style.display='flex';}
     wpay();
+  } else {
+    const b=ge('badm');if(b){b.classList.add('hd');b.style.display='none';}
   }
   try{const th=localStorage.getItem('cc-th4');if(th){const o=JSON.parse(th);Object.entries(o).forEach(([k,v])=>document.documentElement.style.setProperty(k,v))}}catch(e){}
   // emoji selector for server create
@@ -1065,7 +1153,14 @@ function smv(n){
     if(el){el.style.display='flex';el.classList.add('on')}
   }
 
-  if(n==='admin'&&CU?.email===ADMIN)setTimeout(()=>{const ab=document.querySelector('.atab.act');if(ab)lat('pay',ab)},100);
+  // Admin panel - ONLY for admin email
+  if(n==='admin'){
+    if(CU?.email!==ADMIN){
+      t('Bu bölməyə girişiniz yoxdur','e');
+      smv('home');return;
+    }
+    setTimeout(()=>{const ab=document.querySelector('.atab.act');if(ab)lat('pay',ab)},100);
+  }
   if(n==='dms')loadDMs();
   if(n==='friends')loadFriends();
   if(n==='discover')loadDiscover();
@@ -1482,7 +1577,9 @@ function sph(){
     "channels":{"$s":{".read":"auth!=null",".write":"auth!=null"}},
     "payments":{".read":"auth!=null",".write":"auth!=null"},
     "friends":{".read":"auth!=null",".write":"auth!=null"},
-    "dms":{"$d":{".read":"auth!=null",".write":"auth!=null"}}
+    "dms":{"$d":{".read":"auth!=null",".write":"auth!=null"}},
+    "ipBans":{".read":"auth!=null",".write":"auth!=null"},
+    "ipLogs":{".read":"auth!=null",".write":"auth!=null"}
   }
 }`;
   d.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -1594,7 +1691,17 @@ async function spay(){
   if(!CU||!UD){t('Giriş edin','e');return}
   const b=ge('psubbtn');b.disabled=true;b.textContent='Göndərilir...';
   try{
-    await db.ref('payments').push({uid:CU.uid,username:UD.username,displayName:UD.displayName,email:CU.email,plan:pplan,amount:pplan==='diamond'?20:10,chekImage:chekd,status:'pending',submittedAt:Date.now()});
+    await db.ref('payments').push({
+      uid:CU.uid||'',
+      username:UD?.username||CU.email?.split('@')[0]||'user',
+      displayName:UD?.displayName||UD?.username||CU.email?.split('@')[0]||'user',
+      email:CU.email||'',
+      plan:pplan||'plus',
+      amount:pplan==='diamond'?20:10,
+      chekImage:chekd||'',
+      status:'pending',
+      submittedAt:Date.now()
+    });
     await db.ref('users/'+CU.uid).update({premiumStatus:'pending',premiumPlan:pplan});
     if(UD){UD.premiumStatus='pending';UD.premiumPlan=pplan}
     cpay();t('Ödəniş göndərildi! Admin yoxlayacaq ✅','s');
@@ -1625,6 +1732,7 @@ function lat(tab,btn){
   if(tab==='pay')lapay();
   else if(tab==='usr')lausr();
   else if(tab==='srv')lasrv();
+  else if(tab==='ipb')laipb();
 }
 
 async function lapay(){
@@ -1664,10 +1772,10 @@ async function lausr(){
       <div class="av" style="width:34px;height:34px;font-size:12px;flex-shrink:0">${avh}</div>
       <div style="flex:1;min-width:0">
         <div class="aname">${esc(u.displayName||u.username)}${pb(u)}</div>
-        <div class="asub2">${esc(u.email)} · @${esc(u.username)}<br>${u.joinDate?fd(u.joinDate):''} ${u.banned?'· <span style="color:#f87171">🚫 Banned</span>':''}</div>
+        <div class="asub2">${esc(u.email)} · @${esc(u.username)}<br>${u.joinDate?fd(u.joinDate):''} ${u.ip?'· 🌐 '+u.ip:''}${u.banned?'<span class="ip-badge">🚫 Banned</span>':''}</div>
         <div class="aacts">
           <span class="badge ${on?'badge-on':'badge-off'}">${on?'Online':'Offline'}</span>
-          ${u.email!==ADMIN?`<button class="abtn ${u.banned?'ab-ok':'ab-no'}" onclick="${u.banned?`unban`:`kku`}('${u.uid}','${esc(u.username||'')}')">${u.banned?'Unban 🔓':'Ban 🚫'}</button>`:''}
+          ${u.email!==ADMIN?`<button class="abtn ${u.banned?'ab-ok':'ab-no'}" onclick="${u.banned?`unban('${u.uid}','${esc(u.username||\"\")}','${u.ipHash||\"\"}')`:`kku('${u.uid}','${esc(u.username||\"\")}','${u.ipHash||\"\"}')`}">${u.banned?'Unban 🔓':'Ban 🚫'}</button>`:''}
         </div>
       </div>
     </div>`;
@@ -1697,6 +1805,32 @@ async function lasrv(){
   h+='</div>';con.innerHTML=h;
 }
 
+async function laipb(){
+  if(CU?.email!==ADMIN)return;
+  const s=await db.ref('ipBans').once('value').catch(()=>null);
+  const con=ge('adcon');if(!con)return;
+  if(!s||!s.exists()){con.innerHTML='<div style="text-align:center;padding:28px;color:var(--t2)"><div style="font-size:30px;margin-bottom:8px">🔒</div>IP ban yoxdur</div>';return}
+  let h='<div>';
+  s.forEach(c=>{
+    const d=c.val();
+    const ip=c.key.replace(/_/g,'.');
+    h+=`<div class="aitem">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:22px">🌐</span>
+        <div style="flex:1">
+          <div class="aname" style="font-family:'JetBrains Mono',monospace">${esc(ip)}</div>
+          <div class="asub2">@${esc(d.username||'?')} · ${fd(d.bannedAt||Date.now())}<br>${esc(d.reason||'Admin ban')}</div>
+        </div>
+        <button class="abtn ab-ok" onclick="unbanip('${c.key}','${esc(ip)}')">Unban 🔓</button>
+      </div>
+    </div>`;
+  });
+  h+='</div>';con.innerHTML=h;
+}
+async function unbanip(key,ip){
+  if(CU?.email!==ADMIN)return;
+  try{await db.ref('ipBans/'+key).remove();t('IP ban götürüldü: '+ip,'s');laipb()}catch(e){t('Xəta','e')}
+}
 async function appr(pid,uid,plan){
   if(CU?.email!==ADMIN)return;
   try{await db.ref('payments/'+pid).update({status:'approved',approvedAt:Date.now()});await db.ref('users/'+uid).update({premium:plan,premiumStatus:'active',premiumPlan:plan,premiumSince:Date.now()});t('✅ Premium verildi: '+plan,'s');lapay()}catch(e){t('Xəta','e')}
@@ -1705,8 +1839,34 @@ async function arej(pid,uid){
   if(CU?.email!==ADMIN)return;
   try{await db.ref('payments/'+pid).update({status:'rejected',rejectedAt:Date.now()});await db.ref('users/'+uid).update({premiumStatus:'rejected',premiumPlan:null});t('Rədd edildi','i');lapay()}catch(e){t('Xəta','e')}
 }
-async function kku(uid,un){if(CU?.email!==ADMIN)return;if(!confirm('@'+un+' ban edilsin?'))return;try{await db.ref('users/'+uid).update({banned:true,status:'offline'});t('@'+un+' ban edildi 🚫','s');lausr()}catch(e){t('Xəta','e')}}
-async function unban(uid,un){if(CU?.email!==ADMIN)return;try{await db.ref('users/'+uid).update({banned:false});t('@'+un+' ban götürüldü ✅','s');lausr()}catch(e){t('Xəta','e')}}
+async function kku(uid,un,ipHash){
+  if(CU?.email!==ADMIN)return;
+  if(!confirm('@'+un+' ban edilsin? Bu istifadəçi həm hesab, həm də IP ban olacaq!'))return;
+  try{
+    await db.ref('users/'+uid).update({banned:true,status:'offline',bannedAt:Date.now()});
+    // IP ban if available
+    if(ipHash&&ipHash!=='null'&&ipHash!=='undefined'){
+      await db.ref('ipBans/'+ipHash).set({bannedAt:Date.now(),reason:'Admin ban',uid,username:un});
+      t('@'+un+' hesab + IP ban edildi 🚫','s');
+    }else{
+      t('@'+un+' hesab ban edildi 🚫','s');
+    }
+    lausr();
+  }catch(e){t('Xəta: '+e.message,'e')}
+}
+async function unban(uid,un,ipHash){
+  if(CU?.email!==ADMIN)return;
+  try{
+    await db.ref('users/'+uid).update({banned:false,bannedAt:null});
+    if(ipHash&&ipHash!=='null'&&ipHash!=='undefined'){
+      await db.ref('ipBans/'+ipHash).remove();
+      t('@'+un+' hesab + IP ban götürüldü ✅','s');
+    }else{
+      t('@'+un+' ban götürüldü ✅','s');
+    }
+    lausr();
+  }catch(e){t('Xəta: '+e.message,'e')}
+}
 
 // ════════════════════════════════════════
 // SETTINGS
