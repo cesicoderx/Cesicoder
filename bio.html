@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CESICODER | OMNI GOD TIER BIO</title>
+    
+    <!-- Ultra Müasir Kiber Fontlar -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- İkonlar üçün FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Əsas Dəyişənlər və Rənglər */
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff00ea;
+            --neon-yellow: #fcee0a;
+            --glass-bg: rgba(5, 5, 10, 0.7);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            color: #fff;
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            perspective: 1000px; /* 3D effekt üçün */
+        }
+
+        /* Arxa Plan Videosu */
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            filter: brightness(0.3) contrast(1.4) saturate(1.5);
+        }
+
+        /* Monitor Scanline (Hacker Ekranı Cızıqları) */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 3D Glassmorphism Konteyner */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 25px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.1), inset 0 0 30px rgba(255, 0, 234, 0.05);
+            transform-style: preserve-3d;
+            animation: fadeInScale 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Dönen Neon Profil Çərçivəsi */
+        .profile-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 25px auto;
+            transform: translateZ(30px); /* 3D önə çıxarma */
+        }
+
+        .profile-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow), var(--neon-cyan));
+            border-radius: 50%;
+            z-index: -1;
+            background-size: 400%;
+            animation: glowingBorder 4s linear infinite;
+            filter: blur(8px);
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #000;
+        }
+
+        /* Glitch Başlıq Effekti */
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            transform: translateZ(40px);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .title::before, .title::after {
+            content: 'CesiPy 𝗕𝗜𝗢';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+        }
+
+        .title::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .title::after {
+            left: -2px;
+            text-shadow: 2px 0 var(--neon-cyan);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        /* Sahibi Etiketi */
+        .owner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 0, 234, 0.1);
+            border: 1px solid var(--neon-pink);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: 0.4s;
+            box-shadow: 0 0 15px rgba(255, 0, 234, 0.3);
+            transform: translateZ(20px);
+        }
+
+        .owner-badge:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-pink);
+            transform: translateZ(30px) scale(1.05);
+        }
+
+        /* Qrid Məlumatları (Ölkə, Yaş, Dost) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 35px;
+            transform: translateZ(10px);
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px 5px;
+            font-size: 0.85em;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 2px;
+            background: var(--neon-cyan);
+            transition: 0.5s;
+        }
+
+        .info-card:hover::before { left: 0; }
+        .info-card:hover {
+            background: rgba(0, 243, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .info-card b, .info-card a {
+            display: block;
+            font-size: 1.3em;
+            color: var(--neon-yellow);
+            margin-top: 8px;
+            font-family: 'Orbitron', sans-serif;
+            text-decoration: none;
+            text-shadow: 0 0 8px rgba(252, 238, 10, 0.5);
+        }
+
+        /* Bölmə Başlıqları */
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            transform: translateZ(15px);
+        }
+
+        /* Skills Tag Sistemi */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 35px;
+            transform: translateZ(10px);
+        }
+
+        .skill-tag {
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--neon-cyan);
+            z-index: -1;
+            transition: 0.4s ease-in-out;
+        }
+
+        .skill-tag:hover::before { width: 100%; }
+        .skill-tag:hover { color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
+
+        /* Kanal Düymələri (FontAwesome İkonları ilə) */
+        .channel-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform: translateZ(15px);
+        }
+
+        .channel-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 0, 234, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .channel-btn i {
+            color: var(--neon-pink);
+            font-size: 1.2em;
+            transition: 0.4s;
+        }
+
+        .channel-btn:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            transform: translateX(10px);
+        }
+
+        .channel-btn:hover i {
+            color: var(--neon-cyan);
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        /* --- Xüsusi Animasiyalar --- */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.8) rotateX(-20deg); }
+            100% { opacity: 1; transform: scale(1) rotateX(0deg); }
+        }
+
+        @keyframes glowingBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(5% 0 80% 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Monitor Hacker Cızıqları -->
+    <div class="scanlines"></div>
+
+    <!-- Arxa Plan Video (Sənin istədiyin video.mp4 faylı) -->
+    <video class="video-bg" autoplay muted loop playsinline>
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <!-- VanillaTilt JS istifadə edərək 3D Hərəkət edən Konteyner -->
+    <div class="container" id="card">
+        
+        <!-- Başlıq və Profil -->
+        <div class="profile-wrapper">
+            <img src="https://img.imgyukle.com/2024/10/22/CL1qry.jpg" alt="Profile" class="profile-pic">
+        </div>
+        
+        <div class="title" data-text="CesiPy 𝗕𝗜𝗢">CesiPy 𝗕𝗜𝗢</div>
+        <br>
+        <a href="https://t.me/Cesicoderx" class="owner-badge">
+            <i class="fa-solid fa-crown"></i> OWNER : CESICODER
+        </a>
+
+        <!-- Məlumat Qridi -->
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fa-solid fa-earth-americas"></i> ÖLKƏ
+                <b>AZƏRBAYCAN</b>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-user-secret"></i> YAŞ
+                <b>GİZLİ 🤫</b>
+            </div>
+            <div class="info-card">
+                <i class="fa-solid fa-handshake-angle"></i> YAXIN DOST
+                <a href="https://t.me/HyposOrginalHack">HYPOS 🗿</a>
+            </div>
+        </div>
+
+        <!-- Bacarıqlar (Tag Sistemi) -->
+        <div class="section">
+            <h2><i class="fa-solid fa-microchip"></i> SKILLS & EXPERTISE</h2>
+            <div class="skills-container">
+                <span class="skill-tag"><i class="fa-solid fa-skull-crossbones"></i> Ethical Hacking</span>
+                <span class="skill-tag"><i class="fa-solid fa-code"></i> Web Making</span>
+                <span class="skill-tag"><i class="fa-solid fa-terminal"></i> Termux Expert</span>
+                <span class="skill-tag"><i class="fa-solid fa-screwdriver-wrench"></i> Tools Making</span>
+                <span class="skill-tag"><i class="fa-solid fa-fish"></i> Phishing</span>
+                <span class="skill-tag"><i class="fa-solid fa-spider"></i> Info Scraping</span>
+                <span class="skill-tag"><i class="fa-solid fa-shield-halved"></i> Network Security</span>
+            </div>
+        </div>
+
+        <!-- Kanallar Düymələri -->
+        <div class="section">
+            <h2><i class="fa-solid fa-satellite-dish"></i> ADMİNİN KANALLARI</h2>
+            <div class="channel-links">
+                <a href="https://t.me/CesiPy" class="channel-btn">
+                    <span>🇦🇿 Azərbaycan Coder</span>
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <a href="https://t.me/CesiTool" class="channel-btn">
+                    <span>🇹🇷 Türk Course</span>
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <a href="https://t.me/Cesiarsiv" class="channel-btn">
+                    <span>💎 Premium Codes</span>
+                    <i class="fa-solid fa-gem"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D Mouse Hərəkəti üçün kiçik JS Kitabxanası -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script>
+        VanillaTilt.init(document.querySelector("#card"), {
+            max: 15,            /* Nə qədər çox əyilsin */
+            speed: 400,         /* Hərəkət sürəti */
+            glare: true,        /* Şüşə parıltı effekti */
+            "max-glare": 0.2,   /* Parıltının gücü */
+            perspective: 1000
+        });
+    </script>
+
+</body>
+</html>
