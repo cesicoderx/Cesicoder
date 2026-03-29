@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CESICODER | VIDEO PROFILE EDITION</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>⚡ CESICODER | ULTRA MEGA VİZYON ⚡</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --neon-cyan: #00f3ff;
             --neon-pink: #ff00ea;
             --neon-yellow: #fcee0a;
-            --glass-bg: rgba(5, 5, 10, 0.75);
-            --glass-border: rgba(0, 243, 255, 0.25);
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff88;
+            --glass-bg: rgba(5, 5, 10, 0.85);
+            --glass-border: rgba(0, 243, 255, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
 
         body {
             color: #fff;
@@ -29,164 +36,583 @@
             padding: 20px;
             overflow: hidden;
             perspective: 1000px;
+            font-family: 'Rajdhani', sans-serif;
         }
 
-        /* Arxa Plan Videosu */
+        /* 🎬 Arxa Plan Videosu */
         .video-bg {
             position: fixed;
-            top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
+            top: 50%; 
+            left: 50%;
+            min-width: 100%; 
+            min-height: 100%;
             z-index: -2;
             transform: translate(-50%, -50%);
-            filter: brightness(0.25) contrast(1.3);
+            filter: brightness(0.2) contrast(1.4) saturate(1.2);
             pointer-events: none;
         }
 
+        /* 📺 CRT Scanlines */
         .scanlines {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: 
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
             background-size: 100% 4px, 3px 100%;
             z-index: -1;
             pointer-events: none;
+            animation: scanlineMove 0.1s linear infinite;
         }
 
-        /* Musiqi Düyməsi */
+        @keyframes scanlineMove {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 0 4px, 0 0; }
+        }
+
+        /* ✨ Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* 🎵 Musiqi Düyməsi */
         .music-control {
             position: fixed;
-            top: 20px; right: 20px;
+            top: 20px; 
+            right: 20px;
             z-index: 100;
-            background: rgba(0, 243, 255, 0.1);
-            border: 1px solid var(--neon-cyan);
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(255, 0, 234, 0.1));
+            border: 2px solid var(--neon-cyan);
             color: var(--neon-cyan);
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 50px;
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.7em;
-            box-shadow: 0 0 10px var(--neon-cyan);
-            transition: 0.3s;
+            font-size: 0.8em;
+            font-weight: 700;
+            box-shadow: 
+                0 0 20px rgba(0, 243, 255, 0.4),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .music-control:hover { background: var(--neon-cyan); color: #000; }
+        .music-control:hover { 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 243, 255, 0.8);
+        }
 
-        /* Konteyner */
+        .music-control.playing {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 234, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 234, 0.8); }
+        }
+
+        /* 🎴 Ana Konteyner */
         .container {
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             background: var(--glass-bg);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px 25px;
+            border-radius: 30px;
+            padding: 50px 30px;
             text-align: center;
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
+            box-shadow: 
+                0 0 60px rgba(0, 243, 255, 0.2),
+                inset 0 0 60px rgba(0, 243, 255, 0.05);
             transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* VİDEO PROFİL SİSTEMİ */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow), var(--neon-cyan));
+            border-radius: 32px;
+            z-index: -1;
+            background-size: 400%;
+            animation: glowing 6s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 🎭 VİDEO PROFİL */
         .profile-wrapper {
             position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 25px auto;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 30px auto;
             transform: translateZ(50px);
         }
 
         .profile-wrapper::before {
             content: '';
             position: absolute;
-            top: -6px; left: -6px; right: -6px; bottom: -6px;
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow), var(--neon-cyan));
+            top: -8px; 
+            left: -8px; 
+            right: -8px; 
+            bottom: -8px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow), var(--neon-purple), var(--neon-cyan));
             border-radius: 50%;
             z-index: -1;
             background-size: 400%;
             animation: glowing 4s linear infinite;
+            filter: blur(10px);
+        }
+
+        .profile-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -4px; 
+            left: -4px; 
+            right: -4px; 
+            bottom: -4px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow));
+            border-radius: 50%;
+            z-index: -1;
+            background-size: 400%;
+            animation: glowing 3s linear infinite reverse;
         }
 
         .profile-video {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            object-fit: cover; /* Videonu dairəyə tam sığdırır */
+            object-fit: cover;
             border: 4px solid #000;
             background: #000;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
         }
 
+        .profile-ring {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border: 2px dashed rgba(0, 243, 255, 0.3);
+            border-radius: 50%;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 🏷️ Başlıq */
         .title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.3em;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 2.5em;
             font-weight: 900;
-            background: linear-gradient(90deg, #fff, var(--neon-cyan));
+            background: linear-gradient(90deg, #fff, var(--neon-cyan), var(--neon-pink), #fff);
+            background-size: 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            background-clip: text;
+            margin-bottom: 5px;
+            animation: shimmer 3s infinite;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
+        @keyframes shimmer {
+            0% { background-position: -100%; }
+            100% { background-position: 100%; }
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            color: var(--neon-yellow);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* 👑 Owner Badge */
         .owner-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            border: 1px solid var(--neon-pink);
-            padding: 6px 18px;
-            border-radius: 20px;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(255, 0, 234, 0.1), rgba(0, 243, 255, 0.1));
+            border: 2px solid var(--neon-pink);
+            padding: 10px 25px;
+            border-radius: 50px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #fff;
             text-decoration: none;
             margin-bottom: 30px;
-            box-shadow: 0 0 10px rgba(255, 0, 234, 0.2);
+            box-shadow: 
+                0 0 20px rgba(255, 0, 234, 0.3),
+                inset 0 0 20px rgba(255, 0, 234, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
+        .owner-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .owner-badge:hover::before {
+            left: 100%;
+        }
+
+        .owner-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 234, 0.6);
+        }
+
+        .owner-badge i {
+            color: var(--neon-yellow);
+            animation: crownPulse 2s infinite;
+        }
+
+        @keyframes crownPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* 📊 Info Grid */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 15px;
             margin-bottom: 30px;
         }
 
         .info-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            border-radius: 12px;
-            padding: 12px 5px;
-            font-size: 0.8em;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 15px;
+            padding: 15px 8px;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .info-card b { display: block; color: var(--neon-yellow); margin-top: 5px; font-family: 'Orbitron'; }
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            transform: scaleX(0);
+            transition: 0.3s;
+        }
 
-        .skills-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px; }
-        .skill-tag { border: 1px solid var(--neon-cyan); padding: 5px 12px; border-radius: 4px; font-size: 0.75em; }
+        .info-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.2);
+        }
+
+        .info-card .icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .info-card b { 
+            display: block; 
+            color: var(--neon-yellow); 
+            margin-top: 8px; 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+        }
+
+        .info-card a {
+            color: var(--neon-yellow);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .info-card a:hover {
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        /* 🎯 Skills */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            color: var(--neon-cyan);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .skills-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 30px; 
+        }
+
+        .skill-tag { 
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(255, 0, 234, 0.1));
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            padding: 8px 16px; 
+            border-radius: 25px; 
+            font-size: 0.8em;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-3px) scale(1.05);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.4);
+        }
+
+        /* 🔗 Channel Links */
+        .channel-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
         .channel-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 0, 234, 0.2);
-            border-radius: 12px;
+            padding: 16px 25px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+            border: 1px solid rgba(255, 0, 234, 0.3);
+            border-radius: 15px;
             color: #fff;
             text-decoration: none;
-            font-family: 'Orbitron';
-            margin-bottom: 10px;
-            transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .channel-btn:hover { border-color: var(--neon-cyan); transform: translateX(8px); }
+        .channel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
 
-        @keyframes glowing { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .channel-btn:hover::before {
+            left: 100%;
+        }
+
+        .channel-btn:hover { 
+            border-color: var(--neon-cyan); 
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 
+                0 0 30px rgba(0, 243, 255, 0.3),
+                inset 0 0 30px rgba(0, 243, 255, 0.05);
+        }
+
+        .channel-btn span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .channel-btn i {
+            font-size: 1.3em;
+            color: var(--neon-cyan);
+            transition: all 0.3s;
+        }
+
+        .channel-btn:hover i {
+            color: var(--neon-pink);
+            transform: scale(1.2);
+        }
+
+        /* 📱 Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 35px 20px;
+            }
+            .title {
+                font-size: 2em;
+            }
+            .profile-wrapper {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        /* 🎊 Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--neon-cyan);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(30px, 9999px, 10px, 0); }
+            20% { clip: rect(80px, 9999px, 90px, 0); }
+            40% { clip: rect(10px, 9999px, 50px, 0); }
+            60% { clip: rect(60px, 9999px, 20px, 0); }
+            80% { clip: rect(20px, 9999px, 70px, 0); }
+            100% { clip: rect(90px, 9999px, 30px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(60px, 9999px, 20px, 0); }
+            20% { clip: rect(10px, 9999px, 50px, 0); }
+            40% { clip: rect(80px, 9999px, 10px, 0); }
+            60% { clip: rect(30px, 9999px, 90px, 0); }
+            80% { clip: rect(50px, 9999px, 30px, 0); }
+            100% { clip: rect(20px, 9999px, 60px, 0); }
+        }
+
+        /* 💫 Status Indicator */
+        .status-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            border: 3px solid #000;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: statusPulse 2s infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
     <div class="scanlines"></div>
 
-    <div class="music-control" onclick="toggleMusic()">
-        <i id="music-icon" class="fa-solid fa-play"></i> <span id="music-text">PLAY MUSIC</span>
+    <!-- Music Control -->
+    <div class="music-control" id="musicBtn" onclick="toggleMusic()">
+        <i id="music-icon" class="fa-solid fa-play"></i> 
+        <span id="music-text">PLAY MUSIC</span>
     </div>
 
-    <!-- Arxa Plan Videosu -->
+    <!-- Background Video -->
     <video id="bgVideo" class="video-bg" loop muted playsinline>
         <source src="https://cesicoderx.github.io/Cesicoder/video.mp4" type="video/mp4">
     </video>
@@ -195,61 +621,168 @@
         <source src="https://cesicoderx.github.io/Cesicoder/video.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- Main Container -->
     <div class="container" id="card">
-        <!-- VİDEO PROFİL BÖLMƏSİ -->
+
+        <!-- Profile Video -->
         <div class="profile-wrapper">
+            <div class="profile-ring"></div>
             <video class="profile-video" autoplay muted loop playsinline>
                 <source src="https://cesicoderx.github.io/Cesicoder/video.mp4" type="video/mp4">
             </video>
+            <div class="status-indicator"></div>
         </div>
-        
-        <div class="title">CesiPy 𝗕𝗜𝗢</div>
-        <a href="https://t.me/Cesicoderx" class="owner-badge">
-            <i class="fa-solid fa-crown"></i> OWNER : CESICODER
+
+        <!-- Title -->
+        <div class="title glitch" data-text="CesiPy 𝗕𝗜𝗢">CesiPy 𝗕𝗜𝗢</div>
+        <div class="subtitle">⚡ ULTRA MEGA VİZYON ⚡</div>
+
+        <!-- Owner Badge -->
+        <a href="https://t.me/Cesicoderx" class="owner-badge" target="_blank">
+            <i class="fa-solid fa-crown"></i> 
+            <span>OWNER : CESICODER</span>
         </a>
 
+        <!-- Info Grid -->
         <div class="info-grid">
-            <div class="info-card">🌍 ÖLKƏ<b>AZƏRBAYCAN</b></div>
-            <div class="info-card">⏳ YAŞ<b>GİZLİ 🤫</b></div>
-            <div class="info-card">🤝 DOST<b style="font-size: 0.8em;"><a href="https://t.me/HyposOrginalHack" style="color:var(--neon-yellow); text-decoration:none;">HYPOS 🗿</a></b></div>
-        </div>
-
-        <div class="section">
-            <div class="skills-container">
-                <span class="skill-tag">Ethical Hacking</span>
-                <span class="skill-tag">Web Making</span>
-                <span class="skill-tag">Termux Expert</span>
-                <span class="skill-tag">Tools Making</span>
+            <div class="info-card">
+                <span class="icon">🌍</span>
+                ÖLKƏ
+                <b>AZƏRBAYCAN 🇦🇿</b>
+            </div>
+            <div class="info-card">
+                <span class="icon">⏳</span>
+                YAŞ
+                <b>GİZLİ 🤫</b>
+            </div>
+            <div class="info-card">
+                <span class="icon">🤝</span>
+                DOST
+                <b><a href="https://t.me/HyposOrginalHack" target="_blank">HYPOS 🗿</a></b>
             </div>
         </div>
 
+        <!-- Skills -->
+        <div class="section-title">
+            <i class="fa-solid fa-code"></i>
+            BACARIQLAR
+            <i class="fa-solid fa-code"></i>
+        </div>
+        <div class="skills-container">
+            <span class="skill-tag">🔐 Ethical Hacking</span>
+            <span class="skill-tag">🌐 Web Making</span>
+            <span class="skill-tag">📱 Termux Expert</span>
+            <span class="skill-tag">🛠️ Tools Making</span>
+            <span class="skill-tag">💻 Python Dev</span>
+            <span class="skill-tag">🔧 Bot Dev</span>
+        </div>
+
+        <!-- Channel Links -->
         <div class="channel-links">
-            <a href="https://t.me/CesiPy" class="channel-btn"><span>🇦🇿 CesiPy</span><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://t.me/CesiTool" class="channel-btn"><span>🇹🇷 CesiTool</span><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://t.me/CesiPy" class="channel-btn" target="_blank">
+                <span>🇦🇿 CesiPy</span>
+                <i class="fa-brands fa-telegram"></i>
+            </a>
+            <a href="https://t.me/CesiTool" class="channel-btn" target="_blank">
+                <span>🇹🇷 CesiTool</span>
+                <i class="fa-brands fa-telegram"></i>
+            </a>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <script>
-        VanillaTilt.init(document.querySelector("#card"), { max: 10, speed: 400, glare: true, "max-glare": 0.2 });
+        // 3D Tilt Effect
+        VanillaTilt.init(document.querySelector("#card"), { 
+            max: 15, 
+            speed: 400, 
+            glare: true, 
+            "max-glare": 0.3,
+            scale: 1.02
+        });
 
+        // Music Control
         const music = document.getElementById('bgMusic');
         const video = document.getElementById('bgVideo');
         const icon = document.getElementById('music-icon');
         const text = document.getElementById('music-text');
+        const musicBtn = document.getElementById('musicBtn');
 
         function toggleMusic() {
             if (music.paused) {
-                music.play();
-                video.play();
-                icon.classList.replace('fa-play', 'fa-pause');
-                text.innerText = "PAUSE";
+                music.play().then(() => {
+                    video.play();
+                    icon.classList.replace('fa-play', 'fa-pause');
+                    text.innerText = "PAUSE MUSIC";
+                    musicBtn.classList.add('playing');
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                });
             } else {
                 music.pause();
+                video.pause();
                 icon.classList.replace('fa-pause', 'fa-play');
-                text.innerText = "PLAY";
+                text.innerText = "PLAY MUSIC";
+                musicBtn.classList.remove('playing');
             }
         }
+
+        // Create Particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+
+                const colors = ['#00f3ff', '#ff00ea', '#fcee0a', '#9d00ff', '#00ff88'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+
+                container.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Glitch Effect Randomizer
+        setInterval(() => {
+            const glitch = document.querySelector('.glitch');
+            if (Math.random() > 0.95) {
+                glitch.style.animation = 'none';
+                setTimeout(() => {
+                    glitch.style.animation = '';
+                }, 100);
+            }
+        }, 2000);
+
+        // Mouse trail effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '4px';
+            cursor.style.height = '4px';
+            cursor.style.background = 'var(--neon-cyan)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            cursor.style.boxShadow = '0 0 10px var(--neon-cyan)';
+            cursor.style.transition = 'opacity 0.5s';
+            document.body.appendChild(cursor);
+
+            setTimeout(() => {
+                cursor.style.opacity = '0';
+                setTimeout(() => cursor.remove(), 500);
+            }, 50);
+        });
     </script>
 </body>
 </html>
