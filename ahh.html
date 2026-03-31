@@ -1,2576 +1,1567 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MagaPlatform | Premium Hosting</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-light: #f1f5f9;
-            --accent: #000000;
-            --accent-hover: #1e293b;
-            --danger: #dc2626;
-            --success: #16a34a;
-            --warning: #ca8a04;
-            --radius-sm: 6px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>MagaPlatform | Premium Hosting & VPS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+/* ===================== RESET & VARIABLES ===================== */
+:root{
+  --white:#ffffff;
+  --bg:#f4f5f7;
+  --surface:#ffffff;
+  --border:#e5e7eb;
+  --border-strong:#d1d5db;
+  --text:#111827;
+  --text-secondary:#6b7280;
+  --text-tertiary:#9ca3af;
+  --black:#000000;
+  --input-bg:#f9fafb;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+  --shadow:0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:0 10px 30px rgba(0,0,0,0.1);
+  --r:12px;
+  --r-sm:8px;
+  --sidebar-w:260px;
+  --nav-h:64px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:10px}
+a{text-decoration:none;color:inherit}
+button{font-family:'Inter',sans-serif;cursor:pointer}
+input,textarea,select{font-family:'Inter',sans-serif}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ===================== LOADER ===================== */
+#loader{
+  position:fixed;inset:0;background:var(--white);z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  transition:opacity .4s ease
+}
+.loader-logo{font-size:28px;font-weight:700;letter-spacing:-0.5px;color:var(--text)}
+.loader-logo span{color:var(--text-secondary)}
+.loader-bar{width:200px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.loader-bar-fill{height:100%;background:var(--text);border-radius:2px;animation:loadFill 1.8s ease-in-out infinite}
+@keyframes loadFill{0%{width:0;margin-left:0}50%{width:60%;margin-left:20%}100%{width:0;margin-left:100%}}
+.loader-hint{font-size:13px;color:var(--text-secondary);letter-spacing:0.5px}
 
-        html {
-            scroll-behavior: smooth;
-        }
+/* ===================== BAN SCREEN ===================== */
+#ban-screen{
+  position:fixed;inset:0;background:var(--white);z-index:9998;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:20px
+}
+.ban-icon{width:72px;height:72px;border-radius:50%;background:var(--bg);border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--text-secondary)}
+.ban-title{font-size:24px;font-weight:700;color:var(--text)}
+.ban-sub{font-size:14px;color:var(--text-secondary);max-width:320px;line-height:1.6}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
+/* ===================== AUTH ===================== */
+#auth-section{
+  display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px;
+  background:var(--bg)
+}
+.auth-wrap{
+  display:grid;grid-template-columns:1fr 1fr;max-width:900px;width:100%;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;box-shadow:var(--shadow-lg);animation:fadeUp .35s ease
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.auth-visual{
+  background:var(--text);padding:52px 40px;
+  display:flex;flex-direction:column;justify-content:center;color:var(--white)
+}
+.auth-logo{font-size:26px;font-weight:700;margin-bottom:10px;letter-spacing:-0.5px}
+.auth-logo span{opacity:.5}
+.auth-tagline{font-size:14px;opacity:.6;line-height:1.8;margin-bottom:32px}
+.auth-features{display:flex;flex-direction:column;gap:12px}
+.auth-feat{display:flex;align-items:center;gap:12px;font-size:13px;opacity:.8}
+.auth-feat i{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.auth-box{padding:48px 40px;display:flex;flex-direction:column;justify-content:center}
+.auth-box-title{font-size:22px;font-weight:700;margin-bottom:6px}
+.auth-box-sub{font-size:13px;color:var(--text-secondary);margin-bottom:28px}
+.auth-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:24px}
+.auth-tab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;
+  color:var(--text-secondary);background:transparent;border:none;cursor:pointer;transition:.2s}
+.auth-tab.active{background:var(--text);color:var(--white)}
+.ig{margin-bottom:14px;position:relative}
+.ig i.icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-tertiary);font-size:14px}
+.ig input{
+  width:100%;padding:12px 14px 12px 42px;background:var(--input-bg);
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  color:var(--text);font-size:14px;transition:border-color .2s,box-shadow .2s;outline:none
+}
+.ig input:focus{border-color:var(--text);box-shadow:0 0 0 3px rgba(0,0,0,0.06)}
+.ig input::placeholder{color:var(--text-tertiary)}
+.pw-bar{margin-top:6px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.pw-fill{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
+.a-err{color:#dc2626;font-size:12px;margin-bottom:10px;min-height:16px}
+.btn-primary{
+  width:100%;padding:13px;background:var(--text);color:var(--white);border:none;
+  border-radius:var(--r-sm);font-weight:600;font-size:14px;cursor:pointer;
+  transition:opacity .2s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px
+}
+.btn-primary:hover{opacity:.9}
+.btn-primary:active{transform:scale(.99)}
+.btn-google{
+  width:100%;padding:11px;background:var(--white);color:var(--text);
+  border:1px solid var(--border);border-radius:var(--r-sm);font-weight:500;font-size:14px;
+  cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px
+}
+.btn-google:hover{background:var(--bg)}
+.auth-switch{margin-top:18px;text-align:center;color:var(--text-secondary);font-size:13px}
+.auth-switch span{color:var(--text);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+/* ===================== MAIN APP ===================== */
+#main-app{display:none;min-height:100vh}
 
-        /* Loading Screen */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-primary);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease;
-        }
-        .loader-content {
-            text-align: center;
-        }
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+/* NAVBAR */
+.navbar{
+  height:var(--nav-h);background:var(--white);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  position:sticky;top:0;z-index:100
+}
+.nav-left{display:flex;align-items:center;gap:16px}
+.menu-tog{display:none;background:none;border:none;color:var(--text);font-size:20px;padding:6px;cursor:pointer;border-radius:var(--r-sm)}
+.menu-tog:hover{background:var(--bg)}
+.nav-brand{font-size:18px;font-weight:700;letter-spacing:-0.3px;color:var(--text)}
+.nav-brand span{color:var(--text-secondary);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:12px}
+.wallet-chip{
+  display:flex;align-items:center;gap:8px;padding:8px 14px;
+  background:var(--bg);border:1px solid var(--border);border-radius:20px;
+  font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s
+}
+.wallet-chip:hover{background:var(--border);border-color:var(--border-strong)}
+.wallet-chip i{font-size:13px;color:var(--text-secondary)}
+.user-chip{
+  display:flex;align-items:center;gap:10px;padding:6px 12px;
+  border-radius:var(--r-sm);cursor:pointer;transition:.2s;border:1px solid transparent
+}
+.user-chip:hover{background:var(--bg);border-color:var(--border)}
+.user-av{
+  width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);
+  background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden
+}
+.user-av img{width:100%;height:100%;object-fit:cover}
+.user-name{font-size:13px;font-weight:600}
+.user-role{font-size:11px;color:var(--text-secondary)}
+.logout-icon{color:var(--text-tertiary);font-size:14px;padding:4px;transition:.2s}
+.logout-icon:hover{color:var(--text)}
 
-        /* Ban Screen */
-        #ban-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-primary);
-            z-index: 9998;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-        }
-        .ban-icon {
-            width: 80px;
-            height: 80px;
-            background: #fee2e2;
-            color: var(--danger);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
+/* LAYOUT */
+.content-wrap{display:flex;min-height:calc(100vh - var(--nav-h))}
+.sidebar{
+  width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:16px 12px;flex-shrink:0;
+  transition:left .25s ease;overflow-y:auto
+}
+.sidebar-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-tertiary);padding:0 8px;margin:16px 0 6px}
+.sidebar-label:first-child{margin-top:0}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  color:var(--text-secondary);cursor:pointer;transition:.15s;border-radius:var(--r-sm);
+  font-size:14px;font-weight:500;margin-bottom:2px;position:relative
+}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{background:var(--text);color:var(--white)}
+.nav-item i{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.nav-item .badge-dot{
+  position:absolute;right:10px;background:#dc2626;color:#fff;
+  font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center
+}
+.admin-item{border:1px solid var(--border)}
+.admin-item.active{background:var(--text);color:var(--white);border-color:var(--text)}
+.sidebar-bottom{margin-top:auto;padding-top:12px;border-top:1px solid var(--border)}
+.logout-btn{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-sm);
+  cursor:pointer;color:var(--text-secondary);transition:.15s;font-size:14px;font-weight:500
+}
+.logout-btn:hover{background:var(--bg);color:var(--text)}
 
-        /* Top Bar */
-        .top-bar {
-            background: var(--accent);
-            color: white;
-            padding: 0.5rem 0;
-            font-size: 0.875rem;
-        }
-        .top-bar-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .top-bar-left {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        .top-bar a {
-            color: white;
-            text-decoration: none;
-            opacity: 0.9;
-            transition: opacity 0.2s;
-        }
-        .top-bar a:hover {
-            opacity: 1;
-        }
-        .top-bar-right {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        .lang-switch {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 0.875rem;
-        }
+/* VIEWS */
+.view{flex:1;padding:24px;display:none;animation:fadeIn .3s ease;overflow-y:auto;max-height:calc(100vh - var(--nav-h))}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.page-head{margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.page-title{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.page-title i{font-size:18px;color:var(--text-secondary)}
 
-        /* Navbar */
-        .navbar {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .navbar-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        .brand-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
-            color: white;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9375rem;
-            transition: var(--transition);
-            position: relative;
-        }
-        .nav-link:hover {
-            color: var(--text-primary);
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.2s;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        .nav-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            border-radius: var(--radius-md);
-            font-weight: 500;
-            font-size: 0.9375rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-family: inherit;
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-        }
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-        .btn-outline:hover {
-            border-color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-        }
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
-        }
-        .btn-ghost:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        .btn-danger:hover {
-            background: #b91c1c;
-        }
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
+/* SERVICES */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{
+  padding:7px 16px;background:var(--white);border:1px solid var(--border);
+  color:var(--text-secondary);border-radius:20px;cursor:pointer;font-size:13px;font-weight:500;transition:.15s
+}
+.filter-btn:hover{background:var(--bg);color:var(--text)}
+.filter-btn.active{background:var(--text);color:var(--white);border-color:var(--text)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:16px}
+.svc-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:24px;transition:border-color .2s,box-shadow .2s;position:relative
+}
+.svc-card:hover{border-color:var(--text);box-shadow:var(--shadow)}
+.svc-icon-wrap{width:44px;height:44px;border-radius:var(--r-sm);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.svc-name{font-size:15px;font-weight:700;margin-bottom:6px}
+.svc-cat-tag{
+  display:inline-block;padding:3px 10px;background:var(--bg);border:1px solid var(--border);
+  border-radius:20px;font-size:11px;font-weight:500;color:var(--text-secondary);margin-bottom:10px
+}
+.svc-desc{font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6}
+.svc-price{font-size:26px;font-weight:700;margin-bottom:18px;display:flex;align-items:baseline;gap:4px}
+.svc-price small{font-size:13px;font-weight:400;color:var(--text-secondary)}
+.svc-badge{position:absolute;top:12px;right:12px;background:var(--text);color:var(--white);
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px}
+.btn-buy{
+  width:100%;padding:11px;background:var(--white);color:var(--text);border:1.5px solid var(--text);
+  border-radius:var(--r-sm);font-weight:600;font-size:13px;cursor:pointer;transition:.2s;
+  display:flex;align-items:center;justify-content:center;gap:8px
+}
+.btn-buy:hover{background:var(--text);color:var(--white)}
 
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            padding: 0.5rem;
-        }
+/* WALLET */
+.wallet-dash{display:grid;grid-template-columns:1fr 2fr;gap:20px;margin-bottom:20px}
+.balance-card{
+  background:var(--text);border-radius:var(--r);padding:28px;text-align:center;
+  color:var(--white);position:relative;overflow:hidden
+}
+.balance-card::before{content:'';position:absolute;top:-30px;right:-30px;
+  width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.06)}
+.balance-card h3{font-size:12px;font-weight:500;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.balance-card .amount{font-size:40px;font-weight:700;margin-bottom:20px;letter-spacing:-1px}
+.balance-card .amount small{font-size:16px;font-weight:400;opacity:.6}
+.balance-actions{display:flex;gap:8px;justify-content:center}
+.btn-balance{
+  padding:9px 16px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);
+  color:var(--white);border-radius:8px;cursor:pointer;font-weight:600;font-size:12px;
+  display:flex;align-items:center;gap:6px;transition:.2s
+}
+.btn-balance:hover{background:rgba(255,255,255,.2)}
+.card-box{background:var(--white);border-radius:var(--r);padding:24px;border:1px solid var(--border)}
+.card-box-title{font-size:15px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.card-box-title i{color:var(--text-secondary)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border)}
+th{color:var(--text-secondary);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.8px}
+td{font-size:14px}
+tr:last-child td{border-bottom:none}
+.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block;letter-spacing:0.3px}
+.b-pend{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.b-ok{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0}
+.b-bad{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
 
-        /* Hero Section */
-        .hero {
-            background: var(--bg-primary);
-            padding: 4rem 1rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-        .hero p {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+/* ORDERS */
+.orders-grid{display:grid;gap:12px}
+.order-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;
+  transition:.2s;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center
+}
+.order-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-sm)}
+.order-svc{font-weight:700;font-size:15px;margin-bottom:5px}
+.order-meta{font-size:12px;color:var(--text-secondary);display:flex;gap:14px;flex-wrap:wrap}
+.order-meta i{font-size:11px}
+.order-price{font-size:20px;font-weight:700;margin-bottom:6px}
+.order-stat{text-align:right}
 
-        /* Domain Search */
-        .domain-section {
-            background: var(--bg-secondary);
-            padding: 3rem 1rem;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-        .domain-search-box {
-            background: var(--bg-primary);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-        }
-        .domain-input-wrap {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-        .domain-input {
-            flex: 1;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .domain-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        .domain-extensions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .ext-item {
-            text-align: center;
-            padding: 1rem;
-            min-width: 100px;
-        }
-        .ext-name {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text-primary);
-        }
-        .ext-price {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
+/* TICKETS */
+.tickets-layout{display:grid;grid-template-columns:300px 1fr;gap:16px;min-height:500px}
+.ticket-list{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.ticket-list-head{
+  padding:16px 18px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center
+}
+.ticket-list-head h3{font-size:14px;font-weight:700}
+.ticket-items{overflow-y:auto;max-height:500px}
+.ticket-item{
+  padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;
+  position:relative
+}
+.ticket-item:last-child{border-bottom:none}
+.ticket-item:hover,.ticket-item.active{background:var(--bg)}
+.ticket-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--text)}
+.ticket-subj{font-weight:600;font-size:13px;margin-bottom:3px}
+.ticket-prev{font-size:12px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.ticket-ts{font-size:11px;color:var(--text-tertiary)}
+.ticket-status-dot{width:7px;height:7px;border-radius:50%;background:var(--text-tertiary);flex-shrink:0;display:inline-block;margin-right:6px}
+.ticket-status-dot.open{background:#10b981}
+.ticket-status-dot.closed{background:var(--text-tertiary)}
+.ticket-chat{background:var(--white);border:1px solid var(--border);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden}
+.ticket-chat-head{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center
+}
+.ticket-chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:350px;max-height:450px}
+.ticket-msg{max-width:72%;animation:slideMsg .2s ease}
+@keyframes slideMsg{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ticket-msg.me{align-self:flex-end}
+.ticket-msg.admin-msg{align-self:flex-start}
+.ticket-bubble{
+  padding:11px 16px;border-radius:12px;font-size:14px;line-height:1.5;word-break:break-word
+}
+.ticket-msg.me .ticket-bubble{background:var(--text);color:var(--white);border-radius:12px 0 12px 12px}
+.ticket-msg.admin-msg .ticket-bubble{background:var(--bg);border:1px solid var(--border);border-radius:0 12px 12px 12px}
+.ticket-msg-from{font-size:11px;color:var(--text-secondary);margin-bottom:4px}
+.ticket-msg-time{font-size:11px;color:var(--text-tertiary);margin-top:4px;text-align:right}
+.ticket-input-area{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end}
+.ticket-input-area textarea{
+  flex:1;background:var(--input-bg);border:1px solid var(--border);padding:11px 14px;
+  border-radius:var(--r-sm);color:var(--text);font-size:14px;resize:none;transition:.2s;height:44px;max-height:110px;outline:none
+}
+.ticket-input-area textarea:focus{border-color:var(--text)}
+.send-btn{
+  width:44px;height:44px;border-radius:50%;background:var(--text);border:none;
+  color:var(--white);cursor:pointer;font-size:16px;transition:.2s;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center
+}
+.send-btn:hover{opacity:.85}
+.no-ticket-sel{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:300px;color:var(--text-secondary);gap:12px}
+.no-ticket-sel i{font-size:40px;opacity:.2}
+.no-ticket-sel p{font-size:14px}
 
-        /* Services Grid */
-        .section {
-            padding: 4rem 1rem;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 1.125rem;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .service-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        .service-card:hover {
-            border-color: var(--text-primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        .service-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-        }
-        .service-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .service-desc {
-            color: var(--text-secondary);
-            font-size: 0.9375rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-        .service-price {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-        .service-price span {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
+/* ADMIN */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:var(--white);padding:20px;border-radius:var(--r);border:1px solid var(--border);transition:.2s}
+.stat-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-sm)}
+.stat-ic{width:40px;height:40px;border-radius:var(--r-sm);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;color:var(--text-secondary)}
+.stat-val{font-size:32px;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
+.stat-lbl{font-size:12px;color:var(--text-secondary);font-weight:500}
+.admin-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.adm-tab{
+  padding:9px 16px;background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm);
+  cursor:pointer;font-size:13px;font-weight:500;color:var(--text-secondary);transition:.15s
+}
+.adm-tab:hover{background:var(--bg);color:var(--text)}
+.adm-tab.active{background:var(--text);color:var(--white);border-color:var(--text)}
+.adm-content{display:none;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.adm-content.active{display:block}
+.adm-form{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:16px;align-items:start}
+.adm-inp{
+  padding:11px 13px;background:var(--input-bg);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);font-size:14px;outline:none;transition:.2s;width:100%
+}
+.adm-inp:focus{border-color:var(--text)}
+.adm-select{
+  padding:11px 13px;background:var(--input-bg);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);font-size:14px;outline:none;cursor:pointer;width:100%
+}
+.adm-select:focus{border-color:var(--text)}
+.btn-adm{
+  padding:11px 18px;background:var(--text);color:var(--white);border:none;border-radius:var(--r-sm);
+  cursor:pointer;font-weight:600;font-size:13px;transition:.2s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px
+}
+.btn-adm:hover{opacity:.85}
+.act-row{display:flex;gap:6px}
+.bx{padding:6px 11px;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:600;transition:.15s;background:var(--white)}
+.bx-ok{color:#065f46;border-color:#a7f3d0;background:#d1fae5}
+.bx-ok:hover{background:#a7f3d0}
+.bx-bad{color:#991b1b;border-color:#fecaca;background:#fee2e2}
+.bx-bad:hover{background:#fecaca}
+.bx-info{color:var(--text-secondary);border-color:var(--border)}
+.bx-info:hover{background:var(--bg)}
+.adm-users-grid{display:grid;gap:10px}
+.adm-user-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:14px 18px;display:flex;align-items:center;gap:14px
+}
+.adm-user-av{
+  width:38px;height:38px;border-radius:50%;background:var(--text);color:var(--white);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0
+}
+.adm-user-name{font-weight:600;font-size:14px}
+.adm-user-email{font-size:12px;color:var(--text-secondary)}
+.adm-user-info{flex:1;min-width:0}
+.online-dot-s{width:7px;height:7px;border-radius:50%;background:var(--text-tertiary);display:inline-block;margin-right:4px}
+.online-dot-s.on{background:#10b981}
+.ip-item{
+  padding:12px 16px;background:var(--bg);margin-bottom:8px;border-radius:var(--r-sm);
+  display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border)
+}
+.ip-val{font-family:'SF Mono','Fira Code',monospace;font-size:13px;font-weight:600}
+.ip-date{font-size:11px;color:var(--text-secondary);margin-top:2px}
+.admin-ticket-layout{display:grid;grid-template-columns:280px 1fr;gap:16px}
 
-        /* Dashboard Layout */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            min-height: calc(100vh - 73px);
-        }
-        .sidebar {
-            background: var(--bg-primary);
-            border-right: 1px solid var(--border);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .sidebar-section {
-            margin-bottom: 1.5rem;
-        }
-        .sidebar-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            padding-left: 0.75rem;
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9375rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-        .nav-item:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-        .nav-item.active {
-            background: var(--text-primary);
-            color: white;
-        }
-        .nav-item i {
-            width: 20px;
-            text-align: center;
-        }
-        .main-content {
-            padding: 2rem;
-            overflow-y: auto;
-            max-height: calc(100vh - 73px);
-        }
+/* MODALS */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;
+  display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:28px;width:100%;max-width:460px;animation:fadeUp .25s ease;
+  max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.modal-head h3{font-size:18px;font-weight:700}
+.close-modal{
+  background:none;border:none;color:var(--text-secondary);font-size:20px;cursor:pointer;
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-sm);transition:.15s
+}
+.close-modal:hover{background:var(--bg);color:var(--text)}
+.modal-fg{margin-bottom:16px}
+.modal-fg label{display:block;font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.modal-inp{
+  width:100%;padding:11px 14px;background:var(--input-bg);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);font-size:14px;outline:none;transition:.2s
+}
+.modal-inp:focus{border-color:var(--text)}
+.modal-inp::placeholder{color:var(--text-tertiary)}
+textarea.modal-inp{resize:vertical;min-height:88px}
+.method-info{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:14px;margin-bottom:16px;font-size:13px;line-height:1.7;color:var(--text-secondary)
+}
+.method-info strong{color:var(--text)}
 
-        /* Cards */
-        .card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        .card-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
+/* TOASTS */
+.toast-c{position:fixed;top:80px;right:18px;z-index:9000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 16px;
+  font-size:14px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;
+  animation:toastIn .25s ease;pointer-events:auto;box-shadow:var(--shadow)
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast i{font-size:16px;flex-shrink:0}
+.toast.success{border-color:#a7f3d0}.toast.success i{color:#10b981}
+.toast.error{border-color:#fecaca}.toast.error i{color:#dc2626}
+.toast.info{border-color:var(--border-strong)}.toast.info i{color:var(--text-secondary)}
+.toast.warn{border-color:#fde68a}.toast.warn i{color:#d97706}
 
-        /* Balance Card */
-        .balance-card {
-            background: var(--text-primary);
-            color: white;
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            margin-bottom: 1.5rem;
-        }
-        .balance-label {
-            font-size: 0.875rem;
-            opacity: 0.8;
-            margin-bottom: 0.5rem;
-        }
-        .balance-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-        .balance-actions {
-            display: flex;
-            gap: 1rem;
-        }
-        .balance-actions .btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .balance-actions .btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
+/* EMPTY STATE */
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:52px;color:var(--text-secondary);gap:12px;text-align:center
+}
+.empty-state i{font-size:44px;opacity:.2}
+.empty-state p{font-size:14px;font-weight:500}
 
-        /* Tables */
-        .table-wrap {
-            overflow-x: auto;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9375rem;
-        }
-        th, td {
-            padding: 0.875rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        th {
-            background: var(--bg-secondary);
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-        }
-        tr:last-child td {
-            border-bottom: none;
-        }
-        tr:hover td {
-            background: var(--bg-secondary);
-        }
+/* DIVIDER */
+.or-divider{display:flex;align-items:center;gap:12px;margin:14px 0;color:var(--text-tertiary);font-size:12px}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 
-        /* Status Badges */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .badge-pending {
-            background: #fef3c7;
-            color: var(--warning);
-        }
-        .badge-success {
-            background: #dcfce7;
-            color: var(--success);
-        }
-        .badge-danger {
-            background: #fee2e2;
-            color: var(--danger);
-        }
-        .badge-neutral {
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-        }
+/* FORM SECTION CARD */
+.form-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.form-section-title{font-size:13px;font-weight:700;margin-bottom:16px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px}
 
-        /* Forms */
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            font-size: 0.9375rem;
-            transition: var(--transition);
-            font-family: inherit;
-            background: var(--bg-primary);
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
-        }
-        textarea.form-input {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Modal */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            backdrop-filter: blur(4px);
-        }
-        .modal-backdrop.active {
-            display: flex;
-        }
-        .modal {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-            animation: modalIn 0.2s ease;
-        }
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: none;
-            }
-        }
-        .modal-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-title {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.25rem;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius-md);
-            transition: var(--transition);
-        }
-        .modal-close:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        /* Tickets */
-        .ticket-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 1.5rem;
-            height: calc(100vh - 200px);
-        }
-        .ticket-list {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .ticket-list-header {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border);
-            font-weight: 600;
-        }
-        .ticket-items {
-            overflow-y: auto;
-            flex: 1;
-        }
-        .ticket-item {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .ticket-item:hover {
-            background: var(--bg-secondary);
-        }
-        .ticket-item.active {
-            background: var(--bg-tertiary);
-            border-left: 3px solid var(--accent);
-        }
-        .ticket-subject {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .ticket-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
-        }
-        .ticket-chat {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .chat-message {
-            max-width: 80%;
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            font-size: 0.9375rem;
-            line-height: 1.5;
-        }
-        .chat-message.user {
-            align-self: flex-end;
-            background: var(--text-primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        .chat-message.admin {
-            align-self: flex-start;
-            background: var(--bg-secondary);
-            border-bottom-left-radius: 4px;
-        }
-        .chat-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .chat-input-area {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 0.75rem;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            resize: none;
-            font-family: inherit;
-            font-size: 0.9375rem;
-        }
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        /* Admin Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            transition: var(--transition);
-        }
-        .stat-card:hover {
-            border-color: var(--text-primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        /* User Card in Admin */
-        .user-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            margin-bottom: 0.75rem;
-        }
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--bg-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .user-info {
-            flex: 1;
-        }
-        .user-name {
-            font-weight: 600;
-            margin-bottom: 0.125rem;
-        }
-        .user-email {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-muted);
-        }
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        /* Toast */
-        .toast-container {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .toast {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            animation: slideIn 0.3s ease;
-            min-width: 300px;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.warning { border-left-color: var(--warning); }
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: none;
-                opacity: 1;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                position: fixed;
-                left: -260px;
-                top: 73px;
-                height: calc(100vh - 73px);
-                z-index: 99;
-                transition: left 0.3s;
-                width: 260px;
-            }
-            .sidebar.open {
-                left: 0;
-                box-shadow: var(--shadow-lg);
-            }
-            .menu-toggle {
-                display: block;
-            }
-            .nav-menu {
-                display: none;
-            }
-            .ticket-layout {
-                grid-template-columns: 1fr;
-                height: auto;
-            }
-            .ticket-list {
-                max-height: 400px;
-            }
-            .domain-input-wrap {
-                flex-direction: column;
-            }
-            .hero-actions {
-                flex-direction: column;
-            }
-            .hero-actions .btn {
-                width: 100%;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .top-bar-left span {
-                display: none;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            .main-content {
-                padding: 1rem;
-            }
-            .card {
-                padding: 1rem;
-            }
-        }
-
-        /* Utility */
-        .hidden { display: none !important; }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-2 { gap: 0.5rem; }
-        .gap-4 { gap: 1rem; }
-        .mt-4 { margin-top: 1rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-xs { font-size: 0.75rem; }
-        .text-muted { color: var(--text-muted); }
-        .font-mono { font-family: monospace; }
-        .truncate {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: none; }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease;
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .wallet-dash{grid-template-columns:1fr}
+}
+@media(max-width:968px){
+  .auth-wrap{grid-template-columns:1fr}
+  .auth-visual{display:none}
+  .sidebar{
+    position:fixed;left:calc(-1 * var(--sidebar-w));height:calc(100vh - var(--nav-h));
+    top:var(--nav-h);z-index:90;box-shadow:var(--shadow-lg)
+  }
+  .sidebar.open{left:0}
+  .sidebar-overlay{display:none;position:fixed;inset:0;top:var(--nav-h);background:rgba(0,0,0,.3);z-index:89}
+  .sidebar-overlay.open{display:block}
+  .menu-tog{display:flex}
+  .services-grid{grid-template-columns:1fr}
+  .tickets-layout,.admin-ticket-layout{grid-template-columns:1fr}
+  .ticket-list{max-height:280px}
+  .adm-form{grid-template-columns:1fr 1fr}
+  .navbar{padding:0 16px}
+  .view{padding:16px}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .user-name,.user-role{display:none}
+}
+@media(max-width:640px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .adm-form{grid-template-columns:1fr}
+  .filter-btn{font-size:12px;padding:6px 12px}
+  .nav-brand span{display:none}
+  .balance-card .amount{font-size:32px}
+}
+@media(max-width:480px){
+  .stats-row{grid-template-columns:1fr}
+  .wallet-chip span{display:none}
+}
+</style>
 </head>
 <body>
 
-    <!-- Loader -->
-    <div id="loader">
-        <div class="loader-content">
-            <div class="spinner"></div>
-            <div style="color: var(--text-muted); font-size: 0.875rem;">Yüklənir...</div>
-        </div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">Maga<span>Platform</span></div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-hint">Yüklənir...</div>
+</div>
+
+<!-- BAN SCREEN -->
+<div id="ban-screen">
+  <div class="ban-icon"><i class="fas fa-ban"></i></div>
+  <div class="ban-title">Giriş Qadağandır</div>
+  <div class="ban-sub">IP adresiniz bloklanıb. Daha ətraflı məlumat üçün admin ilə əlaqə saxlayın.</div>
+</div>
+
+<!-- AUTH -->
+<div id="auth-section">
+  <div class="auth-wrap">
+    <div class="auth-visual">
+      <div class="auth-logo">Maga<span>Platform</span></div>
+      <p class="auth-tagline">Premium hosting, VPS, domain xidmətləri üçün vahid panel</p>
+      <div class="auth-features">
+        <div class="auth-feat"><i class="fas fa-server"></i><span>SSD Hosting & VPS</span></div>
+        <div class="auth-feat"><i class="fas fa-wallet"></i><span>Təhlükəsiz ödəniş sistemi</span></div>
+        <div class="auth-feat"><i class="fas fa-headset"></i><span>Real-time dəstək sistemi</span></div>
+        <div class="auth-feat"><i class="fas fa-shield-alt"></i><span>99.9% Uptime zəmanəti</span></div>
+      </div>
     </div>
-
-    <!-- Ban Screen -->
-    <div id="ban-screen">
-        <div class="ban-icon">
-            <i class="fas fa-ban"></i>
+    <div class="auth-box">
+      <!-- LOGIN -->
+      <div id="box-login">
+        <div class="auth-box-title">Xoş Gəldiniz</div>
+        <div class="auth-box-sub">Hesabınıza daxil olun</div>
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="authTab('login')">Daxil ol</button>
+          <button class="auth-tab" onclick="authTab('reg')">Qeydiyyat</button>
         </div>
-        <h1 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Giriş Qadağandır</h1>
-        <p style="color: var(--text-muted);">Hesabınız və ya IP adresiniz bloklanıb.</p>
-    </div>
-
-    <!-- Auth View -->
-    <div id="auth-view">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="top-bar-content">
-                <div class="top-bar-left">
-                    <i class="fas fa-phone-alt"></i>
-                    <span>070 673 01 74</span>
-                </div>
-                <div class="top-bar-right">
-                    <button class="lang-switch">AZ</button>
-                    <button class="btn btn-sm" style="background: rgba(255,255,255,0.1); color: white; border: none;" onclick="openAuthModal('login')">
-                        Giriş
-                    </button>
-                </div>
-            </div>
+        <div class="ig">
+          <input type="email" id="l-email" placeholder="E-poçt ünvanı" autocomplete="email"/>
+          <i class="fas fa-envelope icon"></i>
         </div>
-
-        <!-- Navbar -->
-        <nav class="navbar">
-            <div class="navbar-content">
-                <a href="#" class="brand">
-                    <div class="brand-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <span>MagaPlatform</span>
-                </a>
-                <div class="nav-menu">
-                    <a href="#hosting" class="nav-link">Hosting</a>
-                    <a href="#vps" class="nav-link">VPS</a>
-                    <a href="#domain" class="nav-link">Domain</a>
-                    <a href="#contact" class="nav-link">Əlaqə</a>
-                </div>
-                <button class="menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="nav-actions">
-                    <button class="btn btn-primary" onclick="openAuthModal('register')">
-                        Qeydiyyat
-                    </button>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Hero -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Sürətli SSD Hosting</h1>
-                <p>LiteSpeed, NVMe SSD, pulsuz SSL və 24/7 texniki dəstək ilə saytınızı güvənə alın. 99.9% uptime zəmanəti.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary btn-lg" onclick="scrollToServices()">
-                        Hosting Paketlər
-                    </button>
-                    <button class="btn btn-outline btn-lg" onclick="scrollToDomain()">
-                        Domain Axtar
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Domain Search -->
-        <section class="domain-section" id="domain">
-            <div class="container">
-                <div class="domain-search-box">
-                    <h3 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.25rem;">Domain Adınızı Bu Gün Seçin</h3>
-                    <div class="domain-input-wrap">
-                        <input type="text" class="domain-input" placeholder="domain adını daxil edin..." id="domain-input">
-                        <button class="btn btn-primary" style="padding: 1rem 2rem;" onclick="searchDomain()">
-                            Axtar
-                        </button>
-                    </div>
-                    <div class="domain-extensions">
-                        <div class="ext-item">
-                            <div class="ext-name">.az</div>
-                            <div class="ext-price">40 AZN/il</div>
-                        </div>
-                        <div class="ext-item">
-                            <div class="ext-name">.com</div>
-                            <div class="ext-price">18 AZN/il</div>
-                        </div>
-                        <div class="ext-item">
-                            <div class="ext-name">.net</div>
-                            <div class="ext-price">19.50 AZN/il</div>
-                        </div>
-                        <div class="ext-item">
-                            <div class="ext-name">.site</div>
-                            <div class="ext-price">2.99 AZN/il</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services -->
-        <section class="section" id="services">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Hosting Xidmətləri</h2>
-                    <p class="section-subtitle">Ehtiyaclarınıza uyğun optimal həllər</p>
-                </div>
-                <div class="services-grid" id="services-grid">
-                    <div class="empty-state">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Xidmətlər yüklənir...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer style="background: var(--text-primary); color: white; padding: 3rem 1rem 1.5rem;">
-            <div class="container">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-                    <div>
-                        <h4 style="margin-bottom: 1rem; font-size: 1.125rem;">MagaPlatform</h4>
-                        <p style="opacity: 0.7; font-size: 0.9375rem; line-height: 1.6;">
-                            15 illik təcrübəmizlə Azərbaycanın hosting və IT həllərinin lideri.
-                        </p>
-                    </div>
-                    <div>
-                        <h4 style="margin-bottom: 1rem; font-size: 1.125rem;">Məhsullar</h4>
-                        <ul style="list-style: none; opacity: 0.7; font-size: 0.9375rem; line-height: 2;">
-                            <li>Hosting</li>
-                            <li>VPS Server</li>
-                            <li>Domain</li>
-                            <li>Korporativ Email</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="margin-bottom: 1rem; font-size: 1.125rem;">Əlaqə</h4>
-                        <ul style="list-style: none; opacity: 0.7; font-size: 0.9375rem; line-height: 2;">
-                            <li><i class="fas fa-phone" style="margin-right: 0.5rem;"></i> 070 673 01 74</li>
-                            <li><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> info@magaplatform.az</li>
-                            <li><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i> Qəbələ ş., H.Əliyev pr.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; opacity: 0.5; font-size: 0.875rem;">
-                    2026 MagaPlatform. Bütün hüquqlar qorunur.
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- App View (Dashboard) -->
-    <div id="app-view" class="hidden">
-        <nav class="navbar">
-            <div class="navbar-content">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <button class="menu-toggle" onclick="toggleSidebar()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <a href="#" class="brand">
-                        <div class="brand-icon">
-                            <i class="fas fa-server"></i>
-                        </div>
-                        <span>MagaPlatform</span>
-                    </a>
-                </div>
-                <div class="nav-actions">
-                    <button class="btn btn-ghost" onclick="showView('wallet')">
-                        <i class="fas fa-wallet"></i>
-                        <span id="nav-balance">0.00 AZN</span>
-                    </button>
-                    <div class="user-menu" style="position: relative;">
-                        <button class="btn btn-ghost" onclick="toggleUserMenu()" style="display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 32px; height: 32px; background: var(--bg-tertiary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem;" id="user-avatar">
-                                U
-                            </div>
-                            <span id="user-name" style="max-width: 120px;" class="truncate">User</span>
-                            <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
-                        </button>
-                        <div id="user-dropdown" style="position: absolute; right: 0; top: 100%; margin-top: 0.5rem; background: white; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); min-width: 200px; display: none; z-index: 101;">
-                            <div style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);">
-                                <div style="font-weight: 600;" id="dropdown-name">User</div>
-                                <div style="font-size: 0.875rem; color: var(--text-muted);" id="dropdown-email">user@example.com</div>
-                            </div>
-                            <button class="nav-item" onclick="showView('profile')" style="padding: 0.75rem 1rem;">
-                                <i class="fas fa-user"></i> Profil
-                            </button>
-                            <button class="nav-item" onclick="logout()" style="padding: 0.75rem 1rem; color: var(--danger);">
-                                <i class="fas fa-sign-out-alt"></i> Çıxış
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <div class="dashboard">
-            <aside class="sidebar" id="sidebar">
-                <div class="sidebar-section">
-                    <div class="sidebar-label">Menyu</div>
-                    <button class="nav-item active" onclick="showView('store')" id="nav-store">
-                        <i class="fas fa-shopping-cart"></i> Xidmətlər
-                    </button>
-                    <button class="nav-item" onclick="showView('wallet')" id="nav-wallet">
-                        <i class="fas fa-wallet"></i> Balans
-                    </button>
-                    <button class="nav-item" onclick="showView('orders')" id="nav-orders">
-                        <i class="fas fa-box"></i> Sifarişlərim
-                    </button>
-                    <button class="nav-item" onclick="showView('tickets')" id="nav-tickets">
-                        <i class="fas fa-headset"></i> Dəstək
-                    </button>
-                </div>
-                <div class="sidebar-section hidden" id="admin-menu">
-                    <div class="sidebar-label">Admin</div>
-                    <button class="nav-item" onclick="showView('admin')" id="nav-admin">
-                        <i class="fas fa-cog"></i> İdarəetmə
-                    </button>
-                    <button class="nav-item" onclick="showView('logs')" id="nav-logs">
-                        <i class="fas fa-file-alt"></i> Loglar
-                    </button>
-                </div>
-            </aside>
-
-            <main class="main-content">
-                <!-- Store View -->
-                <div id="view-store" class="view-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Mövcud Xidmətlər</h2>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn btn-outline btn-sm" onclick="filterServices('all')">Hamısı</button>
-                                <button class="btn btn-outline btn-sm" onclick="filterServices('hosting')">Hosting</button>
-                                <button class="btn btn-outline btn-sm" onclick="filterServices('vps')">VPS</button>
-                            </div>
-                        </div>
-                        <div class="services-grid" id="dashboard-services">
-                            <!-- Services injected here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Wallet View -->
-                <div id="view-wallet" class="view-section hidden">
-                    <div class="balance-card">
-                        <div class="balance-label">Cari Balans</div>
-                        <div class="balance-amount" id="balance-amount">0.00 AZN</div>
-                        <div class="balance-actions">
-                            <button class="btn" onclick="openDepositModal()">
-                                <i class="fas fa-plus"></i> Balans Artır
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Əməliyyat Tarixçəsi</h2>
-                        </div>
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Tarix</th>
-                                        <th>Tip</th>
-                                        <th>Məbləğ</th>
-                                        <th>Status</th>
-                                        <th>Detal</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="transaction-list">
-                                    <!-- Transactions injected here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Orders View -->
-                <div id="view-orders" class="view-section hidden">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Sifarişlərim</h2>
-                        </div>
-                        <div id="orders-list">
-                            <!-- Orders injected here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tickets View -->
-                <div id="view-tickets" class="view-section hidden">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h2 class="card-title">Dəstək Müraciətləri</h2>
-                        <button class="btn btn-primary" onclick="openTicketModal()">
-                            <i class="fas fa-plus"></i> Yeni Müraciət
-                        </button>
-                    </div>
-                    <div class="ticket-layout">
-                        <div class="ticket-list">
-                            <div class="ticket-list-header">Müraciətlərim</div>
-                            <div class="ticket-items" id="ticket-items">
-                                <!-- Tickets injected here -->
-                            </div>
-                        </div>
-                        <div class="ticket-chat" id="ticket-chat-container">
-                            <div class="empty-state">
-                                <i class="fas fa-comments"></i>
-                                <p>Müraciət seçin</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Admin View -->
-                <div id="view-admin" class="view-section hidden">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">İstifadəçilər</div>
-                            <div class="stat-value" id="stat-users">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Aktiv Sifarişlər</div>
-                            <div class="stat-value" id="stat-orders">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Gözləyən Ödənişlər</div>
-                            <div class="stat-value" id="stat-payments">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Açıq Biletlər</div>
-                            <div class="stat-value" id="stat-tickets">0</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">İdarəetmə</h2>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn btn-outline btn-sm active" onclick="showAdminTab('payments')">Ödənişlər</button>
-                                <button class="btn btn-outline btn-sm" onclick="showAdminTab('orders')">Sifarişlər</button>
-                                <button class="btn btn-outline btn-sm" onclick="showAdminTab('users')">İstifadəçilər</button>
-                                <button class="btn btn-outline btn-sm" onclick="showAdminTab('services')">Xidmətlər</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Admin Payments Tab -->
-                        <div id="admin-payments" class="admin-tab">
-                            <div class="table-wrap">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>İstifadəçi</th>
-                                            <th>Məbləğ</th>
-                                            <th>Metod</th>
-                                            <th>Tarix</th>
-                                            <th>Əməliyyat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="admin-payment-list"></tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Admin Orders Tab -->
-                        <div id="admin-orders" class="admin-tab hidden">
-                            <div class="table-wrap">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>İstifadəçi</th>
-                                            <th>Xidmət</th>
-                                            <th>Qiymət</th>
-                                            <th>Status</th>
-                                            <th>Əməliyyat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="admin-order-list"></tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Admin Users Tab -->
-                        <div id="admin-users" class="admin-tab hidden">
-                            <div id="admin-user-list"></div>
-                        </div>
-
-                        <!-- Admin Services Tab -->
-                        <div id="admin-services" class="admin-tab hidden">
-                            <div style="margin-bottom: 1.5rem;">
-                                <button class="btn btn-primary" onclick="openAddServiceModal()">
-                                    <i class="fas fa-plus"></i> Yeni Xidmət
-                                </button>
-                            </div>
-                            <div id="admin-service-list"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Logs View -->
-                <div id="view-logs" class="view-section hidden">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Sistem Logları</h2>
-                            <button class="btn btn-outline btn-sm" onclick="clearLogs()">
-                                <i class="fas fa-trash"></i> Təmizlə
-                            </button>
-                        </div>
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Timestamp</th>
-                                        <th>İstifadəçi</th>
-                                        <th>Əməliyyat</th>
-                                        <th>IP</th>
-                                        <th>Detallar</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="logs-list"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </main>
+        <div class="ig">
+          <input type="password" id="l-pass" placeholder="Şifrə" autocomplete="current-password"/>
+          <i class="fas fa-lock icon"></i>
         </div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div class="modal-backdrop" id="auth-modal">
-        <div class="modal" style="max-width: 420px;">
-            <div class="modal-header">
-                <h3 class="modal-title" id="auth-modal-title">Giriş</h3>
-                <button class="modal-close" onclick="closeAuthModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="login-form">
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" id="login-email" placeholder="name@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Şifrə</label>
-                        <input type="password" class="form-input" id="login-password" placeholder="••••••••">
-                    </div>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="login()">
-                        Daxil ol
-                    </button>
-                    <p style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
-                        Hesabınız yoxdur? <a href="#" onclick="switchAuthMode('register')" style="color: var(--text-primary); font-weight: 600;">Qeydiyyatdan keçin</a>
-                    </p>
-                </div>
-                <div id="register-form" class="hidden">
-                    <div class="form-group">
-                        <label class="form-label">Ad Soyad</label>
-                        <input type="text" class="form-input" id="reg-name" placeholder="Ad Soyad">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" id="reg-email" placeholder="name@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Şifrə</label>
-                        <input type="password" class="form-input" id="reg-password" placeholder="Min. 6 simvol">
-                    </div>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="register()">
-                        Qeydiyyatdan keç
-                    </button>
-                    <p style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
-                        Hesabınız var? <a href="#" onclick="switchAuthMode('login')" style="color: var(--text-primary); font-weight: 600;">Daxil olun</a>
-                    </p>
-                </div>
-            </div>
+        <p class="a-err" id="l-err"></p>
+        <button class="btn-primary" id="btn-login"><i class="fas fa-arrow-right"></i> Daxil ol</button>
+        <div class="or-divider">və ya</div>
+        <button class="btn-google" id="btn-gg-login">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="18" alt="G"/> Google ilə davam et
+        </button>
+      </div>
+      <!-- REGISTER -->
+      <div id="box-reg" style="display:none">
+        <div class="auth-box-title">Yeni Hesab</div>
+        <div class="auth-box-sub">Platformaya qoşulun</div>
+        <div class="auth-tabs">
+          <button class="auth-tab" onclick="authTab('login')">Daxil ol</button>
+          <button class="auth-tab active" onclick="authTab('reg')">Qeydiyyat</button>
         </div>
-    </div>
-
-    <!-- Deposit Modal -->
-    <div class="modal-backdrop" id="deposit-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Balans Artır</h3>
-                <button class="modal-close" onclick="closeDepositModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="background: var(--bg-secondary); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-size: 0.875rem;">
-                    <p style="margin-bottom: 0.5rem; font-weight: 600;">Ödəniş məlumatları:</p>
-                    <p>Bank: ABB (Beynəlxalq Bank)</p>
-                    <p>Kart: 4169 7388 1234 5678</p>
-                    <p>Ad: MagaPlatform LLC</p>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Məbləğ (AZN)</label>
-                    <input type="number" class="form-input" id="deposit-amount" placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Çek/Tranzaksiya ID</label>
-                    <input type="text" class="form-input" id="deposit-proof" placeholder="Ödəniş təsdiqi nömrəsi">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="submitDeposit()">
-                    Göndər
-                </button>
-            </div>
+        <div class="ig">
+          <input type="text" id="r-name" placeholder="İstifadəçi adı" autocomplete="username"/>
+          <i class="fas fa-user icon"></i>
         </div>
-    </div>
-
-    <!-- Ticket Modal -->
-    <div class="modal-backdrop" id="ticket-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">Yeni Müraciət</h3>
-                <button class="modal-close" onclick="closeTicketModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Mövzu</label>
-                    <input type="text" class="form-input" id="ticket-subject" placeholder="Məsələnin qısa təsviri">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Mesaj</label>
-                    <textarea class="form-input" id="ticket-message" placeholder="Probleminizi ətraflı izah edin..."></textarea>
-                </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="createTicket()">
-                    Göndər
-                </button>
-            </div>
+        <div class="ig">
+          <input type="email" id="r-email" placeholder="E-poçt ünvanı" autocomplete="email"/>
+          <i class="fas fa-envelope icon"></i>
         </div>
+        <div class="ig">
+          <input type="password" id="r-pass" placeholder="Şifrə (min 6 simvol)" autocomplete="new-password"/>
+          <i class="fas fa-lock icon"></i>
+          <div class="pw-bar"><div class="pw-fill" id="pw-fill"></div></div>
+        </div>
+        <p class="a-err" id="r-err"></p>
+        <button class="btn-primary" id="btn-reg"><i class="fas fa-user-plus"></i> Qeydiyyatdan keç</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toast-container"></div>
+<!-- MAIN APP -->
+<div id="main-app">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <button class="menu-tog" id="menu-tog"><i class="fas fa-bars"></i></button>
+      <div class="nav-brand">Maga<span>Platform</span></div>
+    </div>
+    <div class="nav-right">
+      <div class="wallet-chip" onclick="showView('wallet')">
+        <i class="fas fa-wallet"></i>
+        <span id="nav-bal">0.00 AZN</span>
+      </div>
+      <div class="user-chip">
+        <div class="user-av">
+          <img src="https://ui-avatars.com/api/?name=U&background=111827&color=fff" id="nav-av" alt="avatar"/>
+        </div>
+        <div>
+          <div class="user-name" id="nav-uname">İstifadəçi</div>
+          <div class="user-role" id="nav-urole">User</div>
+        </div>
+        <i class="fas fa-sign-out-alt logout-icon" onclick="doLogout()" title="Çıxış"></i>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Firebase -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword, 
-            createUserWithEmailAndPassword,
-            onAuthStateChanged,
-            signOut 
-        } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-        import { 
-            getDatabase, 
-            ref, 
-            set, 
-            get, 
-            push, 
-            update, 
-            remove, 
-            onValue,
-            serverTimestamp 
-        } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+  <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCp-E7VijsIa7SUH0QG4eGPIDP00aLns3o",
-            authDomain: "anonimchat-769cc.firebaseapp.com",
-            databaseURL: "https://anonimchat-769cc-default-rtdb.firebaseio.com",
-            projectId: "anonimchat-769cc",
-            storageBucket: "anonimchat-769cc.firebasestorage.app",
-            messagingSenderId: "807134985346",
-            appId: "1:807134985346:web:a65ca5499b3bb5d3eb489b"
-        };
+  <div class="content-wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-label">Əsas</div>
+      <div class="nav-item active" id="si-store" onclick="showView('store')">
+        <i class="fas fa-th-large"></i><span>Xidmətlər</span>
+      </div>
+      <div class="nav-item" id="si-wallet" onclick="showView('wallet')">
+        <i class="fas fa-wallet"></i><span>Cüzdan</span>
+      </div>
+      <div class="nav-item" id="si-orders" onclick="showView('orders')">
+        <i class="fas fa-box"></i><span>Sifarişlərim</span>
+        <span class="badge-dot" id="orders-dot" style="display:none">!</span>
+      </div>
+      <div class="sidebar-label">Dəstək</div>
+      <div class="nav-item" id="si-tickets" onclick="showView('tickets')">
+        <i class="fas fa-headset"></i><span>Dəstək Sistemi</span>
+        <span class="badge-dot" id="tickets-dot" style="display:none">!</span>
+      </div>
+      <div id="admin-nav-sec" style="display:none">
+        <div class="sidebar-label">İdarəetmə</div>
+        <div class="nav-item admin-item" id="si-admin" onclick="showView('admin')">
+          <i class="fas fa-sliders-h"></i><span>Admin Paneli</span>
+        </div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="logout-btn" onclick="doLogout()">
+          <i class="fas fa-sign-out-alt"></i><span>Çıxış</span>
+        </div>
+      </div>
+    </aside>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-        
-        const ADMIN_EMAIL = 'magabakinski@gmail.com';
-        let currentUser = null;
-        let currentUserData = null;
-        let userIP = '';
-        let activeTicketId = null;
+    <!-- STORE VIEW -->
+    <main class="view active" id="view-store">
+      <div class="page-head">
+        <div class="page-title"><i class="fas fa-th-large"></i> Xidmət Kataloqu</div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterSvcs('all',this)">Hamısı</button>
+          <button class="filter-btn" onclick="filterSvcs('hosting',this)">Hosting</button>
+          <button class="filter-btn" onclick="filterSvcs('vps',this)">VPS</button>
+          <button class="filter-btn" onclick="filterSvcs('reseller',this)">Reseller</button>
+          <button class="filter-btn" onclick="filterSvcs('domain',this)">Domain</button>
+        </div>
+      </div>
+      <div class="services-grid" id="svcs-container">
+        <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Xidmətlər yüklənir...</p></div>
+      </div>
+    </main>
 
-        // IP Fetch
-        async function getIP() {
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                return data.ip;
-            } catch (e) {
-                return 'unknown';
-            }
-        }
+    <!-- WALLET VIEW -->
+    <main class="view" id="view-wallet">
+      <div class="page-head">
+        <div class="page-title"><i class="fas fa-wallet"></i> Cüzdan</div>
+      </div>
+      <div class="wallet-dash">
+        <div class="balance-card">
+          <h3>Balansınız</h3>
+          <div class="amount" id="wallet-bal">0.00 <small>AZN</small></div>
+          <div class="balance-actions">
+            <button class="btn-balance" onclick="openModal('dep-modal')">
+              <i class="fas fa-plus"></i> Balans Artır
+            </button>
+          </div>
+        </div>
+        <div class="card-box">
+          <div class="card-box-title"><i class="fas fa-clock"></i> Əməliyyat Tarixçəsi</div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Növ</th><th>Məbləğ</th><th>Metod</th><th>Status</th><th>Tarix</th></tr></thead>
+              <tbody id="tx-tbl"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
 
-        // Logger
-        async function logAction(action, details = '') {
-            if (!currentUser) return;
-            const logRef = push(ref(db, 'logs'));
-            await set(logRef, {
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                action: action,
-                details: details,
-                ip: userIP,
-                userAgent: navigator.userAgent,
-                timestamp: serverTimestamp()
-            });
-        }
+    <!-- ORDERS VIEW -->
+    <main class="view" id="view-orders">
+      <div class="page-head">
+        <div class="page-title"><i class="fas fa-box"></i> Sifarişlərim</div>
+      </div>
+      <div class="orders-grid" id="my-orders-cont">
+        <div class="empty-state"><i class="fas fa-box-open"></i><p>Hələ sifariş yoxdur</p></div>
+      </div>
+    </main>
 
-        // Toast
-        window.showToast = function(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle';
-            toast.innerHTML = `<i class="fas fa-${icon}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        };
+    <!-- TICKETS VIEW -->
+    <main class="view" id="view-tickets">
+      <div class="page-head">
+        <div class="page-title"><i class="fas fa-headset"></i> Dəstək Sistemi</div>
+        <button class="btn-primary" style="width:auto;padding:10px 18px;font-size:13px" onclick="openModal('new-ticket-modal')">
+          <i class="fas fa-plus"></i> Yeni Müraciət
+        </button>
+      </div>
+      <div class="tickets-layout">
+        <div class="ticket-list">
+          <div class="ticket-list-head">
+            <h3>Müraciətlərim</h3>
+            <span id="tk-count" style="font-size:12px;color:var(--text-secondary)">0 bilet</span>
+          </div>
+          <div class="ticket-items" id="ticket-list-items">
+            <div class="empty-state" style="padding:32px"><i class="fas fa-ticket-alt"></i><p>Müraciət yoxdur</p></div>
+          </div>
+        </div>
+        <div class="ticket-chat" id="ticket-chat-pane">
+          <div class="no-ticket-sel" id="no-sel-msg">
+            <i class="fas fa-comments"></i>
+            <p>Müraciəti seçin</p>
+          </div>
+          <div style="display:none;flex-direction:column;height:100%" id="chat-active">
+            <div class="ticket-chat-head">
+              <div>
+                <div style="font-size:14px;font-weight:700" id="chat-tk-subj">—</div>
+                <div style="font-size:12px;color:var(--text-secondary);margin-top:2px" id="chat-tk-status">—</div>
+              </div>
+              <button class="bx bx-bad" onclick="closeTicket()" id="close-tk-btn">
+                <i class="fas fa-lock"></i> Bağla
+              </button>
+            </div>
+            <div class="ticket-chat-msgs" id="tk-msgs"></div>
+            <div class="ticket-input-area" id="tk-inp-area">
+              <textarea id="tk-msg-inp" placeholder="Mesajınızı yazın..."></textarea>
+              <button class="send-btn" onclick="sendTicketMsg()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
-        // Check Ban
-        async function checkBan(userId) {
-            const ip = await getIP();
-            userIP = ip;
-            
-            // Check IP ban
-            const ipKey = ip.replace(/\./g, '_');
-            const ipBanSnap = await get(ref(db, `banned_ips/${ipKey}`));
-            if (ipBanSnap.exists()) {
-                document.getElementById('ban-screen').style.display = 'flex';
-                return true;
-            }
+    <!-- ADMIN VIEW -->
+    <main class="view" id="view-admin">
+      <div class="page-head">
+        <div class="page-title"><i class="fas fa-sliders-h"></i> Admin Paneli</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-ic"><i class="fas fa-users"></i></div>
+          <div class="stat-val" id="adm-s-users">0</div>
+          <div class="stat-lbl">İstifadəçilər</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic"><i class="fas fa-box"></i></div>
+          <div class="stat-val" id="adm-s-orders">0</div>
+          <div class="stat-lbl">Sifarişlər</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic"><i class="fas fa-clock"></i></div>
+          <div class="stat-val" id="adm-s-deps">0</div>
+          <div class="stat-lbl">Gözləyən Depozit</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic"><i class="fas fa-headset"></i></div>
+          <div class="stat-val" id="adm-s-tickets">0</div>
+          <div class="stat-lbl">Açıq Biletlər</div>
+        </div>
+      </div>
 
-            // Check User ban
-            if (userId) {
-                const userBanSnap = await get(ref(db, `banned_users/${userId}`));
-                if (userBanSnap.exists()) {
-                    document.getElementById('ban-screen').style.display = 'flex';
-                    return true;
-                }
-            }
-            
-            document.getElementById('ban-screen').style.display = 'none';
-            return false;
-        }
+      <div class="admin-tabs">
+        <button class="adm-tab active" onclick="admTab('deps',this)">Ödənişlər</button>
+        <button class="adm-tab" onclick="admTab('orders',this)">Sifarişlər</button>
+        <button class="adm-tab" onclick="admTab('services',this)">Xidmətlər</button>
+        <button class="adm-tab" onclick="admTab('tickets',this)">Biletlər</button>
+        <button class="adm-tab" onclick="admTab('users',this)">İstifadəçilər</button>
+        <button class="adm-tab" onclick="admTab('ipban',this)">IP Ban</button>
+      </div>
 
-        // Auth State
-        onAuthStateChanged(auth, async (user) => {
-            const loader = document.getElementById('loader');
-            
-            if (user) {
-                const banned = await checkBan(user.uid);
-                if (banned) {
-                    loader.style.display = 'none';
-                    return;
-                }
+      <!-- PAYMENTS TAB -->
+      <div class="adm-content active" id="adm-deps">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>İstifadəçi</th><th>Məbləğ</th><th>Çek/Proof</th><th>Tarix</th><th>Əməliyyat</th></tr></thead>
+            <tbody id="adm-pay-tbl"></tbody>
+          </table>
+        </div>
+      </div>
 
-                currentUser = user;
-                
-                // Get user data
-                const userRef = ref(db, `users/${user.uid}`);
-                const userSnap = await get(userRef);
-                
-                if (!userSnap.exists()) {
-                    // Create user data if not exists
-                    const ip = await getIP();
-                    await set(userRef, {
-                        email: user.email,
-                        name: user.displayName || user.email.split('@')[0],
-                        balance: 0,
-                        role: user.email === ADMIN_EMAIL ? 'admin' : 'user',
-                        createdAt: serverTimestamp(),
-                        lastLogin: serverTimestamp(),
-                        ip: ip,
-                        userAgent: navigator.userAgent
-                    });
-                    await logAction('user_created', 'Initial account creation');
-                } else {
-                    currentUserData = userSnap.val();
-                    // Update login info
-                    await update(userRef, {
-                        lastLogin: serverTimestamp(),
-                        ip: userIP,
-                        userAgent: navigator.userAgent
-                    });
-                    await logAction('login', 'User logged in');
-                }
+      <!-- ORDERS TAB -->
+      <div class="adm-content" id="adm-orders">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>İstifadəçi</th><th>Xidmət</th><th>Qiymət</th><th>Əlaqə</th><th>Status</th><th>Qeyd</th><th>Əməliyyat</th></tr></thead>
+            <tbody id="adm-ord-tbl"></tbody>
+          </table>
+        </div>
+      </div>
 
-                // Check admin
-                if (user.email === ADMIN_EMAIL) {
-                    document.getElementById('admin-menu').classList.remove('hidden');
-                }
+      <!-- SERVICES TAB -->
+      <div class="adm-content" id="adm-services">
+        <div class="adm-form">
+          <input class="adm-inp" id="adm-srv-n" placeholder="Xidmət adı"/>
+          <input class="adm-inp" type="number" id="adm-srv-p" placeholder="Qiymət (AZN)"/>
+          <select class="adm-select" id="adm-srv-c">
+            <option value="hosting">Hosting</option>
+            <option value="vps">VPS</option>
+            <option value="reseller">Reseller</option>
+            <option value="domain">Domain</option>
+          </select>
+          <button class="btn-adm" onclick="addService()"><i class="fas fa-plus"></i> Əlavə Et</button>
+        </div>
+        <div class="modal-fg">
+          <label>Açıqlama (İxtiyari)</label>
+          <input class="adm-inp" id="adm-srv-d" placeholder="Xidmət haqqında qısa məlumat" style="width:100%"/>
+        </div>
+        <div class="tbl-wrap" style="margin-top:14px">
+          <table>
+            <thead><tr><th>Ad</th><th>Kateqoriya</th><th>Açıqlama</th><th>Qiymət</th><th>Əməliyyat</th></tr></thead>
+            <tbody id="adm-svc-tbl"></tbody>
+          </table>
+        </div>
+      </div>
 
-                setupUserInterface();
-                loader.style.display = 'none';
-            } else {
-                loader.style.display = 'none';
-                document.getElementById('auth-view').classList.remove('hidden');
-                document.getElementById('app-view').classList.add('hidden');
-            }
-        });
-
-        function setupUserInterface() {
-            document.getElementById('auth-view').classList.add('hidden');
-            document.getElementById('app-view').classList.remove('hidden');
-            
-            // Update UI
-            document.getElementById('user-name').textContent = currentUserData?.name || currentUser.email;
-            document.getElementById('dropdown-name').textContent = currentUserData?.name || currentUser.email;
-            document.getElementById('dropdown-email').textContent = currentUser.email;
-            document.getElementById('user-avatar').textContent = (currentUserData?.name || currentUser.email)[0].toUpperCase();
-            
-            // Load initial data
-            loadServices();
-            loadBalance();
-            loadOrders();
-            loadTickets();
-            
-            if (currentUser.email === ADMIN_EMAIL) {
-                loadAdminData();
-                loadLogs();
-            }
-        }
-
-        // Auth Functions
-        window.openAuthModal = function(mode) {
-            document.getElementById('auth-modal').classList.add('active');
-            switchAuthMode(mode);
-        };
-
-        window.closeAuthModal = function() {
-            document.getElementById('auth-modal').classList.remove('active');
-        };
-
-        window.switchAuthMode = function(mode) {
-            if (mode === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-                document.getElementById('auth-modal-title').textContent = 'Giriş';
-            } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-                document.getElementById('auth-modal-title').textContent = 'Qeydiyyat';
-            }
-        };
-
-        window.login = async function() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            if (!email || !password) {
-                showToast('Bütün sahələri doldurun', 'error');
-                return;
-            }
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                closeAuthModal();
-                showToast('Xoş gəldiniz!', 'success');
-            } catch (error) {
-                showToast('Giriş xətası: ' + error.message, 'error');
-            }
-        };
-
-        window.register = async function() {
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            
-            if (!name || !email || !password) {
-                showToast('Bütün sahələri doldurun', 'error');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showToast('Şifrə minimum 6 simvol olmalıdır', 'error');
-                return;
-            }
-
-            try {
-                const ip = await getIP();
-                const cred = await createUserWithEmailAndPassword(auth, email, password);
-                
-                await set(ref(db, `users/${cred.user.uid}`), {
-                    email: email,
-                    name: name,
-                    balance: 0,
-                    role: 'user',
-                    createdAt: serverTimestamp(),
-                    lastLogin: serverTimestamp(),
-                    ip: ip,
-                    userAgent: navigator.userAgent
-                });
-                
-                await logAction('register', 'New account registered');
-                showToast('Qeydiyyat uğurlu oldu!', 'success');
-                closeAuthModal();
-            } catch (error) {
-                showToast('Qeydiyyat xətası: ' + error.message, 'error');
-            }
-        };
-
-        window.logout = async function() {
-            await logAction('logout', 'User logged out');
-            await signOut(auth);
-            showToast('Çıxış edildi', 'info');
-        };
-
-        // View Navigation
-        window.showView = function(viewName) {
-            // Hide all views
-            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            // Show selected
-            document.getElementById(`view-${viewName}`).classList.remove('hidden');
-            document.getElementById(`nav-${viewName}`)?.classList.add('active');
-            
-            // Close sidebar on mobile
-            document.getElementById('sidebar').classList.remove('open');
-            
-            // Close user dropdown
-            document.getElementById('user-dropdown').style.display = 'none';
-        };
-
-        window.toggleSidebar = function() {
-            document.getElementById('sidebar').classList.toggle('open');
-        };
-
-        window.toggleUserMenu = function() {
-            const dropdown = document.getElementById('user-dropdown');
-            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-        };
-
-        // Services
-        let allServices = [];
-        
-        async function loadServices() {
-            const servicesRef = ref(db, 'services');
-            onValue(servicesRef, (snapshot) => {
-                allServices = [];
-                snapshot.forEach(child => {
-                    allServices.push({ key: child.key, ...child.val() });
-                });
-                renderServices('all');
-                renderDashboardServices();
-            });
-        }
-
-        function renderServices(filter) {
-            const grid = document.getElementById('services-grid');
-            const filtered = filter === 'all' ? allServices : allServices.filter(s => s.category === filter);
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><i class="fas fa-box"></i><p>Xidmət tapılmadı</p></div>';
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(service => `
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-${getServiceIcon(service.category)}"></i>
-                    </div>
-                    <div class="service-name">${service.name}</div>
-                    <div class="service-desc">${service.desc || 'Premium hosting xidməti'}</div>
-                    <div class="service-price">${service.price} <span>AZN/ay</span></div>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="buyService('${service.key}', '${service.name}', ${service.price})">
-                        Sifariş Et
-                    </button>
+      <!-- TICKETS TAB (ADMIN) -->
+      <div class="adm-content" id="adm-tickets">
+        <div class="admin-ticket-layout">
+          <div class="ticket-list">
+            <div class="ticket-list-head"><h3>Bütün Biletlər</h3></div>
+            <div class="ticket-items" id="adm-ticket-list"></div>
+          </div>
+          <div class="ticket-chat" id="adm-ticket-chat">
+            <div class="no-ticket-sel" id="adm-no-sel">
+              <i class="fas fa-comments"></i><p>Bileti seçin</p>
+            </div>
+            <div style="display:none;flex-direction:column;height:100%" id="adm-chat-active">
+              <div class="ticket-chat-head">
+                <div>
+                  <div style="font-size:14px;font-weight:700" id="adm-chat-subj">—</div>
+                  <div style="font-size:12px;color:var(--text-secondary)" id="adm-chat-user">—</div>
                 </div>
-            `).join('');
-        }
-
-        function renderDashboardServices() {
-            const grid = document.getElementById('dashboard-services');
-            if (!grid) return;
-            
-            grid.innerHTML = allServices.map(service => `
-                <div class="service-card">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                        <div class="service-icon">
-                            <i class="fas fa-${getServiceIcon(service.category)}"></i>
-                        </div>
-                        <span class="badge badge-neutral">${service.category?.toUpperCase()}</span>
-                    </div>
-                    <div class="service-name">${service.name}</div>
-                    <div class="service-desc">${service.desc || 'Premium hosting xidməti'}</div>
-                    <div class="service-price">${service.price} <span>AZN/ay</span></div>
-                    <button class="btn btn-primary" style="width: 100%;" onclick="buyService('${service.key}', '${service.name}', ${service.price})">
-                        Sifariş Et
-                    </button>
+                <div class="act-row">
+                  <button class="bx bx-ok" onclick="admCloseTicket()"><i class="fas fa-check"></i> Bağla</button>
                 </div>
-            `).join('');
-        }
+              </div>
+              <div class="ticket-chat-msgs" id="adm-tk-msgs"></div>
+              <div class="ticket-input-area">
+                <textarea id="adm-tk-inp" placeholder="Admin cavabı..."></textarea>
+                <button class="send-btn" onclick="admSendTicketMsg()"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        window.filterServices = function(category) {
-            renderDashboardServices(category);
-        };
+      <!-- USERS TAB -->
+      <div class="adm-content" id="adm-users">
+        <div class="adm-users-grid" id="adm-users-cont">
+          <div class="empty-state"><i class="fas fa-users"></i><p>İstifadəçi yoxdur</p></div>
+        </div>
+      </div>
 
-        function getServiceIcon(category) {
-            const icons = {
-                hosting: 'server',
-                vps: 'desktop',
-                domain: 'globe',
-                email: 'envelope',
-                reseller: 'briefcase'
-            };
-            return icons[category] || 'box';
-        }
+      <!-- IP BAN TAB -->
+      <div class="adm-content" id="adm-ipban">
+        <div style="display:flex;gap:10px;margin-bottom:16px">
+          <input class="adm-inp" id="ban-ip-inp" placeholder="192.168.1.1" style="flex:1"/>
+          <button class="btn-adm" onclick="doBanIP()"><i class="fas fa-ban"></i> IP Blokla</button>
+        </div>
+        <ul id="ip-list" style="list-style:none;padding:0"></ul>
+      </div>
+    </main>
+  </div><!-- content-wrap -->
+</div><!-- main-app -->
 
-        window.buyService = async function(serviceId, serviceName, price) {
-            const { value: contact } = await Swal.fire({
-                title: 'Sifariş təsdiqi',
-                html: `<b>${serviceName}</b><br>Qiymət: ${price} AZN`,
-                input: 'text',
-                inputLabel: 'Əlaqə nömrəniz',
-                inputPlaceholder: '050 123 45 67',
-                showCancelButton: true,
-                confirmButtonText: 'Təsdiqlə',
-                cancelButtonText: 'Ləğv',
-                background: '#ffffff',
-                color: '#0f172a'
-            });
-            
-            if (!contact) return;
-            
-            // Check balance
-            const userRef = ref(db, `users/${currentUser.uid}`);
-            const userSnap = await get(userRef);
-            const balance = userSnap.val()?.balance || 0;
-            
-            if (balance < price) {
-                showToast('Balansınız çatışmır', 'error');
-                return;
-            }
-            
-            // Create order
-            const orderRef = push(ref(db, 'orders'));
-            await set(orderRef, {
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                serviceId,
-                serviceName,
-                price,
-                contact,
-                status: 'pending',
-                createdAt: serverTimestamp()
-            });
-            
-            // Deduct balance
-            await update(userRef, { balance: balance - price });
-            
-            // Log
-            await logAction('purchase', `Ordered ${serviceName} for ${price} AZN`);
-            
-            showToast('Sifariş qəbul edildi!', 'success');
-        };
+<!-- DEPOSIT MODAL -->
+<div class="modal-bg" id="dep-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Balans Artır</h3>
+      <button class="close-modal" onclick="closeModal('dep-modal')">&#x2715;</button>
+    </div>
+    <div class="method-info">
+      <strong>Ödəniş Metodu: BirBank / M10 / Köçürmə</strong><br>
+      Kart: <strong>4169 7388 **** ****</strong><br>
+      Məbləği köçürün, çeki/skrinshotunu aşağıya yapışdırın.
+    </div>
+    <div class="modal-fg">
+      <label>Məbləğ (AZN)</label>
+      <input class="modal-inp" type="number" id="dep-amt" placeholder="Məs: 50" min="1"/>
+    </div>
+    <div class="modal-fg">
+      <label>Çek / Tranzaksiya ID</label>
+      <input class="modal-inp" id="dep-proof" placeholder="Tranzaksiya nömrəsi və ya link"/>
+    </div>
+    <button class="btn-primary" onclick="submitDeposit()"><i class="fas fa-paper-plane"></i> Göndər</button>
+  </div>
+</div>
 
-        // Balance & Transactions
-        async function loadBalance() {
-            const userRef = ref(db, `users/${currentUser.uid}`);
-            onValue(userRef, (snap) => {
-                const data = snap.val();
-                const balance = data?.balance || 0;
-                document.getElementById('nav-balance').textContent = balance.toFixed(2) + ' AZN';
-                document.getElementById('balance-amount').textContent = balance.toFixed(2) + ' AZN';
-            });
-            
-            // Load transactions
-            const txRef = ref(db, 'transactions');
-            onValue(txRef, (snap) => {
-                const txs = [];
-                snap.forEach(child => {
-                    const tx = child.val();
-                    if (tx.userId === currentUser.uid) {
-                        txs.push({ key: child.key, ...tx });
-                    }
-                });
-                txs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                
-                const tbody = document.getElementById('transaction-list');
-                if (txs.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Əməliyyat yoxdur</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = txs.map(tx => `
-                    <tr>
-                        <td>${new Date(tx.timestamp).toLocaleDateString('az-AZ')}</td>
-                        <td>${tx.type === 'deposit' ? 'Artırma' : 'Xərcləmə'}</td>
-                        <td style="color: ${tx.type === 'deposit' ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">
-                            ${tx.type === 'deposit' ? '+' : '-'}${tx.amount} AZN
-                        </td>
-                        <td><span class="badge badge-${tx.status === 'completed' ? 'success' : tx.status === 'pending' ? 'pending' : 'neutral'}">
-                            ${tx.status}
-                        </span></td>
-                        <td class="text-muted text-sm">${tx.note || '-'}</td>
-                    </tr>
-                `).join('');
-            });
-        }
+<!-- NEW TICKET MODAL -->
+<div class="modal-bg" id="new-ticket-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Yeni Müraciət</h3>
+      <button class="close-modal" onclick="closeModal('new-ticket-modal')">&#x2715;</button>
+    </div>
+    <div class="modal-fg">
+      <label>Mövzu</label>
+      <input class="modal-inp" id="tk-subj" placeholder="Müraciətin mövzusu"/>
+    </div>
+    <div class="modal-fg">
+      <label>İlk Mesaj</label>
+      <textarea class="modal-inp" id="tk-msg" placeholder="Probleminizi ətraflı izah edin..."></textarea>
+    </div>
+    <button class="btn-primary" onclick="createTicket()"><i class="fas fa-paper-plane"></i> Göndər</button>
+  </div>
+</div>
 
-        window.openDepositModal = function() {
-            document.getElementById('deposit-modal').classList.add('active');
-        };
+<!-- TOAST CONTAINER -->
+<div class="toast-c" id="toast-c"></div>
 
-        window.closeDepositModal = function() {
-            document.getElementById('deposit-modal').classList.remove('active');
-        };
+<!-- FIREBASE + APP LOGIC -->
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import{getDatabase,ref,set,get,push,update,remove,onValue,onDisconnect,serverTimestamp,runTransaction}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-        window.submitDeposit = async function() {
-            const amount = parseFloat(document.getElementById('deposit-amount').value);
-            const proof = document.getElementById('deposit-proof').value;
-            
-            if (!amount || amount <= 0 || !proof) {
-                showToast('Bütün sahələri düzgün doldurun', 'error');
-                return;
-            }
-            
-            const paymentRef = push(ref(db, 'payments'));
-            await set(paymentRef, {
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                amount,
-                proof,
-                status: 'pending',
-                createdAt: serverTimestamp()
-            });
-            
-            await logAction('deposit_request', `Requested deposit of ${amount} AZN`);
-            showToast('Ödəniş tələbiniz göndərildi', 'success');
-            closeDepositModal();
-            document.getElementById('deposit-amount').value = '';
-            document.getElementById('deposit-proof').value = '';
-        };
+const FB={
+  apiKey:"AIzaSyCp-E7VijsIa7SUH0QG4eGPIDP00aLns3o",
+  authDomain:"anonimchat-769cc.firebaseapp.com",
+  databaseURL:"https://anonimchat-769cc-default-rtdb.firebaseio.com",
+  projectId:"anonimchat-769cc",
+  storageBucket:"anonimchat-769cc.firebasestorage.app",
+  messagingSenderId:"807134985346",
+  appId:"1:807134985346:web:a65ca5499b3bb5d3eb489b"
+};
+const app=initializeApp(FB);
+const auth=getAuth(app);
+const db=getDatabase(app);
+const gProvider=new GoogleAuthProvider();
+const ADMIN='magabakinski@gmail.com';
 
-        // Orders
-        async function loadOrders() {
-            const ordersRef = ref(db, 'orders');
-            onValue(ordersRef, (snap) => {
-                const orders = [];
-                snap.forEach(child => {
-                    const order = child.val();
-                    if (order.userId === currentUser.uid) {
-                        orders.push({ key: child.key, ...order });
-                    }
-                });
-                orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                
-                const container = document.getElementById('orders-list');
-                if (orders.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><p>Hələ sifariş yoxdur</p></div>';
-                    return;
-                }
-                
-                container.innerHTML = orders.map(order => `
-                    <div class="user-card" style="margin-bottom: 0.75rem;">
-                        <div class="user-avatar">
-                            <i class="fas fa-box"></i>
-                        </div>
-                        <div class="user-info">
-                            <div class="user-name">${order.serviceName}</div>
-                            <div class="user-email">${order.contact} | ${new Date(order.createdAt).toLocaleDateString('az-AZ')}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-weight: 700;">${order.price} AZN</div>
-                            <span class="badge badge-${order.status === 'approved' ? 'success' : order.status === 'rejected' ? 'danger' : 'pending'}">
-                                ${order.status === 'approved' ? 'Təsdiqləndi' : order.status === 'rejected' ? 'Rədd edildi' : 'Gözləyir'}
-                            </span>
-                        </div>
-                    </div>
-                `).join('');
-            });
-        }
+let CU=null,isAdmin=false,activeTicketId=null,admActiveTicketId=null;
+let tkUnsubscribe=null,admTkUnsubscribe=null;
 
-        // Tickets
-        async function loadTickets() {
-            const ticketsRef = ref(db, 'tickets');
-            onValue(ticketsRef, (snap) => {
-                const tickets = [];
-                snap.forEach(child => {
-                    const ticket = child.val();
-                    if (ticket.userId === currentUser.uid) {
-                        tickets.push({ key: child.key, ...ticket });
-                    }
-                });
-                tickets.sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
-                
-                const container = document.getElementById('ticket-items');
-                if (tickets.length === 0) {
-                    container.innerHTML = '<div class="empty-state" style="padding: 2rem;"><i class="fas fa-ticket-alt"></i><p>Müraciət yoxdur</p></div>';
-                    return;
-                }
-                
-                container.innerHTML = tickets.map(ticket => `
-                    <div class="ticket-item ${activeTicketId === ticket.key ? 'active' : ''}" onclick="selectTicket('${ticket.key}')">
-                        <div class="ticket-subject">${ticket.subject}</div>
-                        <div class="ticket-meta">
-                            <span class="badge badge-${ticket.status === 'open' ? 'success' : 'neutral'}" style="font-size: 0.625rem;">
-                                ${ticket.status === 'open' ? 'Açıq' : 'Bağlı'}
-                            </span>
-                            <span>${new Date(ticket.updatedAt || ticket.createdAt).toLocaleDateString('az-AZ')}</span>
-                        </div>
-                    </div>
-                `).join('');
-            });
-        }
+/* ========== HELPERS ========== */
+function toast(msg,type='info',dur=3500){
+  const c=document.getElementById('toast-c');
+  const ic={success:'fa-check-circle',error:'fa-times-circle',warn:'fa-exclamation-circle',info:'fa-info-circle'};
+  const t=document.createElement('div');t.className=`toast ${type}`;
+  t.innerHTML=`<i class="fas ${ic[type]||ic.info}"></i><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(20px)';setTimeout(()=>t.remove(),300)},dur);
+}
+window.openModal=function(id){document.getElementById(id).classList.add('open')};
+window.closeModal=function(id){document.getElementById(id).classList.remove('open')};
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function money(v){return parseFloat(v||0).toFixed(2)+' AZN'}
+function fDT(ts){return ts?new Date(ts).toLocaleString('az-AZ'):'—'}
+function catIcon(c){return{hosting:'<i class="fas fa-server"></i>',vps:'<i class="fas fa-cloud"></i>',reseller:'<i class="fas fa-network-wired"></i>',domain:'<i class="fas fa-globe"></i>'}[c]||'<i class="fas fa-box"></i>'}
+function catLabel(c){return{hosting:'Hosting',vps:'VPS',reseller:'Reseller',domain:'Domain'}[c]||c||'Digər'}
 
-        window.openTicketModal = function() {
-            document.getElementById('ticket-modal').classList.add('active');
-        };
+/* ========== IP BAN CHECK ========== */
+async function checkBan(){
+  try{
+    const r=await fetch('https://api.ipify.org?format=json');
+    const d=await r.json();const ip=d.ip;
+    const k=ip.replace(/\./g,'_');
+    const sn=await get(ref(db,'banned_ips/'+k));
+    if(sn.exists()){document.getElementById('ban-screen').style.display='flex';return true}
+  }catch(e){console.warn('IP check failed',e)}
+  return false;
+}
 
-        window.closeTicketModal = function() {
-            document.getElementById('ticket-modal').classList.remove('active');
-        };
+/* ========== USER IP/UA HELPERS ========== */
+async function getUserIP(){
+  try{const r=await fetch('https://api.ipify.org?format=json');const d=await r.json();return d.ip}
+  catch(e){return'unknown'}
+}
 
-        window.createTicket = async function() {
-            const subject = document.getElementById('ticket-subject').value;
-            const message = document.getElementById('ticket-message').value;
-            
-            if (!subject || !message) {
-                showToast('Bütün sahələri doldurun', 'error');
-                return;
-            }
-            
-            const ticketRef = push(ref(db, 'tickets'));
-            await set(ticketRef, {
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                subject,
-                status: 'open',
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp()
-            });
-            
-            // Add first message
-            const msgRef = push(ref(db, `tickets/${ticketRef.key}/messages`));
-            await set(msgRef, {
-                text: message,
-                sender: 'user',
-                timestamp: serverTimestamp()
-            });
-            
-            await logAction('ticket_created', `Created ticket: ${subject}`);
-            showToast('Müraciət göndərildi', 'success');
-            closeTicketModal();
-            document.getElementById('ticket-subject').value = '';
-            document.getElementById('ticket-message').value = '';
-        };
+/* ========== AUTH TABS ========== */
+window.authTab=function(t){
+  document.getElementById('box-login').style.display=t==='login'?'block':'none';
+  document.getElementById('box-reg').style.display=t==='reg'?'block':'none';
+};
 
-        window.selectTicket = async function(ticketId) {
-            activeTicketId = ticketId;
-            const ticketSnap = await get(ref(db, `tickets/${ticketId}`));
-            const ticket = ticketSnap.val();
-            
-            // Update UI
-            document.querySelectorAll('.ticket-item').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            const container = document.getElementById('ticket-chat-container');
-            container.innerHTML = `
-                <div class="chat-header">
-                    <div>
-                        <div style="font-weight: 600;">${ticket.subject}</div>
-                        <div style="font-size: 0.875rem; color: var(--text-muted);">
-                            ${ticket.status === 'open' ? 'Açıq' : 'Bağlı'} | ${new Date(ticket.createdAt).toLocaleDateString('az-AZ')}
-                        </div>
-                    </div>
-                    ${ticket.status === 'open' ? `<button class="btn btn-outline btn-sm" onclick="closeTicket('${ticketId}')">Bağla</button>` : ''}
-                </div>
-                <div class="chat-messages" id="chat-messages"></div>
-                ${ticket.status === 'open' ? `
-                <div class="chat-input-area">
-                    <textarea class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." rows="1"></textarea>
-                    <button class="btn btn-primary" onclick="sendMessage('${ticketId}')">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                ` : ''}
-            `;
-            
-            // Load messages
-            const messagesRef = ref(db, `tickets/${ticketId}/messages`);
-            onValue(messagesRef, (snap) => {
-                const msgs = [];
-                snap.forEach(child => msgs.push(child.val()));
-                const msgsContainer = document.getElementById('chat-messages');
-                if (msgs.length === 0) return;
-                
-                msgsContainer.innerHTML = msgs.map(msg => `
-                    <div class="chat-message ${msg.sender === 'user' ? 'user' : 'admin'}">
-                        ${msg.text}
-                        <div style="font-size: 0.75rem; margin-top: 0.25rem; opacity: 0.7;">
-                            ${new Date(msg.timestamp).toLocaleTimeString('az-AZ')}
-                        </div>
-                    </div>
-                `).join('');
-                msgsContainer.scrollTop = msgsContainer.scrollHeight;
-            });
-        };
+/* ========== PASSWORD STRENGTH ========== */
+document.getElementById('r-pass').addEventListener('input',function(){
+  const v=this.value,f=document.getElementById('pw-fill');
+  const s=v.length<4?10:v.length<6?30:v.length<8?60:/[A-Z]/.test(v)&&/[0-9]/.test(v)?100:70;
+  const col=s<40?'#dc2626':s<70?'#d97706':'#10b981';
+  f.style.width=s+'%';f.style.background=col;
+});
 
-        window.sendMessage = async function(ticketId) {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            const msgRef = push(ref(db, `tickets/${ticketId}/messages`));
-            await set(msgRef, {
-                text,
-                sender: 'user',
-                timestamp: serverTimestamp()
-            });
-            
-            await update(ref(db, `tickets/${ticketId}`), {
-                updatedAt: serverTimestamp()
-            });
-            
-            input.value = '';
-        };
+/* ========== LOGIN ========== */
+document.getElementById('btn-login').onclick=async()=>{
+  const e=document.getElementById('l-email').value.trim();
+  const p=document.getElementById('l-pass').value;
+  const err=document.getElementById('l-err');err.textContent='';
+  if(!e||!p){err.textContent='Bütün sahələri doldurun';return}
+  const btn=document.getElementById('btn-login');
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Giriş edilir...';btn.disabled=true;
+  try{
+    await signInWithEmailAndPassword(auth,e,p);
+    // Log login
+    const ip=await getUserIP();
+    push(ref(db,'logs'),{type:'login',email:e,ip,userAgent:navigator.userAgent,timestamp:Date.now()});
+  }catch(ex){
+    err.textContent=ex.code==='auth/wrong-password'||ex.code==='auth/invalid-credential'?'Yanlış email və ya şifrə':
+      ex.code==='auth/user-not-found'?'İstifadəçi tapılmadı':'Xəta: '+ex.message;
+  }finally{btn.innerHTML='<i class="fas fa-arrow-right"></i> Daxil ol';btn.disabled=false}
+};
 
-        window.closeTicket = async function(ticketId) {
-            await update(ref(db, `tickets/${ticketId}`), {
-                status: 'closed',
-                updatedAt: serverTimestamp()
-            });
-            await logAction('ticket_closed', `Closed ticket ${ticketId}`);
-            showToast('Müraciət bağlandı', 'info');
-        };
+/* ========== REGISTER ========== */
+document.getElementById('btn-reg').onclick=async()=>{
+  const n=document.getElementById('r-name').value.trim();
+  const e=document.getElementById('r-email').value.trim();
+  const p=document.getElementById('r-pass').value;
+  const err=document.getElementById('r-err');err.textContent='';
+  if(!n||!e||!p){err.textContent='Bütün sahələri doldurun';return}
+  if(p.length<6){err.textContent='Şifrə min 6 simvol olmalıdır';return}
+  const btn=document.getElementById('btn-reg');
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Qeydiyyat...';btn.disabled=true;
+  try{
+    const ip=await getUserIP();
+    const uc=await createUserWithEmailAndPassword(auth,e,p);
+    const uid=uc.user.uid;const role=e===ADMIN?'admin':'user';
+    await set(ref(db,'users/'+uid),{
+      uid,username:n,email:e,
+      avatar:`https://ui-avatars.com/api/?name=${encodeURIComponent(n)}&background=111827&color=fff`,
+      balance:0,role,status:'offline',
+      createdAt:Date.now(),ip,userAgent:navigator.userAgent
+    });
+    // Log register
+    push(ref(db,'logs'),{type:'register',uid,email:e,username:n,ip,userAgent:navigator.userAgent,timestamp:Date.now()});
+    toast('Qeydiyyat uğurlu oldu!','success');
+  }catch(ex){
+    err.textContent=ex.code==='auth/email-already-in-use'?'Bu email artıq istifadə olunur':'Xəta: '+ex.message;
+  }finally{btn.innerHTML='<i class="fas fa-user-plus"></i> Qeydiyyatdan keç';btn.disabled=false}
+};
 
-        // Admin Functions
-        async function loadAdminData() {
-            // Stats
-            onValue(ref(db, 'users'), snap => {
-                document.getElementById('stat-users').textContent = snap.size;
-            });
-            
-            onValue(ref(db, 'orders'), snap => {
-                document.getElementById('stat-orders').textContent = snap.size;
-            });
-            
-            onValue(ref(db, 'payments'), snap => {
-                let pending = 0;
-                snap.forEach(child => {
-                    if (child.val().status === 'pending') pending++;
-                });
-                document.getElementById('stat-payments').textContent = pending;
-            });
-            
-            onValue(ref(db, 'tickets'), snap => {
-                let open = 0;
-                snap.forEach(child => {
-                    if (child.val().status === 'open') open++;
-                });
-                document.getElementById('stat-tickets').textContent = open;
-            });
-            
-            // Payments
-            onValue(ref(db, 'payments'), async (snap) => {
-                const payments = [];
-                snap.forEach(child => payments.push({ key: child.key, ...child.val() }));
-                payments.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                
-                const tbody = document.getElementById('admin-payment-list');
-                tbody.innerHTML = payments.map(p => `
-                    <tr>
-                        <td>${p.userEmail}</td>
-                        <td>${p.amount} AZN</td>
-                        <td>${p.proof}</td>
-                        <td>${new Date(p.createdAt).toLocaleDateString('az-AZ')}</td>
-                        <td>
-                            ${p.status === 'pending' ? `
-                                <button class="btn btn-success btn-sm" onclick="approvePayment('${p.key}', '${p.userId}', ${p.amount})">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="rejectPayment('${p.key}')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            ` : `<span class="badge badge-${p.status === 'approved' ? 'success' : 'danger'}">${p.status}</span>`}
-                        </td>
-                    </tr>
-                `).join('');
-            });
-            
-            // Orders
-            onValue(ref(db, 'orders'), async (snap) => {
-                const orders = [];
-                snap.forEach(child => orders.push({ key: child.key, ...child.val() }));
-                
-                const tbody = document.getElementById('admin-order-list');
-                tbody.innerHTML = orders.map(o => `
-                    <tr>
-                        <td>${o.key.slice(-6)}</td>
-                        <td>${o.userEmail}</td>
-                        <td>${o.serviceName}</td>
-                        <td>${o.price} AZN</td>
-                        <td><span class="badge badge-${o.status === 'approved' ? 'success' : o.status === 'rejected' ? 'danger' : 'pending'}">${o.status}</span></td>
-                        <td>
-                            ${o.status === 'pending' ? `
-                                <button class="btn btn-success btn-sm" onclick="approveOrder('${o.key}')"><i class="fas fa-check"></i></button>
-                                <button class="btn btn-danger btn-sm" onclick="rejectOrder('${o.key}')"><i class="fas fa-times"></i></button>
-                            ` : '-'}
-                        </td>
-                    </tr>
-                `).join('');
-            });
-            
-            // Users
-            onValue(ref(db, 'users'), (snap) => {
-                const container = document.getElementById('admin-user-list');
-                let html = '';
-                snap.forEach(child => {
-                    const user = child.val();
-                    html += `
-                        <div class="user-card">
-                            <div class="user-avatar">${user.name?.[0] || 'U'}</div>
-                            <div class="user-info">
-                                <div class="user-name">${user.name || 'Unknown'}</div>
-                                <div class="user-email">${user.email} | IP: ${user.ip || 'unknown'}</div>
-                            </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn btn-danger btn-sm" onclick="banUser('${child.key}')">Ban</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html || '<div class="empty-state">İstifadəçi yoxdur</div>';
-            });
-            
-            // Services
-            onValue(ref(db, 'services'), (snap) => {
-                const container = document.getElementById('admin-service-list');
-                let html = '<div class="table-wrap"><table><thead><tr><th>Ad</th><th>Kateqoriya</th><th>Qiymət</th><th>Əməliyyat</th></tr></thead><tbody>';
-                snap.forEach(child => {
-                    const s = child.val();
-                    html += `
-                        <tr>
-                            <td>${s.name}</td>
-                            <td>${s.category}</td>
-                            <td>${s.price} AZN</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" onclick="deleteService('${child.key}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                html += '</tbody></table></div>';
-                container.innerHTML = html;
-            });
-        }
+/* ========== GOOGLE LOGIN ========== */
+document.getElementById('btn-gg-login').onclick=async()=>{
+  try{
+    const uc=await signInWithPopup(auth,gProvider);
+    const u=uc.user,uid=u.uid;
+    const sn=await get(ref(db,'users/'+uid));
+    if(!sn.exists()){
+      const ip=await getUserIP();
+      const role=u.email===ADMIN?'admin':'user';
+      await set(ref(db,'users/'+uid),{
+        uid,username:u.displayName||'İstifadəçi',email:u.email,
+        avatar:u.photoURL||`https://ui-avatars.com/api/?name=U&background=111827&color=fff`,
+        balance:0,role,status:'offline',createdAt:Date.now(),ip,userAgent:navigator.userAgent
+      });
+      push(ref(db,'logs'),{type:'register_google',uid,email:u.email,ip,userAgent:navigator.userAgent,timestamp:Date.now()});
+    }
+  }catch(ex){document.getElementById('l-err').textContent='Google girişi uğursuz: '+ex.message}
+};
 
-        async function loadLogs() {
-            const logsRef = ref(db, 'logs');
-            onValue(logsRef, (snap) => {
-                const logs = [];
-                snap.forEach(child => logs.push(child.val()));
-                logs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                logs.slice(0, 100); // Last 100 logs
-                
-                const tbody = document.getElementById('logs-list');
-                tbody.innerHTML = logs.map(log => `
-                    <tr>
-                        <td>${new Date(log.timestamp).toLocaleString('az-AZ')}</td>
-                        <td>${log.userEmail}</td>
-                        <td>${log.action}</td>
-                        <td class="font-mono text-sm">${log.ip}</td>
-                        <td class="text-sm">${log.details}</td>
-                    </tr>
-                `).join('');
-            });
-        }
+/* ========== LOGOUT ========== */
+window.doLogout=function(){
+  if(confirm('Çıxmaq istəyirsiniz?')){signOut(auth)}
+};
 
-        window.showAdminTab = function(tabName) {
-            document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`admin-${tabName}`).classList.remove('hidden');
-        };
+/* ========== VIEW SWITCH ========== */
+window.showView=function(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const v=document.getElementById('view-'+name);
+  const si=document.getElementById('si-'+name);
+  if(v)v.classList.add('active');
+  if(si)si.classList.add('active');
+  closeSidebar();
+};
+window.closeSidebar=function(){
+  if(window.innerWidth<=968){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('open');
+  }
+};
 
-        window.approvePayment = async function(paymentId, userId, amount) {
-            // Update payment
-            await update(ref(db, `payments/${paymentId}`), { status: 'approved' });
-            
-            // Add balance
-            const userRef = ref(db, `users/${userId}`);
-            const userSnap = await get(userRef);
-            const currentBalance = userSnap.val()?.balance || 0;
-            await update(userRef, { balance: currentBalance + amount });
-            
-            // Add transaction
-            await push(ref(db, 'transactions'), {
-                userId,
-                type: 'deposit',
-                amount,
-                status: 'completed',
-                note: 'Admin tərəfindən təsdiq',
-                timestamp: serverTimestamp()
-            });
-            
-            await logAction('payment_approved', `Approved payment ${paymentId} for ${amount} AZN`);
-            showToast('Ödəniş təsdiq edildi', 'success');
-        };
+/* ========== MOBILE MENU ========== */
+document.getElementById('menu-tog').onclick=()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+};
 
-        window.rejectPayment = async function(paymentId) {
-            await update(ref(db, `payments/${paymentId}`), { status: 'rejected' });
-            await logAction('payment_rejected', `Rejected payment ${paymentId}`);
-            showToast('Ödəniş rədd edildi', 'info');
-        };
+/* ========== AUTH STATE ========== */
+onAuthStateChanged(auth,async u=>{
+  const loader=document.getElementById('loader');
+  if(u){
+    CU=u;isAdmin=u.email===ADMIN;
+    // Check if user is banned
+    const userSnap=await get(ref(db,'users/'+u.uid));
+    if(userSnap.exists()&&userSnap.val().banned){
+      signOut(auth);
+      document.getElementById('ban-screen').style.display='flex';
+      loader.style.display='none';return;
+    }
+    document.getElementById('auth-section').style.display='none';
+    document.getElementById('main-app').style.display='block';
+    loader.style.opacity='0';setTimeout(()=>loader.style.display='none',400);
+    document.getElementById('nav-av').src=u.photoURL||`https://ui-avatars.com/api/?name=${encodeURIComponent(u.displayName||'U')}&background=111827&color=fff`;
+    // Presence
+    const statusRef=ref(db,'users/'+u.uid+'/status');
+    const connRef=ref(db,'.info/connected');
+    onValue(connRef,snap=>{if(snap.val()===true){set(statusRef,'online');onDisconnect(statusRef).set('offline')}});
+    if(isAdmin)document.getElementById('admin-nav-sec').style.display='block';
+    initUserData();initStore();initMyTickets();
+    if(isAdmin)initAdminPanel();
+  }else{
+    CU=null;isAdmin=false;
+    loader.style.display='none';
+    document.getElementById('main-app').style.display='none';
+    if(document.getElementById('ban-screen').style.display!=='flex')
+      document.getElementById('auth-section').style.display='flex';
+  }
+});
 
-        window.approveOrder = async function(orderId) {
-            await update(ref(db, `orders/${orderId}`), { status: 'approved' });
-            await logAction('order_approved', `Approved order ${orderId}`);
-            showToast('Sifariş təsdiq edildi', 'success');
-        };
+/* ========== USER DATA ========== */
+function initUserData(){
+  onValue(ref(db,'users/'+CU.uid),snap=>{
+    const d=snap.val();if(!d)return;
+    document.getElementById('nav-uname').textContent=d.username||'İstifadəçi';
+    document.getElementById('nav-urole').textContent=d.role==='admin'?'Admin':'User';
+    document.getElementById('nav-bal').textContent=(d.balance||0).toFixed(2)+' AZN';
+    document.getElementById('wallet-bal').innerHTML=(d.balance||0).toFixed(2)+' <small>AZN</small>';
+  });
+  onValue(ref(db,'transactions'),snap=>{
+    let rows=[];
+    snap.forEach(ch=>{const t=ch.val();if(t.uid===CU.uid)rows.push(t)});
+    rows.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    const tbl=document.getElementById('tx-tbl');
+    if(!rows.length){tbl.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:28px">Hələ əməliyyat yoxdur</td></tr>';return}
+    tbl.innerHTML=rows.map(t=>{
+      const cls=t.type==='deposit'?'b-ok':'b-bad';
+      const sign=t.type==='deposit'?'+':'-';
+      return`<tr><td><span class="badge ${cls}">${t.type}</span></td>
+        <td style="font-weight:700">${sign}${parseFloat(t.amount||0).toFixed(2)} AZN</td>
+        <td style="font-size:13px;color:var(--text-secondary)">${esc(t.method||'—')}</td>
+        <td><span class="badge ${t.status==='completed'?'b-ok':'b-pend'}">${t.status||'—'}</span></td>
+        <td style="font-size:12px;color:var(--text-secondary)">${fDT(t.timestamp)}</td></tr>`;
+    }).join('');
+  });
+  onValue(ref(db,'orders'),snap=>{
+    let items=[];
+    snap.forEach(ch=>{const o=ch.val();if(o.uid===CU.uid)items.push({key:ch.key,...o})});
+    items.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    const cont=document.getElementById('my-orders-cont');
+    if(!items.length){cont.innerHTML='<div class="empty-state"><i class="fas fa-box-open"></i><p>Hələ sifariş yoxdur</p></div>';return}
+    cont.innerHTML=items.map(o=>{
+      const cls=o.status==='approved'?'b-ok':o.status==='rejected'?'b-bad':'b-pend';
+      return`<div class="order-card">
+        <div>
+          <div class="order-svc">${catLabel(o.category)} — ${esc(o.serviceName||'Xidmət')}</div>
+          <div class="order-meta">
+            <span><i class="fas fa-phone"></i> ${esc(o.contact||'—')}</span>
+            <span><i class="fas fa-clock"></i> ${fDT(o.timestamp)}</span>
+            ${o.adminNote?`<span style="color:var(--text)"><i class="fas fa-sticky-note"></i> ${esc(o.adminNote)}</span>`:''}
+          </div>
+        </div>
+        <div class="order-stat">
+          <div class="order-price">${parseFloat(o.price||0).toFixed(2)} AZN</div>
+          <span class="badge ${cls}" style="margin-top:6px;display:inline-block">${o.status}</span>
+        </div>
+      </div>`;
+    }).join('');
+    const pending=items.filter(o=>o.status==='pending').length;
+    document.getElementById('orders-dot').style.display=pending?'flex':'none';
+  });
+}
 
-        window.rejectOrder = async function(orderId) {
-            await update(ref(db, `orders/${orderId}`), { status: 'rejected' });
-            await logAction('order_rejected', `Rejected order ${orderId}`);
-            showToast('Sifariş rədd edildi', 'info');
-        };
+/* ========== STORE ========== */
+let allSvcs=[];
+function initStore(){
+  onValue(ref(db,'services'),snap=>{
+    allSvcs=[];
+    snap.forEach(ch=>{allSvcs.push({key:ch.key,...ch.val()})});
+    renderSvcs('all');
+  });
+}
+function renderSvcs(cat){
+  const list=cat==='all'?allSvcs:allSvcs.filter(s=>s.category===cat);
+  const cont=document.getElementById('svcs-container');
+  if(!list.length){cont.innerHTML='<div class="empty-state"><i class="fas fa-store"></i><p>Bu kateqoriyada xidmət yoxdur</p></div>';return}
+  cont.innerHTML=list.map(s=>{
+    return`<div class="svc-card">
+      <div class="svc-icon-wrap">${catIcon(s.category)}</div>
+      <div class="svc-name">${esc(s.name)}</div>
+      <div class="svc-cat-tag">${catLabel(s.category)}</div>
+      ${s.desc?`<div class="svc-desc">${esc(s.desc)}</div>`:''}
+      <div class="svc-price">${parseFloat(s.price||0).toFixed(2)} AZN <small>/ay</small></div>
+      <button class="btn-buy" onclick="buySvc('${s.key}','${esc(s.name)}',${s.price},'${s.category||'other'}')">
+        <i class="fas fa-shopping-cart"></i> İndi Al
+      </button>
+    </div>`;
+  }).join('');
+}
+window.filterSvcs=function(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSvcs(cat);
+};
+window.buySvc=async function(id,name,price,cat){
+  const contact=prompt(`Sifariş: ${name} — ${parseFloat(price).toFixed(2)} AZN\n\nƏlaqə nömrəsi / Telegram yazın:`);
+  if(!contact)return;
+  try{
+    const res=await runTransaction(ref(db,'users/'+CU.uid),(u)=>{
+      if(u){if(u.balance>=parseFloat(price)){u.balance=parseFloat((u.balance-parseFloat(price)).toFixed(4));return u}return}
+      return u;
+    });
+    if(res.committed){
+      const newOrd=push(ref(db,'orders'));
+      await set(newOrd,{uid:CU.uid,serviceId:id,serviceName:name,category:cat,price:parseFloat(price),contact,status:'pending',timestamp:serverTimestamp()});
+      await push(ref(db,'transactions'),{uid:CU.uid,type:'purchase',amount:parseFloat(price),status:'completed',method:'balance',note:'Sifariş: '+name,timestamp:serverTimestamp()});
+      // Log user action
+      push(ref(db,'logs'),{type:'purchase',uid:CU.uid,serviceName:name,amount:parseFloat(price),timestamp:Date.now()});
+      toast('Sifariş qəbul edildi! Admin təsdiqini gözləyin.','success');
+    }else{
+      toast('Balans çatışmır. Cüzdanınızı yükləyin.','error');
+    }
+  }catch(ex){toast('Xəta: '+ex.message,'error')}
+};
 
-        window.banUser = async function(userId) {
-            await set(ref(db, `banned_users/${userId}`), {
-                bannedAt: serverTimestamp(),
-                bannedBy: currentUser.uid
-            });
-            await logAction('user_banned', `Banned user ${userId}`);
-            showToast('İstifadəçi bloklandı', 'success');
-        };
+/* ========== DEPOSIT ========== */
+window.submitDeposit=async function(){
+  const amt=parseFloat(document.getElementById('dep-amt').value);
+  const prf=document.getElementById('dep-proof').value.trim();
+  if(!amt||amt<=0||!prf){toast('Bütün sahələri doldurun','error');return}
+  try{
+    await push(ref(db,'payments'),{uid:CU.uid,amount:amt,proof:prf,method:'BirBank/Manual',status:'pending',timestamp:serverTimestamp()});
+    closeModal('dep-modal');
+    document.getElementById('dep-amt').value='';document.getElementById('dep-proof').value='';
+    toast('Ödəniş tələbi göndərildi. Admin təsdiqləyəcək.','success');
+  }catch(ex){toast('Xəta: '+ex.message,'error')}
+};
 
-        window.deleteService = async function(serviceId) {
-            if (!confirm('Xidməti silmək istədiyinizə əminsiniz?')) return;
-            await remove(ref(db, `services/${serviceId}`));
-            await logAction('service_deleted', `Deleted service ${serviceId}`);
-            showToast('Xidmət silindi', 'info');
-        };
+/* ========== TICKET SYSTEM (USER) ========== */
+function initMyTickets(){
+  onValue(ref(db,'tickets'),snap=>{
+    let list=[];
+    snap.forEach(ch=>{const t=ch.val();if(t.uid===CU.uid)list.push({key:ch.key,...t})});
+    list.sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));
+    document.getElementById('tk-count').textContent=list.length+' bilet';
+    const cont=document.getElementById('ticket-list-items');
+    if(!list.length){cont.innerHTML='<div class="empty-state" style="padding:28px"><i class="fas fa-ticket-alt"></i><p>Müraciət yoxdur</p></div>';return}
+    cont.innerHTML=list.map(t=>{
+      const isOpen=t.status!=='closed';
+      const lastMsg=t.messages?Object.values(t.messages).sort((a,b)=>(b.ts||0)-(a.ts||0))[0]:null;
+      return`<div class="ticket-item${activeTicketId===t.key?' active':''}" onclick="selectTicket('${t.key}','${esc(t.subject)}','${t.status}')">
+        <div style="display:flex;align-items:center;margin-bottom:3px">
+          <span class="ticket-status-dot ${isOpen?'open':''}"></span>
+          <span class="ticket-subj">${esc(t.subject)}</span>
+        </div>
+        <div class="ticket-prev">${lastMsg?esc((lastMsg.text||'').substring(0,44)):'Mesaj yoxdur'}</div>
+        <div class="ticket-ts">${fDT(t.updatedAt||t.createdAt)}</div>
+      </div>`;
+    }).join('');
+    const hasNew=list.some(t=>t.status==='open'&&t.lastAdminMsg&&(!t.lastUserRead||t.lastAdminMsg>t.lastUserRead));
+    document.getElementById('tickets-dot').style.display=hasNew?'flex':'none';
+  });
+}
+window.selectTicket=function(id,subj,status){
+  activeTicketId=id;
+  document.getElementById('no-sel-msg').style.display='none';
+  const chatActive=document.getElementById('chat-active');chatActive.style.display='flex';
+  document.getElementById('chat-tk-subj').textContent=subj;
+  document.getElementById('chat-tk-status').textContent=status==='closed'?'Bağlı':'Açıq';
+  document.getElementById('close-tk-btn').style.display=status==='closed'?'none':'flex';
+  document.getElementById('tk-inp-area').style.display=status==='closed'?'none':'flex';
+  update(ref(db,'tickets/'+id),{lastUserRead:Date.now()});
+  if(tkUnsubscribe)tkUnsubscribe();
+  tkUnsubscribe=onValue(ref(db,'tickets/'+id+'/messages'),snap=>{
+    const msgs=document.getElementById('tk-msgs');
+    if(!snap.exists()){msgs.innerHTML='<div class="empty-state"><i class="fas fa-comments"></i><p>Mesaj yoxdur</p></div>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    rows.sort((a,b)=>(a.ts||0)-(b.ts||0));
+    msgs.innerHTML=rows.map(m=>{
+      const isMe=m.uid===CU.uid;
+      return`<div class="ticket-msg ${isMe?'me':'admin-msg'}">
+        ${!isMe?`<div class="ticket-msg-from"><i class="fas fa-shield-alt"></i> Admin</div>`:''}
+        <div class="ticket-bubble">${esc(m.text||'')}</div>
+        <div class="ticket-msg-time">${fDT(m.ts)}</div>
+      </div>`;
+    }).join('');
+    msgs.scrollTop=msgs.scrollHeight;
+  });
+  document.querySelectorAll('#ticket-list-items .ticket-item').forEach(el=>{
+    el.classList.toggle('active',el.getAttribute('onclick')?.includes(id));
+  });
+};
+window.sendTicketMsg=async function(){
+  const inp=document.getElementById('tk-msg-inp');
+  const text=inp.value.trim();if(!text||!activeTicketId)return;
+  try{
+    await push(ref(db,'tickets/'+activeTicketId+'/messages'),{uid:CU.uid,text,ts:Date.now(),role:'user'});
+    await update(ref(db,'tickets/'+activeTicketId),{updatedAt:Date.now()});
+    inp.value='';
+  }catch(ex){toast('Mesaj göndərilmədi','error')}
+};
+document.getElementById('tk-msg-inp').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();window.sendTicketMsg()}
+});
+window.closeTicket=async function(){
+  if(!activeTicketId)return;
+  if(confirm('Bileti bağlamaq istəyirsiniz?')){
+    await update(ref(db,'tickets/'+activeTicketId),{status:'closed',closedAt:Date.now()});
+    toast('Bilet bağlandı','info');
+  }
+};
+window.createTicket=async function(){
+  const subj=document.getElementById('tk-subj').value.trim();
+  const msg=document.getElementById('tk-msg').value.trim();
+  if(!subj||!msg){toast('Bütün sahələri doldurun','error');return}
+  try{
+    const tk=push(ref(db,'tickets'));
+    await set(tk,{uid:CU.uid,subject:subj,status:'open',createdAt:Date.now(),updatedAt:Date.now()});
+    await push(ref(db,'tickets/'+tk.key+'/messages'),{uid:CU.uid,text:msg,ts:Date.now(),role:'user'});
+    closeModal('new-ticket-modal');
+    document.getElementById('tk-subj').value='';document.getElementById('tk-msg').value='';
+    toast('Müraciət yaradıldı!','success');
+  }catch(ex){toast('Xəta: '+ex.message,'error')}
+};
 
-        window.openAddServiceModal = async function() {
-            const { value: formValues } = await Swal.fire({
-                title: 'Yeni Xidmət',
-                html:
-                    '<input id="swal-name" class="swal2-input" placeholder="Xidmət adı">' +
-                    '<input id="swal-price" type="number" class="swal2-input" placeholder="Qiymət">' +
-                    '<select id="swal-cat" class="swal2-input">' +
-                    '<option value="hosting">Hosting</option>' +
-                    '<option value="vps">VPS</option>' +
-                    '<option value="domain">Domain</option>' +
-                    '<option value="email">Email</option>' +
-                    '</select>',
-                focusConfirm: false,
-                preConfirm: () => {
-                    return [
-                        document.getElementById('swal-name').value,
-                        document.getElementById('swal-price').value,
-                        document.getElementById('swal-cat').value
-                    ]
-                },
-                background: '#ffffff',
-                color: '#0f172a'
-            });
-            
-            if (formValues) {
-                const [name, price, category] = formValues;
-                if (!name || !price) {
-                    showToast('Bütün sahələri doldurun', 'error');
-                    return;
-                }
-                
-                await push(ref(db, 'services'), {
-                    name,
-                    price: parseFloat(price),
-                    category,
-                    createdAt: serverTimestamp()
-                });
-                
-                await logAction('service_created', `Created service ${name}`);
-                showToast('Xidmət əlavə edildi', 'success');
-            }
-        };
+/* ========== ADMIN PANEL ========== */
+function initAdminPanel(){
+  // Stats
+  onValue(ref(db,'users'),snap=>{let c=0;snap.forEach(()=>c++);document.getElementById('adm-s-users').textContent=c});
+  onValue(ref(db,'orders'),snap=>{let c=0;snap.forEach(()=>c++);document.getElementById('adm-s-orders').textContent=c});
+  onValue(ref(db,'payments'),snap=>{let c=0;snap.forEach(ch=>{if(ch.val().status==='pending')c++});document.getElementById('adm-s-deps').textContent=c});
+  onValue(ref(db,'tickets'),snap=>{let c=0;snap.forEach(ch=>{if(ch.val().status!=='closed')c++});document.getElementById('adm-s-tickets').textContent=c});
 
-        window.clearLogs = async function() {
-            if (!confirm('Bütün logları silmək istədiyinizə əminsiniz?')) return;
-            await remove(ref(db, 'logs'));
-            showToast('Loglar təmizləndi', 'info');
-        };
+  // Payments table
+  onValue(ref(db,'payments'),snap=>{
+    const tbl=document.getElementById('adm-pay-tbl');
+    if(!snap.exists()){tbl.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:28px">Ödəniş yoxdur</td></tr>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    rows.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    tbl.innerHTML=rows.map(p=>{
+      const cls=p.status==='completed'?'b-ok':p.status==='rejected'?'b-bad':'b-pend';
+      return`<tr>
+        <td style="font-size:12px">${esc(p.uid?.substring(0,10)||'—')}...</td>
+        <td style="font-weight:700">${money(p.amount)}</td>
+        <td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis">${esc(p.proof||'—')}</td>
+        <td style="font-size:12px;color:var(--text-secondary)">${fDT(p.timestamp)}</td>
+        <td><div class="act-row">
+          ${p.status==='pending'?`<button class="bx bx-ok" onclick="admApprovePay('${p.key}','${p.uid}',${p.amount})">Təsdiqlə</button>
+          <button class="bx bx-bad" onclick="admRejectPay('${p.key}')">Rədd et</button>`:
+          `<span class="badge ${cls}">${p.status}</span>`}
+        </div></td>
+      </tr>`;
+    }).join('');
+  });
 
-        // Global helpers for onclick
-        window.scrollToServices = function() {
-            document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-        };
+  // Orders table
+  onValue(ref(db,'orders'),snap=>{
+    const tbl=document.getElementById('adm-ord-tbl');
+    if(!snap.exists()){tbl.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-secondary);padding:28px">Sifariş yoxdur</td></tr>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    rows.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    tbl.innerHTML=rows.map(o=>{
+      const cls=o.status==='approved'?'b-ok':o.status==='rejected'?'b-bad':'b-pend';
+      return`<tr>
+        <td style="font-size:12px">${esc(o.uid?.substring(0,10)||'—')}...</td>
+        <td style="font-weight:600;font-size:13px">${esc(o.serviceName||'—')}</td>
+        <td>${money(o.price)}</td>
+        <td style="font-size:13px">${esc(o.contact||'—')}</td>
+        <td><span class="badge ${cls}">${o.status}</span></td>
+        <td><input class="adm-inp" id="on_${o.key}" value="${esc(o.adminNote||'')}" placeholder="Qeyd..." style="width:130px;padding:6px 10px;font-size:12px"/></td>
+        <td><div class="act-row">
+          ${o.status==='pending'?`<button class="bx bx-ok" onclick="admApproveOrd('${o.key}')">Təsdiqlə</button>
+          <button class="bx bx-bad" onclick="admRejectOrd('${o.key}')">Rədd et</button>`:''}
+          <button class="bx bx-info" onclick="admSaveNote('${o.key}')">Qeyd saxla</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  });
 
-        window.scrollToDomain = function() {
-            document.getElementById('domain').scrollIntoView({ behavior: 'smooth' });
-        };
+  // Services table
+  onValue(ref(db,'services'),snap=>{
+    const tbl=document.getElementById('adm-svc-tbl');
+    if(!snap.exists()){tbl.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:28px">Xidmət yoxdur</td></tr>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    tbl.innerHTML=rows.map(s=>`<tr>
+      <td style="font-weight:600">${esc(s.name)}</td>
+      <td><span class="badge b-pend">${catLabel(s.category)}</span></td>
+      <td style="font-size:13px;color:var(--text-secondary)">${esc(s.desc||'—')}</td>
+      <td style="font-weight:700">${money(s.price)}</td>
+      <td><button class="bx bx-bad" onclick="admDelSvc('${s.key}')"><i class="fas fa-trash"></i></button></td>
+    </tr>`).join('');
+  });
 
-        window.toggleMobileMenu = function() {
-            // For mobile menu in auth view
-            const nav = document.querySelector('.nav-menu');
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-        };
+  // Admin tickets
+  onValue(ref(db,'tickets'),snap=>{
+    const list=document.getElementById('adm-ticket-list');
+    if(!snap.exists()){list.innerHTML='<div class="empty-state" style="padding:28px"><i class="fas fa-ticket-alt"></i><p>Bilet yoxdur</p></div>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    rows.sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));
+    list.innerHTML=rows.map(t=>{
+      const isOpen=t.status!=='closed';
+      return`<div class="ticket-item" onclick="admSelectTicket('${t.key}','${esc(t.subject)}','${t.uid}','${t.status}')">
+        <div style="display:flex;align-items:center;margin-bottom:3px">
+          <span class="ticket-status-dot ${isOpen?'open':''}"></span>
+          <span class="ticket-subj">${esc(t.subject)}</span>
+        </div>
+        <div class="ticket-ts">${fDT(t.updatedAt||t.createdAt)}</div>
+      </div>`;
+    }).join('');
+  });
 
-        window.searchDomain = function() {
-            const domain = document.getElementById('domain-input').value;
-            if (!domain) {
-                showToast('Domain adı daxil edin', 'error');
-                return;
-            }
-            showToast(`${domain} üçün axtarış başladı... (Demo)`, 'info');
-        };
+  // Users
+  onValue(ref(db,'users'),snap=>{
+    const cont=document.getElementById('adm-users-cont');
+    if(!snap.exists()){cont.innerHTML='<div class="empty-state"><i class="fas fa-users"></i><p>İstifadəçi yoxdur</p></div>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    cont.innerHTML=rows.map(u=>`
+      <div class="adm-user-card">
+        <div class="adm-user-av">${(u.username||'U')[0].toUpperCase()}</div>
+        <div class="adm-user-info">
+          <div class="adm-user-name">
+            <span class="online-dot-s ${u.status==='online'?'on':''}"></span>
+            ${esc(u.username||'—')} ${u.role==='admin'?'(Admin)':''}
+          </div>
+          <div class="adm-user-email">${esc(u.email||'—')}</div>
+          <div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">${esc(u.ip||'')}</div>
+        </div>
+        <div class="act-row">
+          <button class="bx ${u.banned?'bx-ok':'bx-bad'}" onclick="admToggleBan('${u.key||u.uid}',${!!u.banned})">
+            ${u.banned?'Unban':'Ban'}
+          </button>
+        </div>
+      </div>`).join('');
+  });
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            const userDropdown = document.getElementById('user-dropdown');
-            const userMenu = e.target.closest('.user-menu');
-            if (!userMenu && userDropdown) {
-                userDropdown.style.display = 'none';
-            }
-        });
+  // IP Ban list
+  onValue(ref(db,'banned_ips'),snap=>{
+    const l=document.getElementById('ip-list');
+    if(!snap.exists()){l.innerHTML='<li style="text-align:center;color:var(--text-secondary);padding:28px">Ban siyahısı boşdur</li>';return}
+    let rows='';snap.forEach(ch=>{const v=ch.val();
+      rows+=`<li class="ip-item">
+        <div><div class="ip-val">${esc(v.ip||ch.key.replace(/_/g,'.'))}</div><div class="ip-date">${fDT(v.bannedAt||v.timestamp)}</div></div>
+        <button class="bx bx-ok" onclick="admUnbanIP('${ch.key}')"><i class="fas fa-unlock"></i> Sil</button>
+      </li>`;
+    });
+    l.innerHTML=rows;
+  });
+}
 
-        // Check ban on load
-        checkBan();
-    </script>
+/* ========== ADMIN TICKET CHAT ========== */
+window.admSelectTicket=function(id,subj,uid,status){
+  admActiveTicketId=id;
+  document.getElementById('adm-no-sel').style.display='none';
+  const ac=document.getElementById('adm-chat-active');ac.style.display='flex';
+  document.getElementById('adm-chat-subj').textContent=subj;
+  document.getElementById('adm-chat-user').textContent='UID: '+uid.substring(0,12)+'...';
+  if(admTkUnsubscribe)admTkUnsubscribe();
+  admTkUnsubscribe=onValue(ref(db,'tickets/'+id+'/messages'),snap=>{
+    const msgs=document.getElementById('adm-tk-msgs');
+    if(!snap.exists()){msgs.innerHTML='<div class="empty-state"><i class="fas fa-comments"></i><p>Mesaj yoxdur</p></div>';return}
+    let rows=[];snap.forEach(ch=>rows.push({key:ch.key,...ch.val()}));
+    rows.sort((a,b)=>(a.ts||0)-(b.ts||0));
+    msgs.innerHTML=rows.map(m=>{
+      const isAdm=m.uid===ADMIN||m.role==='admin';
+      return`<div class="ticket-msg ${isAdm?'me':'admin-msg'}">
+        ${!isAdm?`<div class="ticket-msg-from"><i class="fas fa-user"></i> İstifadəçi</div>`:''}
+        <div class="ticket-bubble">${esc(m.text||'')}</div>
+        <div class="ticket-msg-time">${fDT(m.ts)}</div>
+      </div>`;
+    }).join('');
+    msgs.scrollTop=msgs.scrollHeight;
+  });
+};
+window.admSendTicketMsg=async function(){
+  const inp=document.getElementById('adm-tk-inp');
+  const text=inp.value.trim();if(!text||!admActiveTicketId)return;
+  try{
+    await push(ref(db,'tickets/'+admActiveTicketId+'/messages'),{uid:ADMIN,text,ts:Date.now(),role:'admin'});
+    await update(ref(db,'tickets/'+admActiveTicketId),{updatedAt:Date.now(),lastAdminMsg:Date.now()});
+    inp.value='';toast('Cavab göndərildi','success');
+  }catch(ex){toast('Xəta: '+ex.message,'error')}
+};
+document.getElementById('adm-tk-inp').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();window.admSendTicketMsg()}
+});
+window.admCloseTicket=async function(){
+  if(!admActiveTicketId)return;
+  await update(ref(db,'tickets/'+admActiveTicketId),{status:'closed',closedAt:Date.now()});
+  toast('Bilet bağlandı','info');
+};
+
+/* ========== ADMIN FUNCTIONS ========== */
+window.admApprovePay=async function(pid,uid,amount){
+  if(!confirm(`${money(amount)} əlavə edilsin?`))return;
+  try{
+    await runTransaction(ref(db,'users/'+uid+'/balance'),cur=>(cur||0)+parseFloat(amount));
+    await update(ref(db,'payments/'+pid),{status:'completed',approvedAt:Date.now()});
+    await push(ref(db,'transactions'),{uid,type:'deposit',amount:parseFloat(amount),status:'completed',method:'manual',note:'Admin tərəfindən əlavə edildi',timestamp:serverTimestamp()});
+    toast('Balans əlavə edildi!','success');
+  }catch(ex){toast('Xəta: '+ex.message,'error')}
+};
+window.admRejectPay=async function(pid){
+  if(confirm('Rədd etmək istəyirsiniz?')){
+    await update(ref(db,'payments/'+pid),{status:'rejected'});toast('Ödəniş rədd edildi','warn');
+  }
+};
+window.admApproveOrd=async function(id){
+  await update(ref(db,'orders/'+id),{status:'approved'});toast('Sifariş təsdiq edildi','success');
+};
+window.admRejectOrd=async function(id){
+  await update(ref(db,'orders/'+id),{status:'rejected'});toast('Sifariş rədd edildi','warn');
+};
+window.admSaveNote=async function(id){
+  const n=document.getElementById('on_'+id)?.value||'';
+  await update(ref(db,'orders/'+id),{adminNote:n});toast('Qeyd saxlandı','success');
+};
+window.addService=async function(){
+  const n=document.getElementById('adm-srv-n').value.trim();
+  const p=parseFloat(document.getElementById('adm-srv-p').value);
+  const c=document.getElementById('adm-srv-c').value;
+  const d=document.getElementById('adm-srv-d').value.trim();
+  if(!n){toast('Ad daxil edin','error');return}
+  if(!p||p<=0){toast('Düzgün qiymət daxil edin','error');return}
+  try{
+    await push(ref(db,'services'),{name:n,price:p,category:c,desc:d||'',createdAt:serverTimestamp()});
+    document.getElementById('adm-srv-n').value='';document.getElementById('adm-srv-p').value='';document.getElementById('adm-srv-d').value='';
+    toast('Xidmət əlavə edildi!','success');
+  }catch(ex){toast('Xəta: '+ex.message,'error')}
+};
+window.admDelSvc=async function(id){
+  if(confirm('Silmək istəyirsiniz?')){
+    await remove(ref(db,'services/'+id));toast('Xidmət silindi','info');
+  }
+};
+window.admToggleBan=async function(uid,isBanned){
+  if(isBanned){
+    await update(ref(db,'users/'+uid),{banned:false});toast('Ban qaldırıldı','success');
+  }else{
+    if(confirm('Bu istifadəçini ban etmək istəyirsiniz?')){
+      await update(ref(db,'users/'+uid),{banned:true,bannedAt:Date.now()});toast('İstifadəçi ban edildi','warn');
+    }
+  }
+};
+window.doBanIP=async function(){
+  const ip=document.getElementById('ban-ip-inp').value.trim();
+  if(!ip||!/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)){toast('Düzgün IP formatı daxil edin','error');return}
+  const k=ip.replace(/\./g,'_');
+  await set(ref(db,'banned_ips/'+k),{ip,bannedAt:Date.now(),bannedBy:CU.uid});
+  document.getElementById('ban-ip-inp').value='';toast(ip+' bloklandı','warn');
+};
+window.admUnbanIP=async function(k){
+  await remove(ref(db,'banned_ips/'+k));toast('IP ban siyahısından çıxarıldı','success');
+};
+
+/* ========== ADMIN TABS ========== */
+window.admTab=function(name,btn){
+  document.querySelectorAll('.adm-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.adm-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('adm-'+name).classList.add('active');
+};
+
+/* ========== INIT ========== */
+(async()=>{
+  const banned=await checkBan();
+  if(!banned){
+    setTimeout(()=>{
+      const loader=document.getElementById('loader');
+      if(loader.style.display!=='none'&&!auth.currentUser){
+        loader.style.opacity='0';
+        setTimeout(()=>{loader.style.display='none';document.getElementById('auth-section').style.display='flex'},400);
+      }
+    },1800);
+  }
+})();
+</script>
 </body>
 </html>
