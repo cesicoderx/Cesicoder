@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>🔥 MagaPlatform | Premium Hosting & VPS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
@@ -341,23 +341,55 @@ textarea.modal-inp{resize:vertical;min-height:90px}
 .empty-state i{font-size:52px;opacity:.25}
 .empty-state p{font-size:15px}
 
-/* RESPONSIVE */
-@media(max-width:968px){
-  .auth-wrap{grid-template-columns:1fr}
-  .auth-visual{display:none}
-  .sidebar{position:fixed;left:-280px;height:100vh;z-index:90;box-shadow:var(--shadow)}
-  .sidebar.open{left:0}
-  .menu-tog{display:block}
-  .wallet-dash{grid-template-columns:1fr}
-  .services-grid{grid-template-columns:1fr}
-  .tickets-layout,.admin-ticket-layout{grid-template-columns:1fr}
-  .ticket-list{max-height:300px}
-  .adm-form{grid-template-columns:1fr 1fr}
-  .tickets-layout .ticket-chat{min-height:400px}
-  .navbar{padding:0 16px}
-  .view{padding:16px}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .user-name,.user-role{display:none}
+/* HORIZONTAL OVERFLOW (SAĞDAKI BOŞLUQ) PROBLEMININ HƏLLİ */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* MOBİL ÜÇÜN XÜSUSİ DÜZƏLİŞLƏR */
+@media(max-width:968px) {
+  .auth-wrap { grid-template-columns: 1fr; }
+  .auth-visual { display: none; }
+  .sidebar { position: fixed; left: -280px; height: 100vh; z-index: 90; box-shadow: var(--shadow); }
+  .sidebar.open { left: 0; }
+  .menu-tog { display: block; }
+  .wallet-dash { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .tickets-layout, .admin-ticket-layout { grid-template-columns: 1fr; }
+  .ticket-list { max-height: 300px; }
+  .adm-form { grid-template-columns: 1fr 1fr; }
+  .tickets-layout .ticket-chat { min-height: 400px; }
+  
+  /* Navbar və Məzmun Düzəlişləri */
+  .navbar { padding: 0 12px; gap: 8px; }
+  .nav-right { gap: 10px; }
+  .nav-brand { font-size: 18px; gap: 8px; }
+  .view { padding: 12px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .user-name, .user-role { display: none; }
+  
+  /* Cədvəlin daşmasının qarşısını almaq */
+  .tbl-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .card-box { padding: 16px; }
+  .balance-card { padding: 24px 16px; }
+}
+
+@media(max-width:480px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .adm-form { grid-template-columns: 1fr; }
+  .filter-bar { gap: 6px; }
+  .filter-btn { padding: 7px 12px; font-size: 12px; }
+  
+  /* Çox kiçik ekranlarda navbar elementlərini sıxışdırmaq */
+  .nav-brand-text { display: none; } /* Sadəcə loqo ikonu qalsın */
+  .wallet-pill { padding: 6px 10px; font-size: 12px; }
+  .user-prof { padding: 4px; }
+  .user-prof img { width: 32px; height: 32px; }
+  .page-title { font-size: 20px; }
+  .balance-card .amount { font-size: 32px; }
 }
 @media(max-width:480px){
   .stats-row{grid-template-columns:1fr}
