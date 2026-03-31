@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>AnonChat &amp; Hosting</title>
+<title>MagaAdmin &amp; Hosting</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -371,7 +371,7 @@ html,body{height:100%;overflow:hidden;font-family:'Syne',sans-serif;background:v
     <div class="auth-card">
       <div class="auth-logo">
         <span class="auth-logo-icon">&#9889;</span>
-        <h1>AnonChat</h1>
+        <h1>MagaAdmin</h1>
         <p class="auth-tagline">// real-time &middot; anonymous &middot; hosting</p>
       </div>
       <div class="auth-tabs">
@@ -412,7 +412,7 @@ html,body{height:100%;overflow:hidden;font-family:'Syne',sans-serif;background:v
 
 <div id="mainApp">
   <div class="topbar">
-    <div class="tb-logo">&#9889; AnonChat</div>
+    <div class="tb-logo">&#9889; MagaAdmin</div>
     <nav class="tb-nav">
       <button class="nav-btn active" id="navChat"     onclick="showPanel('chat')">&#128172; Chat</button>
       <button class="nav-btn"        id="navServices" onclick="showPanel('services')">&#128230; Xidm&#601;tl&#601;r</button>
@@ -799,7 +799,7 @@ window.depPrev=function(){
   const amt=parseFloat($("depAmt").value),box=$("depIns");
   if(!amt||amt<=0){box.textContent="M\u0259bl\u0259\u011fi yuxar\u0131da daxil edin...";return}
   const uid=CU?CU.uid:"UID";
-  box.innerHTML=`M\u0259bl\u0259\u011fi k\u00f6\u00e7\u00fcr: <span class="ah">&#8380;${amt.toFixed(2)}</span><br><br>&#128179; Kart: <span class="cn">4169 7388 0000 0001</span><br>&#128100; Ad: <strong style="color:var(--t)">ANONCHAT LLC</strong><br><br><span style="color:var(--warn);font-size:12px">&#9888;&#65039; A\u00e7\u0131qlamaya m\u00fct\u0259q q eyd yaz&#305;n:</span><div class="ub">${esc(uid)}</div><div style="margin-top:10px;font-size:11px;color:var(--t3)">Admin 5-30 d\u0259q \u0259rzind\u0259 t\u0259sdiql\u0259y\u0259c\u0259k.</div>`;
+  box.innerHTML=`M\u0259bl\u0259\u011fi k\u00f6\u00e7\u00fcr: <span class="ah">&#8380;${amt.toFixed(2)}</span><br><br>&#128179; Kart: <span class="cn">4169 7388 0000 0001</span><br>&#128100; Ad: <strong style="color:var(--t)">MagaAdmin LLC</strong><br><br><span style="color:var(--warn);font-size:12px">&#9888;&#65039; A\u00e7\u0131qlamaya m\u00fct\u0259q q eyd yaz&#305;n:</span><div class="ub">${esc(uid)}</div><div style="margin-top:10px;font-size:11px;color:var(--t3)">Admin 5-30 d\u0259q \u0259rzind\u0259 t\u0259sdiql\u0259y\u0259c\u0259k.</div>`;
 };
 
 window.submitDep=async function(){
