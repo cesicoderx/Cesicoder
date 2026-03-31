@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AnonChat &amp; Hosting</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080810;--bg2:#0f0f1a;--bg3:#161622;--bg4:#1e1e2e;--bg5:#252535;
+  --ac:#00e5ff;--ac-d:rgba(0,229,255,.15);
+  --ac2:#7c3aed;--ac2-d:rgba(124,58,237,.15);
+  --ac3:#10b981;--ac3-d:rgba(16,185,129,.15);
+  --red:#ef4444;--red-d:rgba(239,68,68,.15);
+  --warn:#f59e0b;--warn-d:rgba(245,158,11,.15);
+  --t:#e2e8f0;--t2:#94a3b8;--t3:#4a5568;
+  --b:#1e1e30;--b2:#2a2a40;--b3:#363650;
+  --bub-own:#1a3050;--bub-oth:#181828;
+  --sh:0 4px 20px rgba(0,0,0,.5);--sh-lg:0 8px 40px rgba(0,0,0,.6);
+  --r:12px;--r-sm:8px;--r-lg:18px;--r-xl:24px;--tr:.18s ease;
+}
+html,body{height:100%;overflow:hidden;font-family:'Syne',sans-serif;background:var(--bg);color:var(--t);-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--b3);border-radius:10px}
+
+/* ===== BANNED ===== */
+#bannedScreen{display:none;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:18px;background:var(--bg);background-image:radial-gradient(ellipse at 50% 40%,rgba(239,68,68,.1) 0,transparent 60%)}
+#bannedScreen .bi{font-size:72px;animation:pulse 2s infinite}
+#bannedScreen h1{font-size:34px;font-weight:800;color:var(--red);letter-spacing:-1px}
+#bannedScreen p{color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:14px}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* ===== AUTH ===== */
+#authScreen{display:none;align-items:center;justify-content:center;height:100vh;background:var(--bg);background-image:radial-gradient(ellipse at 15% 60%,rgba(124,58,237,.1) 0,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(0,229,255,.07) 0,transparent 50%);position:relative;overflow:hidden}
+#authScreen::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:40px 40px}
+.auth-wrap{position:relative;z-index:1;width:440px;max-width:96vw}
+.auth-card{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r-xl);padding:44px 40px;box-shadow:var(--sh-lg),0 0 80px rgba(0,229,255,.03);animation:aIn .4s ease}
+@keyframes aIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.auth-logo{text-align:center;margin-bottom:36px}
+.auth-logo-icon{font-size:46px;display:block;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(0,229,255,.4))}
+.auth-logo h1{font-size:30px;font-weight:800;letter-spacing:-1.5px;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-tagline{margin-top:6px;color:var(--t3);font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:1px}
+.auth-tabs{display:flex;gap:4px;background:var(--bg3);border:1px solid var(--b);border-radius:var(--r);padding:4px;margin-bottom:28px}
+.a-tab{flex:1;padding:9px;text-align:center;border-radius:var(--r-sm);cursor:pointer;font-size:13px;font-weight:700;color:var(--t3);transition:var(--tr);user-select:none}
+.a-tab:hover{color:var(--t2)}
+.a-tab.active{background:var(--bg4);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:11px;color:var(--t2);margin-bottom:7px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+.inp{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);font-size:14px;font-family:'Syne',sans-serif;outline:none;transition:var(--tr)}
+.inp::placeholder{color:var(--t3)}
+.inp:focus{border-color:var(--ac);background:var(--bg4);box-shadow:0 0 0 3px rgba(0,229,255,.08)}
+.inp:hover:not(:focus){border-color:var(--b3)}
+.inp-wrap{position:relative}
+.inp-wrap .inp{padding-right:44px}
+.eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--t3);cursor:pointer;font-size:16px;padding:0;line-height:1;transition:var(--tr)}
+.eye:hover{color:var(--t2)}
+.pw-bar{margin-top:5px;height:3px;border-radius:2px;background:var(--b2);overflow:hidden}
+.pw-fill{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0%}
+.auth-btn{width:100%;padding:13px;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Syne',sans-serif;letter-spacing:.4px;position:relative;overflow:hidden}
+.auth-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:var(--tr)}
+.auth-btn:hover::after{background:rgba(255,255,255,.06)}
+.auth-btn:active{transform:scale(.98)}
+.btn-pr{background:linear-gradient(135deg,var(--ac2),#5b21b6);color:#fff;box-shadow:0 4px 20px rgba(124,58,237,.3)}
+.btn-pr:hover{box-shadow:0 6px 28px rgba(124,58,237,.45);transform:translateY(-1px)}
+.btn-gg{background:var(--bg3);border:1px solid var(--b2);color:var(--t);display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px}
+.btn-gg:hover{border-color:var(--b3);background:var(--bg4)}
+.a-div{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--t3);font-size:12px;font-family:'JetBrains Mono',monospace}
+.a-div::before,.a-div::after{content:'';flex:1;height:1px;background:var(--b)}
+.a-err{color:var(--red);font-size:12px;margin-top:10px;text-align:center;font-family:'JetBrains Mono',monospace;min-height:18px}
+.a-foot{text-align:center;margin-top:16px;font-size:12px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.a-foot a{color:var(--ac);cursor:pointer;text-decoration:none}
+.a-foot a:hover{text-decoration:underline}
+
+/* ===== MAIN APP ===== */
+#mainApp{display:none;height:100vh;flex-direction:column;overflow:hidden}
+.topbar{height:56px;background:var(--bg2);border-bottom:1px solid var(--b);display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;z-index:100;position:relative}
+.topbar::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--ac2),var(--ac),transparent);opacity:.25}
+.tb-logo{font-size:18px;font-weight:800;letter-spacing:-.8px;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;flex-shrink:0;margin-right:4px}
+.tb-nav{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+.tb-nav::-webkit-scrollbar{display:none}
+.nav-btn{padding:7px 13px;border-radius:var(--r-sm);border:none;background:transparent;color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);white-space:nowrap;font-family:'Syne',sans-serif;letter-spacing:.2px}
+.nav-btn:hover{color:var(--t);background:var(--bg3)}
+.nav-btn.active{background:var(--bg3);color:var(--ac);border-bottom:2px solid var(--ac)}
+.tb-right{display:flex;align-items:center;gap:9px;margin-left:auto;flex-shrink:0}
+.bal-chip{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r-sm);padding:5px 12px;font-size:13px;font-weight:700;color:var(--ac3);font-family:'JetBrains Mono',monospace;white-space:nowrap;cursor:pointer;transition:var(--tr)}
+.bal-chip:hover{border-color:var(--ac3);box-shadow:0 0 12px rgba(16,185,129,.2)}
+.tb-uname{font-size:13px;font-weight:600;color:var(--t2);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb-ava-ph{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--ac2),var(--ac));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;cursor:pointer;border:2px solid transparent;transition:var(--tr)}
+.tb-ava-ph:hover{border-color:var(--ac2)}
+.tb-ava{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--b2);flex-shrink:0}
+.tb-out{background:transparent;border:1px solid var(--b2);color:var(--t2);padding:5px 10px;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;transition:var(--tr);font-family:'Syne',sans-serif}
+.tb-out:hover{border-color:var(--red);color:var(--red);background:var(--red-d)}
+
+/* ===== PANELS ===== */
+.panel{display:none;flex:1;overflow:hidden;flex-direction:column;animation:pf .2s ease}
+.panel.active{display:flex}
+@keyframes pf{from{opacity:0}to{opacity:1}}
+
+/* ===== CHAT ===== */
+.chat-layout{display:flex;flex:1;overflow:hidden}
+.chat-sb{width:220px;background:var(--bg2);border-right:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.sb-hd{padding:13px 13px 9px;border-bottom:1px solid var(--b);flex-shrink:0}
+.sb-title{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:6px}
+.on-badge{background:var(--ac3-d);color:var(--ac3);font-size:10px;padding:1px 6px;border-radius:20px;font-family:'JetBrains Mono',monospace}
+.sb-users{flex:1;overflow-y:auto;padding:8px}
+.sb-user{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--r-sm);transition:var(--tr);cursor:default}
+.sb-user:hover{background:var(--bg3)}
+.sb-ava{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--ac2),var(--ac));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;position:relative}
+.sb-ava img{width:100%;height:100%;border-radius:50%;object-fit:cover;position:absolute;inset:0}
+.sb-dot{position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:var(--ac3);border:1.5px solid var(--bg2);box-shadow:0 0 6px var(--ac3)}
+.sb-name{font-size:13px;font-weight:500;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.me-tag{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--ac);background:var(--ac-d);padding:1px 5px;border-radius:4px}
+
+.chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.chat-hd{padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--b);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.chat-hd-title{font-size:15px;font-weight:700}
+.chat-hd-sub{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-top:1px}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:1px}
+.date-div{text-align:center;margin:12px 0 8px}
+.date-div span{background:var(--bg3);color:var(--t3);font-size:11px;font-family:'JetBrains Mono',monospace;padding:3px 12px;border-radius:20px;border:1px solid var(--b)}
+.msg-row{display:flex;align-items:flex-end;gap:8px;max-width:100%;margin-bottom:2px}
+.msg-row.own{flex-direction:row-reverse}
+.msg-ava-w{width:30px;flex-shrink:0;display:flex;align-items:flex-end}
+.msg-ava{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.msg-ava-ph{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--ac2),var(--ac));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.msg-cnt{max-width:62%;display:flex;flex-direction:column;gap:3px;min-width:0}
+.msg-row.own .msg-cnt{align-items:flex-end}
+.msg-sender{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;padding:0 4px;margin-bottom:1px}
+.msg-bub{padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.55;word-break:break-word;background:var(--bub-oth);color:var(--t);border-bottom-left-radius:4px}
+.msg-row.own .msg-bub{background:var(--bub-own);border-bottom-left-radius:16px;border-bottom-right-radius:4px}
+.msg-bub a{color:var(--ac);word-break:break-all}
+.msg-tr{display:flex;align-items:center;gap:4px;padding:0 4px}
+.msg-time{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.msg-img{max-width:240px;max-height:200px;border-radius:12px;cursor:pointer;display:block;object-fit:cover}
+.msg-img:hover{opacity:.88}
+.msg-file{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bub-oth);border-radius:12px;color:var(--t);text-decoration:none;transition:var(--tr);max-width:220px}
+.msg-row.own .msg-file{background:var(--bub-own)}
+.msg-file:hover{opacity:.85}
+.mfi{font-size:22px;flex-shrink:0}
+.mfn{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mfsz{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+
+.typing-bar{padding:5px 16px;min-height:26px;font-size:12px;color:var(--t3);font-style:italic;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:8px}
+.td{display:flex;gap:3px}
+.td span{width:5px;height:5px;border-radius:50%;background:var(--t3);animation:tdot 1.2s infinite}
+.td span:nth-child(2){animation-delay:.2s}
+.td span:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+
+.chat-inp-bar{background:var(--bg2);border-top:1px solid var(--b);padding:11px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.chat-inp-box{flex:1;display:flex;align-items:center;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);padding:0 12px;gap:8px;transition:var(--tr)}
+.chat-inp-box:focus-within{border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,229,255,.07)}
+#msgInput{flex:1;background:transparent;border:none;outline:none;color:var(--t);font-size:14px;padding:10px 0;font-family:'Syne',sans-serif}
+#msgInput::placeholder{color:var(--t3)}
+.ic-btn{background:none;border:none;cursor:pointer;font-size:18px;color:var(--t3);transition:var(--tr);padding:4px;display:flex;align-items:center;line-height:1}
+.ic-btn:hover{color:var(--ac);transform:scale(1.1)}
+.send-btn{background:linear-gradient(135deg,var(--ac2),var(--ac));border:none;width:42px;height:42px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:17px;transition:var(--tr);flex-shrink:0}
+.send-btn:hover{transform:scale(1.06);box-shadow:0 4px 16px rgba(0,229,255,.25)}
+.send-btn:active{transform:scale(.95)}
+#fileInput{display:none}
+
+.epicker{position:absolute;bottom:68px;left:14px;right:14px;max-width:330px;background:var(--bg4);border:1px solid var(--b2);border-radius:var(--r);padding:10px;display:flex;flex-wrap:wrap;gap:3px;z-index:50;box-shadow:var(--sh-lg);animation:pop .15s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eit{font-size:22px;cursor:pointer;padding:4px;border-radius:6px;transition:var(--tr);line-height:1}
+.eit:hover{background:var(--bg5);transform:scale(1.2)}
+
+.chat-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--t3);font-family:'JetBrains Mono',monospace;font-size:13px}
+.ce-icon{font-size:48px;opacity:.2}
+
+/* ===== SERVICES ===== */
+.svc-page{flex:1;overflow-y:auto;padding:28px}
+.ph{margin-bottom:26px}
+.ph-title{font-size:24px;font-weight:800;letter-spacing:-.8px}
+.ph-sub{color:var(--t2);font-size:13px;margin-top:5px;font-family:'JetBrains Mono',monospace}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.svc-card{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r-lg);padding:22px;transition:var(--tr);position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac2),var(--ac));opacity:0;transition:var(--tr)}
+.svc-card:hover{border-color:var(--b3);transform:translateY(-3px);box-shadow:var(--sh)}
+.svc-card:hover::before{opacity:1}
+.svc-badge{display:inline-flex;align-items:center;gap:5px;background:var(--ac-d);color:var(--ac);font-size:10px;font-family:'JetBrains Mono',monospace;padding:3px 10px;border-radius:20px;margin-bottom:12px;letter-spacing:.5px}
+.svc-name{font-size:17px;font-weight:700;margin-bottom:6px}
+.svc-desc{font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace;margin-bottom:14px;line-height:1.6}
+.svc-pr-row{display:flex;align-items:baseline;gap:4px;margin-bottom:16px}
+.svc-pr{font-size:30px;font-weight:800;color:var(--ac);font-family:'JetBrains Mono',monospace;letter-spacing:-1px}
+.svc-pr-u{font-size:13px;color:var(--t2);font-family:'JetBrains Mono',monospace}
+.btn-buy{width:100%;padding:10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Syne',sans-serif}
+.btn-buy:hover{background:linear-gradient(135deg,var(--ac2),var(--ac));border-color:transparent;color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.3)}
+
+/* ===== WALLET ===== */
+.wallet-page{flex:1;overflow-y:auto;padding:28px}
+.w-hero{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(0,229,255,.08));border:1px solid rgba(0,229,255,.14);border-radius:var(--r-xl);padding:28px;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.w-hero::before{content:'₼';position:absolute;right:20px;top:-10px;font-size:120px;font-weight:900;color:rgba(255,255,255,.025);font-family:'JetBrains Mono',monospace;pointer-events:none}
+.w-lbl{font-size:11px;color:var(--t2);font-family:'JetBrains Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.w-val{font-size:46px;font-weight:800;letter-spacing:-2px;font-family:'JetBrains Mono',monospace;background:linear-gradient(135deg,#fff,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.w-azn{font-size:22px;opacity:.5;letter-spacing:0}
+.w-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px}
+.ws-c{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r);padding:16px;text-align:center}
+.ws-v{font-size:22px;font-weight:800;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.ws-l{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace}
+.sec-t{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--t);display:flex;align-items:center;gap:8px}
+.sec-b{font-size:10px;font-family:'JetBrains Mono',monospace;background:var(--bg3);color:var(--t3);padding:2px 8px;border-radius:20px;border:1px solid var(--b)}
+.tx-list{display:flex;flex-direction:column;gap:8px}
+.tx-c{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}
+.tx-c:hover{border-color:var(--b2)}
+.tx-l{display:flex;align-items:center;gap:12px}
+.tx-ico{width:38px;height:38px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.tx-ico.deposit{background:var(--ac3-d)}.tx-ico.purchase{background:var(--ac2-d)}
+.tx-nm{font-size:13px;font-weight:600}
+.tx-dt{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.tx-r{text-align:right}
+.tx-amt{font-size:15px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.tx-amt.pos{color:var(--ac3)}.tx-amt.neg{color:var(--red)}
+.tx-pill{font-size:10px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:20px;margin-top:3px;display:inline-block}
+.tx-pill.pending{background:var(--warn-d);color:var(--warn)}
+.tx-pill.completed{background:var(--ac3-d);color:var(--ac3)}
+.tx-pill.rejected{background:var(--red-d);color:var(--red)}
+
+/* ===== ORDERS ===== */
+.ord-page{flex:1;overflow-y:auto;padding:28px}
+.ord-c{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:12px;transition:var(--tr)}
+.ord-c:hover{border-color:var(--b2)}
+.ord-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.ord-name{font-size:15px;font-weight:700}
+.spill{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;font-family:'JetBrains Mono',monospace;letter-spacing:.3px}
+.spill.pending{background:var(--warn-d);color:var(--warn)}
+.spill.approved{background:var(--ac3-d);color:var(--ac3)}
+.spill.rejected{background:var(--red-d);color:var(--red)}
+.spill.paid{background:var(--ac-d);color:var(--ac)}
+.ord-meta{font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace;display:flex;gap:14px;flex-wrap:wrap}
+.ord-note{margin-top:10px;padding:9px 13px;background:var(--warn-d);border:1px solid rgba(245,158,11,.2);border-radius:var(--r-sm);font-size:12px;color:var(--warn);display:flex;align-items:flex-start;gap:8px}
+
+/* ===== ADMIN ===== */
+.adm-layout{display:flex;flex:1;overflow:hidden}
+.adm-sb{width:200px;background:var(--bg2);border-right:1px solid var(--b);padding:14px 10px;flex-shrink:0;overflow-y:auto}
+.adm-sb-t{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;padding:0 8px;margin-bottom:10px}
+.adm-nb{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r-sm);cursor:pointer;color:var(--t2);font-size:13px;font-weight:600;font-family:'Syne',sans-serif;transition:var(--tr);border:none;background:transparent;width:100%;text-align:left;margin-bottom:2px}
+.adm-nb:hover{background:var(--bg3);color:var(--t)}
+.adm-nb.active{background:var(--bg3);color:var(--ac);border-left:2px solid var(--ac)}
+.adm-nb .ni{font-size:15px;flex-shrink:0}
+.adm-cnt{flex:1;overflow-y:auto;padding:22px}
+.adm-sec{display:none}
+.adm-sec.active{display:block}
+.a-sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;margin-bottom:26px}
+.a-sc{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r);padding:18px;transition:var(--tr)}
+.a-sc:hover{border-color:var(--b2)}
+.a-si{font-size:24px;margin-bottom:8px}
+.a-sv{font-size:28px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1;margin-bottom:4px}
+.a-sl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace}
+.tbl-w{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r-lg);overflow:hidden;overflow-x:auto}
+.a-tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
+.a-tbl thead tr{background:var(--bg3);border-bottom:1px solid var(--b)}
+.a-tbl th{padding:11px 13px;text-align:left;color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.7px;text-transform:uppercase;white-space:nowrap;font-weight:500}
+.a-tbl td{padding:11px 13px;border-bottom:1px solid var(--b);color:var(--t);vertical-align:middle}
+.a-tbl tr:last-child td{border-bottom:none}
+.a-tbl tbody tr:hover td{background:rgba(255,255,255,.02)}
+.a-tbl-e{padding:40px;text-align:center;color:var(--t3);font-family:'JetBrains Mono',monospace;font-size:13px}
+.bx{padding:5px 11px;border-radius:var(--r-sm);border:none;font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Syne',sans-serif;white-space:nowrap}
+.bx:hover{filter:brightness(1.25)}
+.bx.ok{background:var(--ac3-d);color:var(--ac3)}
+.bx.bad{background:var(--red-d);color:var(--red)}
+.bx.sv{background:var(--ac-d);color:var(--ac)}
+.act-row{display:flex;gap:5px;flex-wrap:wrap}
+.note-inp{padding:5px 9px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r-sm);color:var(--t);font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;width:145px;transition:var(--tr)}
+.note-inp:focus{border-color:var(--ac)}
+.add-svc{background:var(--bg2);border:1px solid var(--b);border-radius:var(--r-lg);padding:18px;margin-bottom:18px;display:grid;grid-template-columns:1fr 110px 140px auto;gap:10px;align-items:end}
+.add-svc .fl label{display:block;font-size:10px;color:var(--t2);font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.add-svc input{width:100%;padding:9px 11px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r-sm);color:var(--t);font-size:13px;outline:none;font-family:'Syne',sans-serif;transition:var(--tr)}
+.add-svc input:focus{border-color:var(--ac)}
+.btn-add{background:linear-gradient(135deg,var(--ac2),var(--ac));border:none;color:#fff;padding:9px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:var(--tr);white-space:nowrap}
+.btn-add:hover{box-shadow:0 4px 14px rgba(124,58,237,.3)}
+.ip-form{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.ip-form input{flex:1;padding:9px 13px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;transition:var(--tr)}
+.ip-form input:focus{border-color:var(--red)}
+.ip-e{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border:1px solid var(--b);border-radius:var(--r-sm);margin-bottom:6px}
+.ip-v{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--red)}
+.ip-d{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3)}
+
+/* ===== MODALS ===== */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.mbg.open{display:flex;animation:bgf .2s ease}
+@keyframes bgf{from{opacity:0}to{opacity:1}}
+.modal{background:var(--bg2);border:1px solid var(--b2);border-radius:var(--r-xl);padding:28px;width:460px;max-width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:ms .25s ease;box-shadow:var(--sh-lg)}
+@keyframes ms{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.mx{position:absolute;top:14px;right:14px;background:var(--bg3);border:1px solid var(--b2);color:var(--t2);width:30px;height:30px;border-radius:var(--r-sm);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.mx:hover{background:var(--bg4);color:var(--t)}
+.m-title{font-size:20px;font-weight:800;margin-bottom:5px;letter-spacing:-.5px;padding-right:36px}
+.m-sub{font-size:13px;color:var(--t2);margin-bottom:20px;font-family:'JetBrains Mono',monospace}
+.mfg{margin-bottom:16px}
+.mfg label{display:block;font-size:11px;color:var(--t2);font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.m-inp{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);color:var(--t);font-size:14px;font-family:'Syne',sans-serif;outline:none;transition:var(--tr)}
+.m-inp:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,229,255,.07)}
+.m-inp::placeholder{color:var(--t3)}
+.m-btn{width:100%;padding:13px;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Syne',sans-serif;margin-top:4px}
+.m-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.m-btn:active{transform:scale(.98)}
+.m-btn.pr{background:linear-gradient(135deg,var(--ac2),#5b21b6);color:#fff}
+.m-btn.su{background:linear-gradient(135deg,var(--ac3),#059669);color:#fff}
+.m-err{color:var(--red);font-size:12px;margin-top:8px;text-align:center;font-family:'JetBrains Mono',monospace;min-height:18px}
+.m-suc{color:var(--ac3);font-size:12px;margin-top:8px;text-align:center;font-family:'JetBrains Mono',monospace}
+.buy-ibox{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.buy-inm{font-size:15px;font-weight:700}
+.buy-idesc{font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace;margin-top:3px}
+.buy-ipr{font-size:20px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--ac)}
+.buy-br{display:flex;justify-content:space-between;padding:9px 12px;background:var(--bg3);border-radius:var(--r-sm);margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:13px}
+.buy-br .l{color:var(--t2)}
+.buy-br .v.ok{color:var(--ac3);font-weight:700}
+.buy-br .v.bad{color:var(--red);font-weight:700}
+.dep-mc{background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r);padding:15px;margin-bottom:16px}
+.dep-mt{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.dep-ins{background:var(--bg4);border-radius:var(--r-sm);padding:13px;font-size:13px;color:var(--t2);font-family:'JetBrains Mono',monospace;line-height:1.7}
+.dep-ins .ah{color:var(--ac3);font-weight:700;font-size:16px}
+.dep-ins .cn{color:var(--warn);letter-spacing:2px}
+.dep-ins .ub{margin-top:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:var(--r-sm);padding:8px 12px;color:var(--ac);word-break:break-all;font-size:12px}
+
+/* ===== TOAST ===== */
+#toastWrap{position:fixed;top:14px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:310px}
+.toast{padding:11px 15px;border-radius:var(--r);font-size:13px;font-weight:600;animation:tIn .25s ease;pointer-events:auto;display:flex;align-items:center;gap:9px;box-shadow:var(--sh-lg);border:1px solid transparent}
+.ti{font-size:15px;flex-shrink:0}.tm{flex:1}
+.toast.success{background:#052e16;border-color:#166534;color:#bbf7d0}
+.toast.error{background:#450a0a;border-color:#991b1b;color:#fca5a5}
+.toast.info{background:#082f49;border-color:#0c4a6e;color:#bae6fd}
+.toast.warn{background:#431407;border-color:#92400e;color:#fde68a}
+@keyframes tIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:none}}
+@keyframes tOut{to{opacity:0;transform:translateX(110%)}}
+
+/* ===== UTILS ===== */
+.est{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:12px;color:var(--t3);font-family:'JetBrains Mono',monospace;font-size:13px;text-align:center}
+.est-ic{font-size:48px;opacity:.2}
+.est-t{font-size:14px;font-weight:600;color:var(--t2);margin-top:4px}
+.ld{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:13px}
+.sp{width:18px;height:18px;border:2px solid var(--b2);border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-dep{background:linear-gradient(135deg,var(--ac3),#059669);border:none;color:#fff;padding:12px 22px;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Syne',sans-serif;white-space:nowrap}
+.btn-dep:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(16,185,129,.4)}
+.btn-dep:active{transform:scale(.97)}
+.hidden{display:none!important}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .chat-sb{display:none}
+  .w-hero{flex-direction:column;gap:14px;align-items:flex-start}
+  .w-stats{grid-template-columns:repeat(2,1fr)}
+  .adm-sb{width:50px}
+  .adm-nb span:not(.ni){display:none}
+  .add-svc{grid-template-columns:1fr 1fr}
+  .add-svc .btn-add{grid-column:1/-1}
+  .tb-uname{display:none}
+}
+@media(max-width:480px){
+  .auth-card{padding:26px 18px}
+  .w-stats{grid-template-columns:1fr}
+  .adm-sb{display:none}
+  .msg-cnt{max-width:78%}
+  .svc-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="bannedScreen">
+  <div class="bi">&#128683;</div>
+  <h1>Giri&#351; Qada&#287;and&#305;r</h1>
+  <p>IP adresiniz ban siyah&#305;s&#305;ndad&#305;r.</p>
+  <p id="banIpTxt" style="font-size:12px;opacity:.35;margin-top:4px"></p>
+</div>
+
+<div id="authScreen">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="auth-logo-icon">&#9889;</span>
+        <h1>AnonChat</h1>
+        <p class="auth-tagline">// real-time &middot; anonymous &middot; hosting</p>
+      </div>
+      <div class="auth-tabs">
+        <div class="a-tab active" id="tabLi" onclick="switchTab('login')">Giri&#351;</div>
+        <div class="a-tab" id="tabRe" onclick="switchTab('register')">Qeydiyyat</div>
+      </div>
+
+      <div id="liForm">
+        <div class="fg"><label>Email</label><input class="inp" type="email" id="liE" placeholder="email@example.com" autocomplete="email"/></div>
+        <div class="fg"><label>&#350;ifr&#601;</label><div class="inp-wrap"><input class="inp" type="password" id="liP" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/><button class="eye" onclick="toggleEye('liP',this)" type="button">&#128065;</button></div></div>
+        <button class="auth-btn btn-pr" onclick="doLogin()">Daxil ol</button>
+        <div class="a-div">ya da</div>
+        <button class="auth-btn btn-gg" onclick="doGoogle()">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google il&#601; daxil ol
+        </button>
+        <p class="a-err" id="liErr"></p>
+        <p class="a-foot">Hesab&#305;n yoxdur? <a onclick="switchTab('register')">Qeydiyyat ol</a></p>
+      </div>
+
+      <div id="reForm" style="display:none">
+        <div class="fg"><label>&#304;stifad&#601;&#231;i Ad&#305;</label><input class="inp" type="text" id="reN" placeholder="nickname" maxlength="24" autocomplete="username"/></div>
+        <div class="fg"><label>Email</label><input class="inp" type="email" id="reE" placeholder="email@example.com" autocomplete="email"/></div>
+        <div class="fg"><label>&#350;ifr&#601;</label><div class="inp-wrap"><input class="inp" type="password" id="reP" placeholder="minimum 6 simvol" autocomplete="new-password" oninput="pwStr(this.value)"/><button class="eye" onclick="toggleEye('reP',this)" type="button">&#128065;</button></div><div class="pw-bar"><div class="pw-fill" id="pwFill"></div></div></div>
+        <div class="fg"><label>&#350;ifr&#601;ni T&#601;krarla</label><div class="inp-wrap"><input class="inp" type="password" id="reP2" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()"/><button class="eye" onclick="toggleEye('reP2',this)" type="button">&#128065;</button></div></div>
+        <button class="auth-btn btn-pr" onclick="doRegister()">Qeydiyyat ol</button>
+        <div class="a-div">ya da</div>
+        <button class="auth-btn btn-gg" onclick="doGoogle()">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google il&#601; qeydiyyat
+        </button>
+        <p class="a-err" id="reErr"></p>
+        <p class="a-foot">Hesab&#305;n var? <a onclick="switchTab('login')">Giri&#351; et</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="mainApp">
+  <div class="topbar">
+    <div class="tb-logo">&#9889; AnonChat</div>
+    <nav class="tb-nav">
+      <button class="nav-btn active" id="navChat"     onclick="showPanel('chat')">&#128172; Chat</button>
+      <button class="nav-btn"        id="navServices" onclick="showPanel('services')">&#128230; Xidm&#601;tl&#601;r</button>
+      <button class="nav-btn"        id="navWallet"   onclick="showPanel('wallet')">&#128176; C&#252;zdan</button>
+      <button class="nav-btn"        id="navOrders"   onclick="showPanel('orders')">&#128203; Sifari&#351;l&#601;r</button>
+      <button class="nav-btn hidden" id="navAdmin"    onclick="showPanel('admin')">&#128737; Admin</button>
+    </nav>
+    <div class="tb-right">
+      <div class="bal-chip" id="balChip" onclick="showPanel('wallet')">&#8380; 0.00</div>
+      <span class="tb-uname" id="tbUser"></span>
+      <div id="tbAva"><div class="tb-ava-ph" id="tbAvaPh">?</div></div>
+      <button class="tb-out" onclick="doLogout()">&#199;&#305;x</button>
+    </div>
+  </div>
+
+  <div class="panel active" id="panelChat" style="flex-direction:row">
+    <div class="chat-sb">
+      <div class="sb-hd"><div class="sb-title">Online <span class="on-badge" id="onCnt">0</span></div></div>
+      <div class="sb-users" id="sbUsers"></div>
+    </div>
+    <div class="chat-main" style="position:relative">
+      <div class="chat-hd"><div><div class="chat-hd-title">&#128172; &#220;mumi Otaq</div><div class="chat-hd-sub" id="chatSub">y&#252;kl&#601;nir...</div></div></div>
+      <div class="msgs" id="msgsArea"><div class="chat-empty"><div class="ce-icon">&#128172;</div><span>&#304;lk mesaj&#305; s&#601;n g&#246;nd&#601;r!</span></div></div>
+      <div class="typing-bar" id="typingBar"></div>
+      <div class="epicker" id="ePicker" style="display:none"></div>
+      <div class="chat-inp-bar">
+        <div class="chat-inp-box">
+          <button class="ic-btn" onclick="toggleEmoji()" title="Emoji">&#128522;</button>
+          <input type="text" id="msgInput" placeholder="Mesaj yaz..." maxlength="2000" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}" oninput="onTyping()"/>
+          <button class="ic-btn" onclick="document.getElementById('fileInput').click()" title="Fayl">&#128206;</button>
+        </div>
+        <input type="file" id="fileInput" accept="image/*,application/pdf,.txt,.zip,.rar,.doc,.docx" onchange="uploadFile(this)"/>
+        <button class="send-btn" onclick="sendMsg()">&#10148;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panelServices">
+    <div class="svc-page"><div class="ph"><div class="ph-title">&#128230; Hosting Xidm&#601;tl&#601;ri</div><div class="ph-sub">// Balans&#305;n&#305;zdan birba&#351;a &#246;d&#601;yin</div></div>
+    <div class="svc-grid" id="svcGrid"><div class="ld"><div class="sp"></div> Y&#252;kl&#601;nir...</div></div></div>
+  </div>
+
+  <div class="panel" id="panelWallet">
+    <div class="wallet-page">
+      <div class="w-hero">
+        <div><div class="w-lbl">Cari Balans</div><div class="w-val" id="wVal">0.00 <span class="w-azn">&#8380;</span></div></div>
+        <button class="btn-dep" onclick="openDep()">+ Balans Art&#305;r</button>
+      </div>
+      <div class="w-stats">
+        <div class="ws-c"><div class="ws-v" id="wsDep" style="color:var(--ac3)">&#8380;0</div><div class="ws-l">Y&#252;kl&#601;nmi&#351;</div></div>
+        <div class="ws-c"><div class="ws-v" id="wsSpent" style="color:var(--red)">&#8380;0</div><div class="ws-l">X&#601;rcl&#601;nmi&#351;</div></div>
+        <div class="ws-c"><div class="ws-v" id="wsCnt" style="color:var(--ac2)">0</div><div class="ws-l">&#398;m&#601;liyyat</div></div>
+      </div>
+      <div class="sec-t">Tarix <span class="sec-b" id="txBadge">0</span></div>
+      <div class="tx-list" id="txList"><div class="ld"><div class="sp"></div></div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panelOrders">
+    <div class="ord-page"><div class="ph"><div class="ph-title">&#128203; Sifari&#351;l&#601;rim</div><div class="ph-sub">// B&#252;t&#252;n hosting sifari&#351;l&#601;riniz</div></div>
+    <div id="myOrders"><div class="ld"><div class="sp"></div></div></div></div>
+  </div>
+
+  <div class="panel" id="panelAdmin" style="flex-direction:column;overflow:hidden">
+    <div class="adm-layout" style="flex:1;overflow:hidden">
+      <div class="adm-sb">
+        <div class="adm-sb-t">Admin</div>
+        <button class="adm-nb active" id="anbStats"    onclick="aTab('Stats')">   <span class="ni">&#128202;</span><span>Statistika</span></button>
+        <button class="adm-nb"        id="anbPayments" onclick="aTab('Payments')"><span class="ni">&#128179;</span><span>&#214;d&#601;ni&#351;l&#601;r</span></button>
+        <button class="adm-nb"        id="anbOrders"   onclick="aTab('Orders')">  <span class="ni">&#128230;</span><span>Sifari&#351;l&#601;r</span></button>
+        <button class="adm-nb"        id="anbServices" onclick="aTab('Services')"><span class="ni">&#128717;</span><span>Xidm&#601;tl&#601;r</span></button>
+        <button class="adm-nb"        id="anbUsers"    onclick="aTab('Users')">   <span class="ni">&#128101;</span><span>&#304;stifad&#601;&#231;il&#601;r</span></button>
+        <button class="adm-nb"        id="anbMessages" onclick="aTab('Messages')"><span class="ni">&#128172;</span><span>Mesajlar</span></button>
+        <button class="adm-nb"        id="anbIpban"    onclick="aTab('Ipban')">   <span class="ni">&#128683;</span><span>IP Ban</span></button>
+      </div>
+      <div class="adm-cnt">
+        <div class="adm-sec active" id="asStats"><div class="ph"><div class="ph-title" style="font-size:20px">&#128202; Statistika</div></div><div class="a-sg" id="aSG"></div></div>
+        <div class="adm-sec" id="asPayments"><div class="ph"><div class="ph-title" style="font-size:20px">&#128179; &#214;d&#601;ni&#351; Sorgu</div></div><div class="tbl-w"><table class="a-tbl"><thead><tr><th>&#304;stifad&#601;&#231;i</th><th>M&#601;bl&#601;&#287;</th><th>Metod</th><th>&#199;ek</th><th>Tarix</th><th>Status</th><th>&#398;m&#601;liyyat</th></tr></thead><tbody id="payTbl"></tbody></table></div></div>
+        <div class="adm-sec" id="asOrders"><div class="ph"><div class="ph-title" style="font-size:20px">&#128230; Sifari&#351;l&#601;r</div></div><div class="tbl-w"><table class="a-tbl"><thead><tr><th>&#304;stifad&#601;&#231;i</th><th>Xidm&#601;t</th><th>Qiym&#601;t</th><th>Kontakt</th><th>Status</th><th>Qeyd</th><th>&#398;m&#601;liyyat</th></tr></thead><tbody id="ordTbl"></tbody></table></div></div>
+        <div class="adm-sec" id="asServices"><div class="ph"><div class="ph-title" style="font-size:20px">&#128717; Xidm&#601;t &#304;dar&#601;etm&#601;si</div></div>
+          <div class="add-svc"><div class="fl"><label>Ad</label><input id="svcN" placeholder="Hosting Basic"/></div><div class="fl"><label>Qiym&#601;t &#8380;</label><input id="svcP" type="number" placeholder="5"/></div><div class="fl"><label>A&#231;&#305;qlama</label><input id="svcD" placeholder="1GB SSD"/></div><button class="btn-add" onclick="addSvc()">+ &#398;lav&#601; et</button></div>
+          <div class="tbl-w"><table class="a-tbl"><thead><tr><th>Ad</th><th>A&#231;&#305;qlama</th><th>Qiym&#601;t</th><th>Sil</th></tr></thead><tbody id="svcTbl"></tbody></table></div>
+        </div>
+        <div class="adm-sec" id="asUsers"><div class="ph"><div class="ph-title" style="font-size:20px">&#128101; &#304;stifad&#601;&#231;il&#601;r</div></div><div class="tbl-w"><table class="a-tbl"><thead><tr><th>Ad</th><th>Email</th><th>Balans</th><th>Status</th><th>Son g&#246;r&#252;n&#252;&#351;</th></tr></thead><tbody id="userTbl"></tbody></table></div></div>
+        <div class="adm-sec" id="asMessages"><div class="ph"><div class="ph-title" style="font-size:20px">&#128172; Mesajlar</div></div><div class="tbl-w"><table class="a-tbl"><thead><tr><th>&#304;stifad&#601;&#231;i</th><th>Mesaj</th><th>Tarix</th><th>Sil</th></tr></thead><tbody id="msgTbl"></tbody></table></div></div>
+        <div class="adm-sec" id="asIpban"><div class="ph"><div class="ph-title" style="font-size:20px">&#128683; IP Ban</div></div>
+          <div class="ip-form"><input id="ipIn" placeholder="IP adresi..."/><button class="bx bad" style="padding:9px 16px;font-size:13px" onclick="banIP()">Ban et</button></div>
+          <div id="ipList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mbg" id="mBuy"><div class="modal">
+  <button class="mx" onclick="closeM('mBuy')">&#10005;</button>
+  <div class="m-title">&#128717; Xidm&#601;t Al</div>
+  <p class="m-sub">Balans&#305;n&#305;zdan birba&#351;a &#246;d&#601;yin</p>
+  <div class="buy-ibox"><div><div class="buy-inm" id="bName">&#8212;</div><div class="buy-idesc" id="bDesc"></div></div><div class="buy-ipr" id="bPrice">&#8380;0</div></div>
+  <div class="buy-br"><span class="l">M&#246;vcud balans:</span><span class="v ok" id="bCurBal">&#8380;0</span></div>
+  <div class="buy-br"><span class="l">&#214;d&#601;ndikd&#601;n sonra:</span><span class="v" id="bAfterBal">&#8380;0</span></div>
+  <div class="mfg"><label>Kontakt (Telefon / Telegram)</label><input class="m-inp" id="bContact" placeholder="+994XXXXXXXXX ya da @username"/></div>
+  <button class="m-btn su" onclick="doPurchase()">&#10004; Balansdan &#214;d&#601;</button>
+  <p class="m-err" id="bErr"></p>
+</div></div>
+
+<div class="mbg" id="mDep"><div class="modal">
+  <button class="mx" onclick="closeM('mDep')">&#10005;</button>
+  <div class="m-title">&#128176; Balans Art&#305;r</div>
+  <p class="m-sub">&#214;d&#601;ni&#351; &#252;sulunu se&#231;ib k&#246;&#231;&#252;r&#252;n</p>
+  <div class="mfg"><label>M&#601;bl&#601;&#287; (AZN)</label><input class="m-inp" type="number" id="depAmt" placeholder="10.00" min="1" max="10000" oninput="depPrev()"/></div>
+  <div class="dep-mc"><div class="dep-mt">&#127970; Bank K&#246;&#231;&#252;rm&#601;si</div><div class="dep-ins" id="depIns">M&#601;bl&#601;&#287;i yuxar&#305;da daxil edin...</div></div>
+  <div class="mfg"><label>&#199;ek Kodu (opsional)</label><input class="m-inp" type="text" id="depProof" placeholder="&#199;ek kodu v&#601; ya tranzaksiya ID"/></div>
+  <button class="m-btn su" onclick="submitDep()">&#10004; &#214;d&#601;ni&#351; etdim, g&#246;nd&#601;r</button>
+  <p class="m-err" id="depErr"></p>
+  <p class="m-suc" id="depSuc"></p>
+</div></div>
+
+<div class="mbg" id="mLb" onclick="closeM('mLb')">
+  <img id="lbImg" src="" style="max-width:92vw;max-height:92vh;border-radius:12px;box-shadow:0 0 60px rgba(0,0,0,.9)"/>
+</div>
+
+<div id="toastWrap"></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,onAuthStateChanged,signOut,updateProfile}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import{getDatabase,ref,set,get,push,onValue,off,update,remove,serverTimestamp,onDisconnect,query,orderByChild,limitToLast}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+import{getStorage,ref as sr,uploadBytesResumable,getDownloadURL}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+
+const FC={apiKey:"AIzaSyCp-E7VijsIa7SUH0QG4eGPIDP00aLns3o",authDomain:"anonimchat-769cc.firebaseapp.com",databaseURL:"https://anonimchat-769cc-default-rtdb.firebaseio.com",projectId:"anonimchat-769cc",storageBucket:"anonimchat-769cc.firebasestorage.app",messagingSenderId:"807134985346",appId:"1:807134985346:web:a65ca5499b3bb5d3eb489b"};
+const ADMIN="magabakinski@gmail.com";
+const EMOJIS=["\u{1F600}","\u{1F602}","\u{1F923}","\u{1F60A}","\u{1F60D}","\u{1F970}","\u{1F60E}","\u{1F929}","\u{1F60F}","\u{1F914}","\u{1F605}","\u{1F62D}","\u{1F624}","\u{1F97A}","\u{1F634}","\u{1F92F}","\u{1F631}","\u{1F389}","\u{1F525}","\u{1F4AF}","\u{1F44D}","\u{1F44E}","\u2764\uFE0F","\u{1F494}","\u2728","\u{1F680}","\u{1F4AA}","\u{1F64F}","\u{1F3AF}","\u{1F4A1}","\u26A1","\u{1F31F}","\u{1F91D}","\u{1FAE1}","\u{1F606}","\u{1F607}","\u{1F973}","\u{1F62C}","\u{1F92B}","\u{1F608}"];
+
+const fa=initializeApp(FC),auth=getAuth(fa),db=getDatabase(fa),storage=getStorage(fa);
+let CU=null,CB=0,BT=null,TT=null,EO=false,LS=[];
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+const money=n=>"\u20BC"+parseFloat(n||0).toFixed(2);
+const fT=ts=>ts?new Date(ts).toLocaleTimeString("az-AZ",{hour:"2-digit",minute:"2-digit"}):"";
+const fD=ts=>ts?new Date(ts).toLocaleDateString("az-AZ"):"";
+const fDT=ts=>ts?new Date(ts).toLocaleString("az-AZ"):"";
+const r6=()=>Math.random().toString(36).substr(2,6);
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+
+function listen(r,h){onValue(r,h);LS.push({r,h})}
+function clearL(){LS.forEach(({r,h})=>{try{off(r,"value",h)}catch(e){}});LS=[]}
+
+function toast(msg,type="info"){
+  const icons={success:"\u2705",error:"\u274C",info:"\u2139\uFE0F",warn:"\u26A0\uFE0F"};
+  const w=$("toastWrap"),el=document.createElement("div");
+  el.className="toast "+type;
+  el.innerHTML=`<span class="ti">${icons[type]||"\u2139\uFE0F"}</span><span class="tm">${esc(msg)}</span>`;
+  w.appendChild(el);
+  setTimeout(()=>{el.style.animation="tOut .3s forwards";setTimeout(()=>el.remove(),310)},3500);
+}
+window.toast=toast;
+
+window.switchTab=function(t){
+  $("liForm").style.display=t==="login"?"":"none";
+  $("reForm").style.display=t==="register"?"":"none";
+  $("tabLi").className="a-tab"+(t==="login"?" active":"");
+  $("tabRe").className="a-tab"+(t==="register"?" active":"");
+  $("liErr").textContent="";$("reErr").textContent="";
+};
+
+window.toggleEye=function(id,btn){const i=$(id);if(i.type==="password"){i.type="text";btn.textContent="\u{1F648}"}else{i.type="password";btn.textContent="\u{1F441}"}};
+
+window.pwStr=function(pw){const b=$("pwFill");if(!b)return;let s=0;if(pw.length>=6)s++;if(pw.length>=10)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;b.style.width=(s/5*100)+"%";b.style.background=s<=1?"#ef4444":s<=3?"#f59e0b":"#10b981";};
+
+window.doLogin=async function(){
+  const e=$("liE").value.trim(),p=$("liP").value,er=$("liErr");er.textContent="";
+  if(!e||!p){er.textContent="Email v\u0259 \u015fifr\u0259ni daxil edin";return}
+  try{await signInWithEmailAndPassword(auth,e,p)}
+  catch(err){const m={"auth/user-not-found":"Bu email il\u0259 hesab tapılmad\u0131","auth/wrong-password":"\u015cifr\u0259 yanl\u0131\u015fd\u0131r","auth/invalid-credential":"Email v\u0259 ya \u015fifr\u0259 yanl\u0131\u015fd\u0131r","auth/invalid-email":"D\u00fczg\u00fcn email daxil edin","auth/too-many-requests":"\u199fox c\u0259hd. Bir m\u00fcd\u0259t g\u00f6zl\u0259yin"};er.textContent=m[err.code]||err.message}
+};
+
+window.doRegister=async function(){
+  const n=$("reN").value.trim(),e=$("reE").value.trim(),p=$("reP").value,p2=$("reP2").value,er=$("reErr");er.textContent="";
+  if(!n){er.textContent="Ad daxil edin";return}
+  if(n.length<2){er.textContent="Ad \u0259n az 2 simvol";return}
+  if(!e){er.textContent="Email daxil edin";return}
+  if(p.length<6){er.textContent="\u015cifr\u0259 \u0259n az 6 simvol";return}
+  if(p!==p2){er.textContent="\u015cifr\u0259l\u0259r eyni deyil";return}
+  try{
+    const c=await createUserWithEmailAndPassword(auth,e,p);
+    await updateProfile(c.user,{displayName:n});
+    await upsertUser(c.user,n);
+    toast("Qeydiyyat u\u011furla tamamland\u0131!","success");
+  }catch(err){const m={"auth/email-already-in-use":"Bu email art\u0131q istifad\u0259 olunur","auth/invalid-email":"D\u00fczg\u00fcn email daxil edin","auth/weak-password":"\u015cifr\u0259 z\u0259ifdir"};er.textContent=m[err.code]||err.message}
+};
+
+window.doGoogle=async function(){
+  try{
+    const c=await signInWithPopup(auth,new GoogleAuthProvider());
+    await upsertUser(c.user,c.user.displayName||"User");
+  }catch(err){
+    const eid=document.getElementById("liForm").style.display!=="none"?"liErr":"reErr";
+    $(eid).textContent=err.code==="auth/popup-closed-by-user"?"Popup ba\u011fland\u0131":err.message;
+  }
+};
+
+window.doLogout=async function(){
+  if(!CU)return;
+  try{await update(ref(db,"users/"+CU.uid),{status:"offline",lastSeen:serverTimestamp()});await remove(ref(db,"typing/"+CU.uid));clearL();await signOut(auth)}
+  catch(e){await signOut(auth)}
+};
+
+async function upsertUser(user,username){
+  const ur=ref(db,"users/"+user.uid),sn=await get(ur);
+  if(!sn.exists()){await set(ur,{uid:user.uid,username,email:user.email||"",avatar:user.photoURL||"",status:"online",lastSeen:serverTimestamp(),balance:0})}
+  else{await update(ur,{username:username||sn.val().username,avatar:user.photoURL||sn.val().avatar||"",status:"online",lastSeen:serverTimestamp()})}
+}
+
+async function checkBan(){
+  try{const r=await fetch("https://api.ipify.org?format=json"),d=await r.json(),ip=d.ip,sn=await get(ref(db,"banned_ips/"+ip.replace(/\./g,"_")));
+    if(sn.exists()){$("bannedScreen").style.display="flex";$("banIpTxt").textContent="IP: "+ip;$("authScreen").style.display="none";$("mainApp").style.display="none";return true}return false}
+  catch{return false}
+}
+
+onAuthStateChanged(auth,async user=>{
+  if(user){
+    const banned=await checkBan();if(banned)return;
+    CU=user;
+    $("authScreen").style.display="none";
+    $("mainApp").style.display="flex";
+    $("tbUser").textContent=user.displayName||user.email?.split("@")[0]||"User";
+    const aw=$("tbAva");
+    if(user.photoURL){aw.innerHTML=`<img src="${esc(user.photoURL)}" class="tb-ava" alt=""/>`}
+    else{$("tbAvaPh").textContent=(user.displayName||user.email||"U")[0].toUpperCase()}
+    if(user.email===ADMIN)$("navAdmin").classList.remove("hidden");
+    await update(ref(db,"users/"+user.uid),{status:"online"});
+    onDisconnect(ref(db,"users/"+user.uid+"/status")).set("offline");
+    onDisconnect(ref(db,"users/"+user.uid+"/lastSeen")).set(serverTimestamp());
+    onDisconnect(ref(db,"typing/"+user.uid)).remove();
+    initBal();initMsgs();initOnline();initSvcs();initMyOrders();initTx();
+    if(user.email===ADMIN)initAdmin();
+    ensureSvcs();showPanel("chat");
+  }else{
+    CU=null;clearL();
+    $("mainApp").style.display="none";
+    const banned=await checkBan();
+    if(!banned){$("authScreen").style.display="flex";switchTab("login")}
+  }
+});
+
+function initBal(){
+  const br=ref(db,"users/"+CU.uid+"/balance");
+  listen(br,sn=>{CB=parseFloat(sn.val()||0);$("balChip").textContent="\u20BC "+CB.toFixed(2);$("wVal").innerHTML=CB.toFixed(2)+' <span class="w-azn">\u20BC</span>'});
+}
+
+function initMsgs(){
+  const mr=query(ref(db,"messages"),orderByChild("timestamp"),limitToLast(200));
+  listen(mr,sn=>{
+    const a=$("msgsArea");a.innerHTML="";
+    if(!sn.exists()){a.innerHTML='<div class="chat-empty"><div class="ce-icon">\u{1F4AC}</div><span>\u0130lk mesaj\u0131 s\u0259n g\u00f6nd\u0259r!</span></div>';return}
+    let pd=null;
+    sn.forEach(ch=>{
+      const msg=ch.val(),k=ch.key,ds=msg.timestamp?fD(msg.timestamp):null;
+      if(ds&&ds!==pd){pd=ds;const dv=document.createElement("div");dv.className="date-div";dv.innerHTML=`<span>${ds}</span>`;a.appendChild(dv)}
+      a.appendChild(buildMsg(msg,k));
+    });
+    a.scrollTop=a.scrollHeight;
+    get(query(ref(db,"messages"),orderByChild("timestamp"))).then(s=>{$("chatSub").textContent=(s.exists()?Object.keys(s.val()).length:0)+" mesaj \u00b7 ham\u0131 \u00fc\u00e7\u00fcn g\u00f6r\u00fcn\u00fcr"});
+  });
+  const tr=ref(db,"typing");
+  listen(tr,sn=>{
+    const bar=$("typingBar");if(!sn.exists()){bar.innerHTML="";return}
+    const ns=[];sn.forEach(ch=>{if(ch.key!==CU.uid&&ch.val())ns.push(ch.val())});
+    if(!ns.length){bar.innerHTML="";return}
+    bar.innerHTML=`<div class="td"><span></span><span></span><span></span></div>${esc(ns.slice(0,3).join(", "))} yaz\u0131r...`;
+  });
+}
+
+function buildMsg(msg,key){
+  const own=msg.uid===CU.uid,row=document.createElement("div");
+  row.className="msg-row"+(own?" own":"");
+  const aw=document.createElement("div");aw.className="msg-ava-w";
+  if(msg.photoURL)aw.innerHTML=`<img class="msg-ava" src="${esc(msg.photoURL)}" alt=""/>`;
+  else aw.innerHTML=`<div class="msg-ava-ph">${(msg.name||"?")[0].toUpperCase()}</div>`;
+  const cnt=document.createElement("div");cnt.className="msg-cnt";
+  if(!own){const sn=document.createElement("div");sn.className="msg-sender";sn.textContent=msg.name||"Anonim";cnt.appendChild(sn)}
+  if(msg.type==="image"&&msg.fileUrl){const img=document.createElement("img");img.className="msg-img";img.src=msg.fileUrl;img.alt="\u015e\u0259kil";img.onclick=()=>{$("lbImg").src=msg.fileUrl;openM("mLb")};cnt.appendChild(img)}
+  else if(msg.type==="file"&&msg.fileUrl){const a=document.createElement("a");a.className="msg-file";a.href=msg.fileUrl;a.target="_blank";a.rel="noopener";a.innerHTML=`<span class="mfi">\u{1F4C4}</span><div><div class="mfn">${esc(msg.fileName||"Fayl")}</div><div class="mfsz">${msg.fileSize?fmtBytes(msg.fileSize):""}</div></div>`;cnt.appendChild(a)}
+  else{const b=document.createElement("div");b.className="msg-bub";b.innerHTML=linkify(esc(msg.text||""));cnt.appendChild(b)}
+  const tr=document.createElement("div");tr.className="msg-tr";tr.innerHTML=`<span class="msg-time">${fT(msg.timestamp)}</span>`;
+  cnt.appendChild(tr);row.appendChild(aw);row.appendChild(cnt);return row;
+}
+
+function fmtBytes(n){if(!n)return"";if(n<1024)return n+" B";if(n<1048576)return(n/1024).toFixed(1)+" KB";return(n/1048576).toFixed(1)+" MB"}
+function linkify(t){return t.replace(/(https?:\/\/[^\s<>"]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')}
+
+window.sendMsg=async function(){
+  if(!CU)return;const i=$("msgInput"),t=i.value.trim();if(!t)return;
+  i.value="";clearTimeout(TT);remove(ref(db,"typing/"+CU.uid)).catch(()=>{});closeEmoji();
+  await push(ref(db,"messages"),{text:t,uid:CU.uid,name:CU.displayName||CU.email?.split("@")[0]||"Anonim",photoURL:CU.photoURL||null,timestamp:Date.now(),type:"text"});
+};
+
+window.onTyping=function(){
+  if(!CU)return;
+  set(ref(db,"typing/"+CU.uid),CU.displayName||CU.email?.split("@")[0]||"Kim\u0259s\u0259");
+  clearTimeout(TT);TT=setTimeout(()=>remove(ref(db,"typing/"+CU.uid)).catch(()=>{}),3000);
+};
+
+window.uploadFile=async function(inp){
+  const f=inp.files[0];if(!f||!CU)return;
+  if(f.size>15*1024*1024){toast("Fayl 15MB-dan b\u00f6y\u00fckd\u00fcr","error");inp.value="";return}
+  toast("Fayl y\u00fcikl\u0259nir...","info");
+  try{
+    const ext=f.name.split(".").pop().toLowerCase(),path=`uploads/${CU.uid}/${Date.now()}_${r6()}.${ext}`,sRef=sr(storage,path),ut=uploadBytesResumable(sRef,f);
+    await new Promise((res,rej)=>ut.on("state_changed",null,rej,res));
+    const url=await getDownloadURL(ut.snapshot.ref);
+    await push(ref(db,"messages"),{uid:CU.uid,name:CU.displayName||CU.email?.split("@")[0]||"Anonim",photoURL:CU.photoURL||null,timestamp:Date.now(),type:f.type.startsWith("image/")?"image":"file",fileUrl:url,fileName:f.name,fileSize:f.size});
+    toast("Fayl u\u011furla g\u00f6nd\u0259rildi","success");
+  }catch(e){toast("Y\u00fcikl\u0259m\u0259 x\u0259tas\u0131: "+e.message,"error")}
+  inp.value="";
+};
+
+function buildEP(){const p=$("ePicker");p.innerHTML="";EMOJIS.forEach(em=>{const d=document.createElement("div");d.className="eit";d.textContent=em;d.onclick=()=>{$("msgInput").value+=em;$("msgInput").focus()};p.appendChild(d)})}
+window.toggleEmoji=function(){const p=$("ePicker");if(p.style.display==="none"||!p.style.display){buildEP();p.style.display="flex";EO=true}else closeEmoji()};
+function closeEmoji(){const p=$("ePicker");if(p)p.style.display="none";EO=false}
+document.addEventListener("click",e=>{if(EO&&!e.target.closest("#ePicker")&&!e.target.closest(".ic-btn"))closeEmoji()});
+
+function initOnline(){
+  const ur=ref(db,"users");
+  listen(ur,sn=>{
+    const list=$("sbUsers"),badge=$("onCnt");list.innerHTML="";if(!sn.exists()){badge.textContent="0";return}
+    let cnt=0;sn.forEach(ch=>{
+      const u=ch.val();if(u.status!=="online")return;cnt++;
+      const item=document.createElement("div");item.className="sb-user";const me=u.uid===CU.uid;
+      item.innerHTML=`<div class="sb-ava">${u.avatar?`<img src="${esc(u.avatar)}" alt=""/>`:(u.username||"?")[0].toUpperCase()}<div class="sb-dot"></div></div><span class="sb-name">${esc(u.username||"?")}</span>${me?'<span class="me-tag">s\u0259n</span>':""}`;
+      list.appendChild(item);
+    });
+    badge.textContent=cnt;
+  });
+}
+
+async function ensureSvcs(){
+  const sn=await get(ref(db,"services"));if(sn.exists())return;
+  await set(ref(db,"services"),{hosting_basic:{name:"Hosting Basic",price:5,desc:"1GB SSD \u00b7 1 Domain \u00b7 Free SSL"},hosting_pro:{name:"Hosting Pro",price:12,desc:"10GB SSD \u00b7 5 Domain \u00b7 Free SSL"},hosting_biz:{name:"Hosting Business",price:22,desc:"50GB SSD \u00b7 Unlimited Domains"},vps_starter:{name:"VPS Starter",price:18,desc:"1 vCPU \u00b7 1GB RAM \u00b7 20GB SSD"},vps_pro:{name:"VPS Pro",price:35,desc:"2 vCPU \u00b7 4GB RAM \u00b7 60GB SSD"},vps_ded:{name:"VPS Dedicated",price:70,desc:"4 vCPU \u00b7 8GB RAM \u00b7 160GB SSD"},reseller:{name:"Reseller Pack",price:28,desc:"50GB \u00b7 WHM/cPanel \u00b7 30 hesab"}});
+}
+
+function initSvcs(){
+  const sr2=ref(db,"services");
+  listen(sr2,sn=>{
+    const g=$("svcGrid");g.innerHTML="";if(!sn.exists()){g.innerHTML='<p style="color:var(--t3);font-family:\'JetBrains Mono\',monospace">Xidm\u0259t yoxdur</p>';return}
+    sn.forEach(ch=>{
+      const s=ch.val(),id=ch.key,c=document.createElement("div");c.className="svc-card";
+      c.innerHTML=`<div class="svc-badge">&#9889; AKT&#304;V</div><div class="svc-name">${esc(s.name)}</div><div class="svc-desc">${esc(s.desc||"")}</div><div class="svc-pr-row"><span class="svc-pr">${parseFloat(s.price).toFixed(2)}</span><span class="svc-pr-u">AZN/ay</span></div><button class="btn-buy" onclick="openBuy('${id}','${esc(s.name)}','${esc(s.desc||"")}',${parseFloat(s.price)})">Sat&#305;n Al</button>`;
+      g.appendChild(c);
+    });
+    renderAdminSvcs(sn);
+  });
+}
+
+window.openBuy=function(id,name,desc,price){
+  BT={id,name,desc,price:parseFloat(price)};
+  $("bName").textContent=name;$("bDesc").textContent=desc;$("bPrice").textContent=money(price);
+  $("bContact").value="";$("bErr").textContent="";
+  const after=CB-parseFloat(price);
+  $("bCurBal").textContent=money(CB);$("bAfterBal").textContent=money(after);
+  $("bAfterBal").className="v"+(after>=0?" ok":" bad");
+  openM("mBuy");
+};
+
+window.doPurchase=async function(){
+  if(!BT||!CU)return;const contact=$("bContact").value.trim(),er=$("bErr");er.textContent="";
+  if(!contact){er.textContent="Kontakt m\u0259lumat\u0131 daxil edin";return}
+  if(CB<BT.price){er.textContent="Balans kifay\u0259t deyil. C\u00fczdan b\u00f6lm\u0259sind\u0259n art\u0131r\u0131n.";return}
+  try{
+    await update(ref(db,"users/"+CU.uid),{balance:parseFloat((CB-BT.price).toFixed(4))});
+    const oid="ord_"+Date.now()+"_"+r6();
+    await set(ref(db,"orders/"+oid),{uid:CU.uid,userEmail:CU.email||"",userName:CU.displayName||"",serviceId:BT.id,serviceName:BT.name,price:BT.price,status:"paid",contact,timestamp:Date.now()});
+    const tid="tx_"+Date.now()+"_"+r6();
+    await set(ref(db,"transactions/"+tid),{uid:CU.uid,type:"purchase",amount:BT.price,status:"completed",method:"balance",note:BT.name+" xidm\u0259ti al\u0131nd\u0131",timestamp:Date.now()});
+    closeM("mBuy");toast("\""+BT.name+"\" u\u011furla sifari\u015f edildi!","success");
+  }catch(e){er.textContent=e.message}
+};
+
+window.openDep=function(){$("depAmt").value="";$("depProof").value="";$("depErr").textContent="";$("depSuc").textContent="";$("depIns").textContent="M\u0259bl\u0259\u011fi yuxar\u0131da daxil edin...";openM("mDep")};
+
+window.depPrev=function(){
+  const amt=parseFloat($("depAmt").value),box=$("depIns");
+  if(!amt||amt<=0){box.textContent="M\u0259bl\u0259\u011fi yuxar\u0131da daxil edin...";return}
+  const uid=CU?CU.uid:"UID";
+  box.innerHTML=`M\u0259bl\u0259\u011fi k\u00f6\u00e7\u00fcr: <span class="ah">&#8380;${amt.toFixed(2)}</span><br><br>&#128179; Kart: <span class="cn">4169 7388 0000 0001</span><br>&#128100; Ad: <strong style="color:var(--t)">ANONCHAT LLC</strong><br><br><span style="color:var(--warn);font-size:12px">&#9888;&#65039; A\u00e7\u0131qlamaya m\u00fct\u0259q q eyd yaz&#305;n:</span><div class="ub">${esc(uid)}</div><div style="margin-top:10px;font-size:11px;color:var(--t3)">Admin 5-30 d\u0259q \u0259rzind\u0259 t\u0259sdiql\u0259y\u0259c\u0259k.</div>`;
+};
+
+window.submitDep=async function(){
+  if(!CU)return;const amt=parseFloat($("depAmt").value),proof=$("depProof").value.trim(),er=$("depErr"),su=$("depSuc");er.textContent="";su.textContent="";
+  if(!amt||amt<1){er.textContent="Minimum 1 AZN";return}
+  if(amt>10000){er.textContent="Maksimum 10,000 AZN";return}
+  try{
+    const pid="pay_"+Date.now()+"_"+r6();
+    await set(ref(db,"payments/"+pid),{uid:CU.uid,userEmail:CU.email||"",userName:CU.displayName||"",amount:amt,method:"BirBank",proof:proof||"",status:"pending",timestamp:Date.now()});
+    su.textContent="Sorgunuz q\u0259bul edildi! Admin yoxlay\u0131b balans\u0131 art\u0131racaq.";
+    $("depAmt").value="";$("depProof").value="";
+    setTimeout(()=>closeM("mDep"),2500);toast("Depozit sorgu g\u00f6nd\u0259rildi","success");
+  }catch(e){er.textContent=e.message}
+};
+
+function initTx(){
+  const tr=ref(db,"transactions");
+  listen(tr,sn=>{
+    const list=$("txList"),badge=$("txBadge");list.innerHTML="";
+    if(!sn.exists()){list.innerHTML='<div class="est"><div class="est-ic">&#128202;</div><div class="est-t">\u018dm\u0259liyyat yoxdur</div></div>';badge.textContent="0";updateWStats([]);return}
+    const mine=[];sn.forEach(ch=>{if(ch.val().uid===CU.uid)mine.push({key:ch.key,...ch.val()})});
+    mine.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));badge.textContent=mine.length;updateWStats(mine);
+    if(!mine.length){list.innerHTML='<div class="est"><div class="est-ic">&#128202;</div><div class="est-t">\u018dm\u0259liyyat yoxdur</div></div>';return}
+    mine.forEach(tx=>{
+      const isD=tx.type==="deposit",c=document.createElement("div");c.className="tx-c";
+      c.innerHTML=`<div class="tx-l"><div class="tx-ico ${tx.type}">${isD?"&#11015;&#65039;":"&#128717;"}</div><div><div class="tx-nm">${esc(tx.note||tx.type)}</div><div class="tx-dt">${fDT(tx.timestamp)}</div></div></div><div class="tx-r"><div class="tx-amt ${isD?"pos":"neg"}">${isD?"+":"-"}${money(tx.amount)}</div><div><span class="tx-pill ${tx.status}">${tx.status}</span></div></div>`;
+      list.appendChild(c);
+    });
+  });
+}
+function updateWStats(txs){let d=0,s=0;txs.forEach(tx=>{if(tx.type==="deposit"&&tx.status==="completed")d+=parseFloat(tx.amount||0);if(tx.type==="purchase"&&tx.status==="completed")s+=parseFloat(tx.amount||0)});$("wsDep").textContent=money(d);$("wsSpent").textContent=money(s);$("wsCnt").textContent=txs.length}
+
+function initMyOrders(){
+  const or=ref(db,"orders");
+  listen(or,sn=>{
+    const c=$("myOrders");c.innerHTML="";
+    if(!sn.exists()){c.innerHTML='<div class="est"><div class="est-ic">&#128203;</div><div class="est-t">Sifari\u015f yoxdur</div><span>Xidm\u0259tl\u0259r b\u00f6lm\u0259sind\u0259n sifari\u015f verin</span></div>';return}
+    const mine=[];sn.forEach(ch=>{if(ch.val().uid===CU.uid)mine.push({key:ch.key,...ch.val()})});
+    mine.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    if(!mine.length){c.innerHTML='<div class="est"><div class="est-ic">&#128203;</div><div class="est-t">Sifari\u015f yoxdur</div></div>';return}
+    mine.forEach(o=>{const el=document.createElement("div");el.className="ord-c";el.innerHTML=`<div class="ord-top"><div class="ord-name">${esc(o.serviceName||"")}</div><span class="spill ${o.status}">${sLbl(o.status)}</span></div><div class="ord-meta"><span>&#128176; ${money(o.price)}</span><span>&#128222; ${esc(o.contact||"")}</span><span>&#128197; ${fD(o.timestamp)}</span></div>${o.adminNote?`<div class="ord-note">&#128221; <span>${esc(o.adminNote)}</span></div>`:""}`  ;c.appendChild(el)});
+  });
+}
+function sLbl(s){return{pending:"G\u00f6zl\u0259nir",approved:"T\u0259sdiqlendi",rejected:"R\u0259dd edildi",paid:"\u00d6d\u0259nildi"}[s]||s}
+
+function initAdmin(){
+  if(!CU||CU.email!==ADMIN)return;
+  loadStats();
+  listen(ref(db,"payments"),sn=>renderPayments(sn));
+  listen(ref(db,"orders"),sn=>renderAOrders(sn));
+  listen(ref(db,"users"),sn=>renderUsers(sn));
+  listen(query(ref(db,"messages"),orderByChild("timestamp"),limitToLast(100)),sn=>renderMsgs(sn));
+  listen(ref(db,"banned_ips"),sn=>renderIPs(sn));
+}
+
+async function loadStats(){
+  const [u,m,o,p]=await Promise.all([get(ref(db,"users")),get(ref(db,"messages")),get(ref(db,"orders")),get(ref(db,"payments"))]);
+  let pend=0;if(p.exists())p.forEach(c=>{if(c.val().status==="pending")pend++});
+  $("aSG").innerHTML=[{ic:"&#128101;",l:"\u0130stifad\u0259\u00e7il\u0259r",v:u.exists()?Object.keys(u.val()).length:0,col:"var(--ac)"},{ic:"&#128172;",l:"Mesajlar",v:m.exists()?Object.keys(m.val()).length:0,col:"var(--ac2)"},{ic:"&#128230;",l:"Sifari\u015fl\u0259r",v:o.exists()?Object.keys(o.val()).length:0,col:"var(--ac3)"},{ic:"&#128179;",l:"\u00d6d\u0259ni\u015fl\u0259r",v:p.exists()?Object.keys(p.val()).length:0,col:"var(--warn)"},{ic:"&#9203;&#65039;",l:"G\u00f6zl\u0259y\u0259n",v:pend,col:"var(--red)"}].map(s=>`<div class="a-sc"><div class="a-si">${s.ic}</div><div class="a-sv" style="color:${s.col}">${s.v}</div><div class="a-sl">${s.l}</div></div>`).join("");
+}
+
+function renderPayments(sn){
+  const tb=$("payTbl");if(!tb)return;tb.innerHTML="";
+  if(!sn.exists()){tb.innerHTML=`<tr><td colspan="7" class="a-tbl-e">\u00d6d\u0259ni\u015f sorgusu yoxdur</td></tr>`;return}
+  const items=[];sn.forEach(ch=>items.push({key:ch.key,...ch.val()}));items.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  items.forEach(p=>{const tr=document.createElement("tr");tr.innerHTML=`<td><div style="font-size:13px;font-weight:600">${esc(p.userName||"")}</div><div style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace">${esc(p.userEmail||"")}</div></td><td style="font-weight:700;color:var(--ac3);font-family:'JetBrains Mono',monospace">${money(p.amount)}</td><td>${esc(p.method||"")}</td><td style="font-size:11px;font-family:'JetBrains Mono',monospace;max-width:100px;overflow:hidden;text-overflow:ellipsis">${esc((p.proof||"-").substring(0,20))}</td><td style="font-size:11px;color:var(--t2)">${fDT(p.timestamp)}</td><td><span class="spill ${p.status}">${sLbl(p.status)||p.status}</span></td><td><div class="act-row">${p.status==="pending"?`<button class="bx ok" onclick="approvePay('${p.key}','${p.uid}',${p.amount})">&#10004; T\u0259sdiql\u0259</button><button class="bx bad" onclick="rejectPay('${p.key}')">&#10005; R\u0259dd</button>`:"&#8212;"}</div></td>`;tb.appendChild(tr)});
+}
+window.approvePay=async function(pid,uid,amount){
+  if(!confirm(`${uid} \u00fc\u00e7\u00fcn ${money(amount)} \u0259lav\u0259 edilsin?`))return;
+  try{
+    const sn=await get(ref(db,"users/"+uid+"/balance")),cur=parseFloat(sn.val()||0),nb=parseFloat((cur+parseFloat(amount)).toFixed(4));
+    await update(ref(db,"users/"+uid),{balance:nb});
+    await update(ref(db,"payments/"+pid),{status:"completed",approvedAt:Date.now()});
+    const tid="tx_"+Date.now()+"_"+r6();
+    await set(ref(db,"transactions/"+tid),{uid,type:"deposit",amount:parseFloat(amount),status:"completed",method:"manual",note:"Admin t\u0259r\u0259find\u0259n \u0259lav\u0259 edildi",timestamp:Date.now()});
+    toast("Balans \u0259lav\u0259 edildi","success");loadStats();
+  }catch(e){toast(e.message,"error")}
+};
+window.rejectPay=async function(pid){if(!confirm("R\u0259dd etm\u0259k ist\u0259yirsiniz?"))return;await update(ref(db,"payments/"+pid),{status:"rejected"});toast("\u00d6d\u0259ni\u015f r\u0259dd edildi","warn")};
+
+function renderAOrders(sn){
+  const tb=$("ordTbl");if(!tb)return;tb.innerHTML="";
+  if(!sn.exists()){tb.innerHTML=`<tr><td colspan="7" class="a-tbl-e">Sifari\u015f yoxdur</td></tr>`;return}
+  const items=[];sn.forEach(ch=>items.push({key:ch.key,...ch.val()}));items.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  items.forEach(o=>{const tr=document.createElement("tr");tr.innerHTML=`<td><div style="font-size:13px;font-weight:600">${esc(o.userName||"")}</div><div style="font-size:11px;color:var(--t3)">${esc(o.userEmail||"")}</div></td><td style="font-weight:600">${esc(o.serviceName||"")}</td><td style="color:var(--ac);font-weight:700;font-family:'JetBrains Mono',monospace">${money(o.price)}</td><td style="font-size:12px">${esc(o.contact||"")}</td><td><span class="spill ${o.status}">${sLbl(o.status)}</span></td><td><input class="note-inp" id="on_${o.key}" value="${esc(o.adminNote||"")}" placeholder="Qeyd..."/></td><td><div class="act-row"><button class="bx ok" onclick="approveOrd('${o.key}')">&#10004;</button><button class="bx bad" onclick="rejectOrd('${o.key}')">&#10005;</button><button class="bx sv" onclick="saveNote('${o.key}')">&#128190;</button></div></td>`;tb.appendChild(tr)});
+}
+window.approveOrd=async function(id){await update(ref(db,"orders/"+id),{status:"approved"});toast("Sifari\u015f t\u0259sdiqlendi","success")};
+window.rejectOrd=async function(id){await update(ref(db,"orders/"+id),{status:"rejected"});toast("Sifari\u015f r\u0259dd edildi","warn")};
+window.saveNote=async function(id){const n=$("#on_"+id)?.value||"";await update(ref(db,"orders/"+id),{adminNote:n});toast("Qeyd saxlan\u0131ld\u0131","success")};
+
+function renderUsers(sn){
+  const tb=$("userTbl");if(!tb)return;tb.innerHTML="";if(!sn.exists()){tb.innerHTML=`<tr><td colspan="5" class="a-tbl-e">\u0130stifad\u0259\u00e7i yoxdur</td></tr>`;return}
+  const items=[];sn.forEach(ch=>items.push({key:ch.key,...ch.val()}));items.sort((a,b)=>(b.status==="online"?1:0)-(a.status==="online"?1:0));
+  items.forEach(u=>{const tr=document.createElement("tr");tr.innerHTML=`<td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--ac2),var(--ac));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${(u.username||"?")[0].toUpperCase()}</div><span style="font-weight:600">${esc(u.username||"")}</span></div></td><td style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--t2)">${esc(u.email||"")}</td><td style="font-weight:700;color:var(--ac3);font-family:'JetBrains Mono',monospace">${money(u.balance)}</td><td><span style="color:${u.status==="online"?"var(--ac3)":"var(--t3)"}">&#9679; ${u.status==="online"?"Online":"Offline"}</span></td><td style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace">${u.lastSeen?fDT(u.lastSeen):"&#8212;"}</td>`;tb.appendChild(tr)});
+}
+function renderMsgs(sn){
+  const tb=$("msgTbl");if(!tb)return;tb.innerHTML="";if(!sn.exists()){tb.innerHTML=`<tr><td colspan="4" class="a-tbl-e">Mesaj yoxdur</td></tr>`;return}
+  const items=[];sn.forEach(ch=>items.push({key:ch.key,...ch.val()}));items.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  items.slice(0,50).forEach(m=>{const tr=document.createElement("tr");const prev=m.type==="text"?esc((m.text||"").substring(0,60)):`[${m.type}]`;tr.innerHTML=`<td style="font-size:12px;font-weight:600">${esc(m.name||"")}</td><td style="font-size:13px;color:var(--t2)">${prev}</td><td style="font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace">${fDT(m.timestamp)}</td><td><button class="bx bad" onclick="delMsg('${m.key}')">&#128465;</button></td>`;tb.appendChild(tr)});
+}
+window.delMsg=async function(k){if(!confirm("Mesajı silmek isteyirsiz?"))return;await remove(ref(db,"messages/"+k));toast("Mesaj silindi","info")};
+
+function renderAdminSvcs(sn){
+  const tb=$("svcTbl");if(!tb)return;tb.innerHTML="";if(!sn.exists()){tb.innerHTML=`<tr><td colspan="4" class="a-tbl-e">Xidm\u0259t yoxdur</td></tr>`;return}
+  sn.forEach(ch=>{const s=ch.val(),id=ch.key,tr=document.createElement("tr");tr.innerHTML=`<td style="font-weight:600">${esc(s.name||"")}</td><td style="font-size:12px;color:var(--t2);font-family:'JetBrains Mono',monospace">${esc(s.desc||"")}</td><td style="font-weight:700;color:var(--ac);font-family:'JetBrains Mono',monospace">${money(s.price)}</td><td><button class="bx bad" onclick="delSvc('${id}')">&#128465; Sil</button></td>`;$("svcTbl").appendChild(tr)});
+}
+window.addSvc=async function(){const n=$("svcN").value.trim(),p=parseFloat($("svcP").value),d=$("svcD").value.trim();if(!n){toast("Ad daxil edin","error");return}if(!p||p<=0){toast("D\u00fczg\u00fcn qiym\u0259t","error");return}const id="svc_"+Date.now()+"_"+r6();await set(ref(db,"services/"+id),{name:n,price:p,desc:d||""});$("svcN").value="";$("svcP").value="";$("svcD").value="";toast("Xidm\u0259t \u0259lav\u0259 edildi","success")};
+window.delSvc=async function(id){if(!confirm("Silm\u0259k ist\u0259yirsiniz?"))return;await remove(ref(db,"services/"+id));toast("Xidm\u0259t silindi","info")};
+
+function renderIPs(sn){
+  const l=$("ipList");if(!l)return;l.innerHTML="";if(!sn.exists()){l.innerHTML='<div class="est" style="padding:24px"><span>Ban siyah\u0131s\u0131 bo\u015fdur</span></div>';return}
+  sn.forEach(ch=>{const v=ch.val(),k=ch.key,el=document.createElement("div");el.className="ip-e";el.innerHTML=`<div><div class="ip-v">${esc(v.ip||k.replace(/_/g,"."))}</div><div class="ip-d">${v.bannedAt?fDT(v.bannedAt):""}</div></div><button class="bx ok" onclick="unbanIP('${k}')">Sil</button>`;l.appendChild(el)});
+}
+window.banIP=async function(){const ip=$("ipIn").value.trim();if(!ip||!/^[\d.]+$/.test(ip)){toast("D\u00fczg\u00fcn IP","error");return}const k=ip.replace(/\./g,"_");await set(ref(db,"banned_ips/"+k),{ip,bannedAt:Date.now()});$("ipIn").value="";toast(ip+" ban edildi","success")};
+window.unbanIP=async function(k){await remove(ref(db,"banned_ips/"+k));toast("IP ban siyah\u0131s\u0131ndan \u00e7\u0131xar\u0131ld\u0131","success")};
+
+const PANELS=["chat","services","wallet","orders","admin"];
+window.showPanel=function(name){
+  PANELS.forEach(p=>{const pe=$("panel"+cap(p)),ne=$("nav"+cap(p));if(pe)pe.className="panel"+(p===name?" active":"");if(ne)ne.className="nav-btn"+(p===name?" active":"")});
+  if(name==="admin"&&CU?.email===ADMIN)loadStats();
+};
+const ATABS=["Stats","Payments","Orders","Services","Users","Messages","Ipban"];
+window.aTab=function(t){ATABS.forEach(x=>{const s=$("as"+x),b=$("anb"+x);if(s)s.className="adm-sec"+(x===t?" active":"");if(b)b.className="adm-nb"+(x===t?" active":"")})};
+window.openM=function(id){$(id).classList.add("open")};
+window.closeM=function(id){$(id).classList.remove("open")};
+document.querySelectorAll(".mbg").forEach(el=>el.addEventListener("click",e=>{if(e.target===el)el.classList.remove("open")}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeEmoji();document.querySelectorAll(".mbg.open").forEach(m=>m.classList.remove("open"))}});
+
+(async()=>{const banned=await checkBan();if(!banned)$("authScreen").style.display="flex"})();
+</script>
+</body>
+</html>
