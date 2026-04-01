@@ -2,1524 +2,595 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VipHost.Biz — Hosting & Domain</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AzHosting.az — Hosting & Domain</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-  :root {
-    --bg: #080c14;
-    --bg2: #0d1420;
-    --bg3: #111827;
-    --accent: #00e5ff;
-    --accent2: #7c3aed;
-    --accent3: #10b981;
-    --text: #e2e8f0;
-    --text2: #94a3b8;
-    --border: rgba(255,255,255,0.07);
-    --glass: rgba(255,255,255,0.04);
-    --glow: 0 0 40px rgba(0,229,255,0.15);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ===== NOISE OVERLAY ===== */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-  }
-
-  /* ===== HEADER ===== */
-  .topbar {
-    background: rgba(8,12,20,0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 52px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-
-  .topbar-phone {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--accent);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-
-  .topbar-phone svg { width: 14px; height: 14px; }
-
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .lang-badge {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text2);
-  }
-
-  .cart-btn {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text2);
-    transition: all 0.2s;
-  }
-
-  .cart-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .login-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .login-btn:hover { background: var(--accent); color: var(--bg); }
-
-  .kabinet-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .kabinet-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* ===== NAV ===== */
-  .nav {
-    background: rgba(13,20,32,0.98);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    position: sticky;
-    top: 52px;
-    z-index: 999;
-  }
-
-  .logo {
-    display: flex; align-items: center; gap: 10px;
-    text-decoration: none;
-  }
-
-  .logo-icon {
-    width: 38px; height: 38px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800;
-    font-size: 16px;
-    color: white;
-    box-shadow: 0 0 20px rgba(0,229,255,0.3);
-  }
-
-  .logo-text { line-height: 1.1; }
-  .logo-text .az { color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
-  .logo-text .hosting { color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
-  .logo-text .sub { color: var(--text2); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; }
-
-  .hamburger {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
-    padding: 8px;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 100%;
-    height: 1.5px;
-    background: var(--text2);
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  /* ===== MOBILE MENU ===== */
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 112px;
-    left: 0; right: 0;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    z-index: 998;
-    padding: 16px 20px;
-    animation: slideDown 0.2s ease;
-  }
-
-  .mobile-menu.open { display: block; }
-
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .menu-section { margin-bottom: 20px; }
-  .menu-section-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    padding-left: 4px;
-  }
-
-  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-  .menu-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 12px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-
-  .menu-item:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.05); }
-
-  .menu-item-icon {
-    width: 28px; height: 28px;
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .menu-links { display: flex; flex-direction: column; gap: 6px; }
-  .menu-link {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 12px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-
-  .menu-link:hover { border-color: var(--accent2); color: var(--accent2); }
-
-  /* ===== PAGES ===== */
-  .page { display: none; }
-  .page.active { display: block; }
-
-  /* ===== HOME PAGE ===== */
-  .hero {
-    position: relative;
-    padding: 60px 20px 80px;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    top: -100px; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 400px;
-    background: radial-gradient(ellipse, rgba(0,229,255,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0,229,255,0.08);
-    border: 1px solid rgba(0,229,255,0.2);
-    border-radius: 100px;
-    padding: 6px 14px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.05em;
-    margin-bottom: 24px;
-    text-transform: uppercase;
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: 32px;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero p {
-    color: var(--text2);
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 32px;
-    max-width: 340px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), #0097a7);
-    color: var(--bg);
-    border: none;
-    padding: 13px 28px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-    box-shadow: 0 0 30px rgba(0,229,255,0.25);
-  }
-
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,229,255,0.4); }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 13px 28px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* DOMAIN SEARCH */
-  .domain-search {
-    padding: 0 20px 40px;
-  }
-
-  .search-box {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-  }
-
-  .search-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    text-align: center;
-  }
-
-  .search-input-wrap {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .search-input {
-    flex: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 14px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .search-input:focus { border-color: var(--accent); }
-  .search-input::placeholder { color: var(--text2); }
-
-  .search-btn {
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-  }
-
-  .domain-prices {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .domain-price-item {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 6px;
-    text-align: center;
-  }
-
-  .domain-ext {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .domain-pr {
-    font-size: 11px;
-    color: var(--text2);
-  }
-
-  .see-all {
-    display: block;
-    text-align: center;
-    color: var(--accent);
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 12px;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  /* STATS */
-  .stats {
-    background: linear-gradient(135deg, #0a1628, #0d1f3c);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 40px 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .stat-label { font-size: 12px; color: var(--text2); }
-
-  /* PRODUCTS SECTION */
-  .section {
-    padding: 40px 20px;
-  }
-
-  .section-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(124,58,237,0.1);
-    border: 1px solid rgba(124,58,237,0.25);
-    border-radius: 100px;
-    padding: 5px 12px;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent2);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 8px;
-    line-height: 1.2;
-  }
-
-  .section-title span { color: var(--accent); }
-
-  .section-desc {
-    color: var(--text2);
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 28px;
-  }
-
-  /* PLAN TABS */
-  .plan-tabs {
-    display: flex;
-    gap: 6px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-  }
-
-  .plan-tab {
-    flex: 1;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: none;
-    background: transparent;
-    color: var(--text2);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .plan-tab.active {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  /* CONTROL TABS */
-  .control-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .ctrl-tab {
-    flex: 1;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--glass);
-    color: var(--text2);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .ctrl-tab.active {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(0,229,255,0.06);
-  }
-
-  /* PLAN CARDS */
-  .plans-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .plan-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 22px;
-    position: relative;
-    transition: all 0.2s;
-  }
-
-  .plan-card:hover { border-color: rgba(0,229,255,0.3); }
-
-  .plan-card.featured {
-    border-color: var(--accent);
-    background: rgba(0,229,255,0.04);
-    box-shadow: var(--glow);
-  }
-
-  .featured-badge {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--accent), #0097a7);
-    color: var(--bg);
-    font-size: 10px;
-    font-weight: 800;
-    padding: 4px 14px;
-    border-radius: 100px;
-    white-space: nowrap;
-    letter-spacing: 0.05em;
-  }
-
-  .plan-name {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--text2);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .plan-price {
-    font-family: 'Syne', sans-serif;
-    font-size: 34px;
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .plan-price .currency { font-size: 18px; vertical-align: top; margin-top: 6px; display: inline-block; }
-  .plan-price .period { font-size: 13px; color: var(--text2); font-family: 'DM Sans', sans-serif; font-weight: 400; }
-
-  .plan-discount {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(16,185,129,0.1);
-    border: 1px solid rgba(16,185,129,0.2);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent3);
-    margin-bottom: 16px;
-  }
-
-  .plan-features {
-    list-style: none;
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .plan-features li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--text2);
-  }
-
-  .plan-features li::before {
-    content: '✓';
-    width: 18px; height: 18px;
-    background: rgba(16,185,129,0.15);
-    border: 1px solid rgba(16,185,129,0.3);
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent3);
-    flex-shrink: 0;
-  }
-
-  .btn-plan {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .btn-plan-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text2);
-  }
-
-  .btn-plan-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-  .btn-plan-filled {
-    background: linear-gradient(135deg, var(--accent), #0097a7);
-    border: none;
-    color: var(--bg);
-    box-shadow: 0 0 20px rgba(0,229,255,0.2);
-  }
-
-  .btn-plan-filled:hover { transform: translateY(-1px); box-shadow: 0 0 35px rgba(0,229,255,0.35); }
-
-  /* FEATURES SECTION */
-  .features-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 24px;
-  }
-
-  .feature-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 14px;
-    transition: all 0.2s;
-  }
-
-  .feature-card:hover { border-color: rgba(0,229,255,0.2); transform: translateY(-2px); }
-
-  .feature-icon {
-    font-size: 22px;
-    margin-bottom: 10px;
-  }
-
-  .feature-name {
-    font-weight: 700;
-    font-size: 13px;
-    margin-bottom: 4px;
-  }
-
-  .feature-desc {
-    font-size: 11px;
-    color: var(--text2);
-    line-height: 1.5;
-  }
-
-  /* GUARANTEE */
-  .guarantee {
-    background: linear-gradient(135deg, #0a1628, #0d1f3c);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 40px 20px;
-  }
-
-  .guarantee-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 24px;
-  }
-
-  .guarantee-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 20px 16px;
-    text-align: center;
-    transition: all 0.2s;
-  }
-
-  .guarantee-card:hover { border-color: rgba(0,229,255,0.2); }
-
-  .guarantee-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin: 0 auto 12px;
-    background: rgba(0,229,255,0.08);
-    border: 1px solid rgba(0,229,255,0.15);
-  }
-
-  .guarantee-title {
-    font-weight: 700;
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-
-  .guarantee-desc {
-    font-size: 11px;
-    color: var(--text2);
-    line-height: 1.5;
-  }
-
-  /* REVIEWS */
-  .reviews { padding: 40px 20px; }
-
-  .review-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-
-  .review-stars { color: #fbbf24; font-size: 14px; margin-bottom: 10px; }
-
-  .review-text {
-    font-size: 14px;
-    color: var(--text2);
-    line-height: 1.6;
-    margin-bottom: 14px;
-    font-style: italic;
-  }
-
-  .review-author { display: flex; align-items: center; gap: 10px; }
-
-  .reviewer-avatar {
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .reviewer-name { font-weight: 700; font-size: 13px; }
-  .reviewer-site { font-size: 11px; color: var(--accent); }
-
-  /* PARTNERS */
-  .partners { padding: 40px 20px; }
-
-  .partners-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 24px;
-  }
-
-  .partner-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 56px;
-    transition: all 0.2s;
-  }
-
-  .partner-card:hover { border-color: rgba(0,229,255,0.2); }
-
-  .partner-name {
-    font-weight: 800;
-    font-size: 13px;
-    color: var(--text2);
-    text-align: center;
-  }
-
-  /* CTA SECTION */
-  .cta {
-    background: linear-gradient(135deg, #0d2040, #0a1628);
-    border-top: 1px solid rgba(0,229,255,0.15);
-    border-bottom: 1px solid var(--border);
-    padding: 50px 20px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta::before {
-    content: '';
-    position: absolute;
-    top: -80px; left: 50%;
-    transform: translateX(-50%);
-    width: 400px; height: 300px;
-    background: radial-gradient(ellipse, rgba(0,229,255,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .cta h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-
-  .cta p { color: var(--text2); font-size: 14px; margin-bottom: 28px; }
-
-  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-
-  /* FOOTER */
-  .footer {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    padding: 40px 20px 24px;
-  }
-
-  .footer-logo {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 12px;
-  }
-
-  .footer-logo-icon {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    color: white;
-  }
-
-  .footer-logo-text .az { color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 800; }
-  .footer-logo-text .rest { color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; }
-
-  .footer-tagline { color: var(--text2); font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
-
-  .social-links { display: flex; gap: 8px; margin-bottom: 32px; }
-
-  .social-link {
-    width: 36px; height: 36px;
-    border-radius: 9px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-    transition: all 0.2s;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--text2);
-  }
-
-  .social-link:hover { border-color: var(--accent); color: var(--accent); }
-
-  .footer-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
-  }
-
-  .footer-col-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-
-  .footer-links { display: flex; flex-direction: column; gap: 8px; }
-
-  .footer-link {
-    color: var(--text2);
-    font-size: 13px;
-    text-decoration: none;
-    transition: color 0.2s;
-    cursor: pointer;
-  }
-
-  .footer-link:hover { color: var(--accent); }
-
-  .footer-contact { margin-bottom: 24px; }
-
-  .footer-contact-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-
-  .contact-item {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    color: var(--text2);
-  }
-
-  .contact-item .phone-badge {
-    background: var(--accent);
-    color: var(--bg);
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 100px;
-    font-size: 13px;
-  }
-
-  .secure-box {
-    background: rgba(16,185,129,0.06);
-    border: 1px solid rgba(16,185,129,0.15);
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 24px;
-  }
-
-  .secure-box-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .secure-box-title { font-weight: 700; font-size: 13px; color: var(--accent3); margin-bottom: 3px; }
-  .secure-box-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
-
-  .footer-copy {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text2);
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ===== DASHBOARD PAGE ===== */
-  .dash-header {
-    background: linear-gradient(135deg, #0a1628, #0d1f3c);
-    padding: 28px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-
-  .user-avatar {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
-
-  .user-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-  }
-
-  .user-email { color: var(--text2); font-size: 13px; }
-
-  .balance-card {
-    background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(124,58,237,0.1));
-    border: 1px solid rgba(0,229,255,0.2);
-    border-radius: 16px;
-    padding: 20px;
-  }
-
-  .balance-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
-
-  .balance-amount {
-    font-family: 'Syne', sans-serif;
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
-
-  .add-balance-btn {
-    width: 100%;
-    padding: 12px;
-    background: rgba(0,229,255,0.15);
-    border: 1px solid rgba(0,229,255,0.3);
-    border-radius: 10px;
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .add-balance-btn:hover { background: var(--accent); color: var(--bg); }
-
-  .webdev-promo {
-    margin: 20px 20px 0;
-    background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,229,255,0.05));
-    border: 1px solid rgba(124,58,237,0.2);
-    border-radius: 16px;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .webdev-promo-icon { font-size: 24px; }
-  .webdev-promo-text { flex: 1; }
-  .webdev-promo-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
-  .webdev-promo-desc { font-size: 12px; color: var(--text2); }
-
-  .webdev-btn {
-    background: linear-gradient(135deg, var(--accent2), #9333ea);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-  }
-
-  .dash-menu {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .dash-menu-item {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dash-menu-item:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-2px); }
-
-  .dash-menu-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin: 0 auto 10px;
-  }
-
-  .dash-menu-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
-  .dash-menu-desc { font-size: 11px; color: var(--text2); }
-
-  /* ===== ORDERS PAGE ===== */
-  .orders-header {
-    background: linear-gradient(135deg, #0a1628, #0d1f3c);
-    padding: 24px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .orders-icon { font-size: 24px; }
-  .orders-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; }
-
-  .orders-content { padding: 20px; }
-
-  .order-category {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    margin-bottom: 16px;
-    overflow: hidden;
-  }
-
-  .order-cat-header {
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .order-cat-name {
-    display: flex; align-items: center; gap: 10px;
-    font-weight: 700;
-    font-size: 15px;
-  }
-
-  .order-count {
-    background: rgba(0,229,255,0.1);
-    border: 1px solid rgba(0,229,255,0.2);
-    color: var(--accent);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 100px;
-  }
-
-  .order-add-btn {
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .order-empty {
-    padding: 30px;
-    text-align: center;
-    color: var(--text2);
-    font-size: 13px;
-  }
-
-  .order-empty-icon { font-size: 32px; margin-bottom: 8px; opacity: 0.4; }
-
-  /* ===== BALANCE PAGE ===== */
-  .balance-header {
-    background: linear-gradient(135deg, #0a1628, #0d1f3c);
-    padding: 24px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .balance-header-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .balance-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; }
-
-  .current-balance {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .current-balance-label { font-size: 13px; color: var(--text2); }
-
-  .current-balance-amount {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 24px;
-    color: var(--accent);
-  }
-
-  .balance-content { padding: 20px; }
-
-  .info-box {
-    background: rgba(0,229,255,0.04);
-    border: 1px solid rgba(0,229,255,0.12);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-
-  .info-box-title {
-    display: flex; align-items: center; gap: 8px;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-
-  .info-step {
-    display: flex; align-items: flex-start; gap: 10px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.5;
-  }
-
-  .info-step-num {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: var(--bg);
-    font-size: 11px;
-    font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .bank-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-
-  .bank-card-row {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 8px;
-    font-size: 13px;
-  }
-
-  .bank-card-icon { font-size: 18px; }
-  .bank-label { color: var(--text2); }
-  .bank-value { color: var(--text); font-weight: 700; margin-left: auto; }
-
-  .bank-warning {
-    background: rgba(251,191,36,0.08);
-    border: 1px solid rgba(251,191,36,0.2);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: #fbbf24;
-    margin-top: 8px;
-    line-height: 1.5;
-  }
-
-  .form-group { margin-bottom: 16px; }
-  .form-label { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: block; color: var(--text2); }
-
-  .form-input {
-    width: 100%;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 14px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-input:focus { border-color: var(--accent); }
-
-  .radio-group {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .radio-option {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background 0.2s;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .radio-option:last-child { border-bottom: none; }
-  .radio-option:hover { background: rgba(255,255,255,0.03); }
-
-  .radio-dot {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .radio-dot.checked {
-    border-color: var(--accent);
-    background: rgba(0,229,255,0.15);
-  }
-
-  .radio-dot.checked::after {
-    content: '';
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-
-  .file-upload {
-    display: flex; align-items: center; gap: 8px;
-  }
-
-  .file-btn {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    color: var(--text2);
-    padding: 10px 16px;
-    border-radius: 9px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-
-  .file-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .file-name { font-size: 13px; color: var(--text2); }
-
-  .btn-submit {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--accent), #0097a7);
-    border: none;
-    border-radius: 12px;
-    color: var(--bg);
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    box-shadow: 0 0 25px rgba(0,229,255,0.2);
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(0,229,255,0.35); }
-
-  .tx-history { margin-top: 24px; }
-
-  .tx-title {
-    display: flex; align-items: center; gap: 8px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
-
-  .tx-table-header {
-    display: grid;
-    grid-template-columns: 60px 1fr 1fr 1fr;
-    gap: 8px;
-    padding: 10px 14px;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 10px 10px 0 0;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text2);
-    letter-spacing: 0.05em;
-  }
-
-  .tx-empty {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 30px;
-    text-align: center;
-    color: var(--text2);
-    font-size: 13px;
-  }
-
-  /* BACK BTN */
-  .back-row {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .back-btn {
-    display: flex; align-items: center; gap: 6px;
-    color: var(--text2);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 0.2s;
-    background: none;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .back-btn:hover { color: var(--accent); }
-
-  /* SCROLL TO TOP */
-  .scroll-top {
-    position: fixed;
-    bottom: 24px; right: 20px;
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--accent), #0097a7);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0,229,255,0.3);
-    z-index: 900;
-    font-size: 18px;
-    transition: all 0.2s;
-    border: none;
-    color: var(--bg);
-  }
-
-  .scroll-top:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,229,255,0.4); }
-
-  /* ANIMATION */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .page.active > * { animation: fadeUp 0.4s ease both; }
-  .page.active > *:nth-child(2) { animation-delay: 0.05s; }
-  .page.active > *:nth-child(3) { animation-delay: 0.1s; }
-  .page.active > *:nth-child(4) { animation-delay: 0.15s; }
+:root {
+  --bg: #080c14;
+  --bg2: #0d1420;
+  --bg3: #111827;
+  --accent: #00e5ff;
+  --accent2: #7c3aed;
+  --accent3: #10b981;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --border: rgba(255,255,255,0.07);
+  --glass: rgba(255,255,255,0.04);
+  --glow: 0 0 40px rgba(0,229,255,0.15);
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #fbbf24;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* LOADER */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+}
+.loader-spinner {
+  width: 44px; height: 44px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* BAN SCREEN */
+#ban-screen {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 9998;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* TOPBAR */
+.topbar {
+  background: rgba(8,12,20,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+  position: sticky; top: 0; z-index: 1000;
+}
+.topbar-phone {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--accent); font-size: 13px; font-weight: 600;
+}
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.lang-badge {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px;
+  font-size: 12px; font-weight: 700; color: var(--text2);
+}
+.cart-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--glass); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text2); transition: all 0.2s;
+}
+.cart-btn:hover { border-color: var(--accent); color: var(--accent); }
+.topbar-btn {
+  display: flex; align-items: center; gap: 6px;
+  border: 1px solid var(--accent); color: var(--accent);
+  background: transparent; padding: 6px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+}
+.topbar-btn:hover { background: var(--accent); color: var(--bg); }
+.topbar-btn.ghost {
+  border-color: var(--border); color: var(--text2);
+  background: var(--glass);
+}
+.topbar-btn.ghost:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+.balance-pill {
+  background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2);
+  color: var(--accent); padding: 5px 12px; border-radius: 100px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+/* NAV */
+.nav {
+  background: rgba(13,20,32,0.98); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; position: sticky; top: 52px; z-index: 999;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 16px; color: white;
+  box-shadow: 0 0 20px rgba(0,229,255,0.3);
+  font-family: 'Syne', sans-serif;
+}
+.logo-text { line-height: 1.1; }
+.logo-text .az { color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
+.logo-text .hosting { color: var(--text); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; }
+.logo-text .sub { color: var(--text2); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; }
+.hamburger {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--glass); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-direction: column; gap: 5px; padding: 8px;
+}
+.hamburger span { display: block; width: 100%; height: 1.5px; background: var(--text2); border-radius: 2px; transition: all 0.3s; }
+
+/* MOBILE MENU */
+.mobile-menu {
+  display: none; position: fixed; top: 112px; left: 0; right: 0;
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  z-index: 998; padding: 16px 20px;
+  animation: slideDown 0.2s ease;
+  max-height: calc(100vh - 112px); overflow-y: auto;
+}
+.mobile-menu.open { display: block; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.menu-section { margin-bottom: 20px; }
+.menu-section-title { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.menu-item {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: 10px; text-decoration: none; color: var(--text);
+  font-size: 13px; font-weight: 500; transition: all 0.2s; cursor: pointer;
+}
+.menu-item:hover { border-color: var(--accent); color: var(--accent); }
+.menu-item-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.menu-links { display: flex; flex-direction: column; gap: 6px; }
+.menu-link {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: var(--glass); border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text); font-size: 13px; font-weight: 500; transition: all 0.2s; cursor: pointer;
+}
+.menu-link:hover { border-color: var(--accent2); color: var(--accent2); }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.page.active > * { animation: fadeUp 0.35s ease both; }
+
+/* HERO */
+.hero { position: relative; padding: 60px 20px 80px; text-align: center; overflow: hidden; }
+.hero-glow {
+  position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(0,229,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 100px; padding: 6px 14px; font-size: 11px; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.05em; margin-bottom: 24px; text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.15;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero p { color: var(--text2); font-size: 15px; line-height: 1.6; margin-bottom: 32px; max-width: 340px; margin-left: auto; margin-right: auto; }
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* BUTTONS */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #0097a7);
+  color: var(--bg); border: none; padding: 13px 28px; border-radius: 12px;
+  font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s; box-shadow: 0 0 30px rgba(0,229,255,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,229,255,0.4); }
+.btn-outline {
+  background: transparent; color: var(--text); border: 1px solid var(--border);
+  padding: 13px 28px; border-radius: 12px; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger-sm {
+  background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+  color: var(--danger); padding: 5px 10px; border-radius: 6px; font-size: 11px;
+  font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.btn-success-sm {
+  background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+  color: var(--success); padding: 5px 10px; border-radius: 6px; font-size: 11px;
+  font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+
+/* DOMAIN SEARCH */
+.domain-search { padding: 0 20px 40px; }
+.search-box { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+.search-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 14px; text-align: center; }
+.search-input-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
+.search-input {
+  flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--text2); }
+.search-btn { background: var(--accent); color: var(--bg); border: none; padding: 12px 20px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.domain-prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.domain-price-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 10px 6px; text-align: center; }
+.domain-ext { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--accent); display: block; margin-bottom: 4px; }
+.domain-pr { font-size: 11px; color: var(--text2); }
+.see-all { display: block; text-align: center; color: var(--accent); font-size: 13px; font-weight: 600; margin-top: 12px; text-decoration: none; cursor: pointer; }
+
+/* STATS */
+.stats {
+  background: linear-gradient(135deg, #0a1628, #0d1f3c);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 40px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: center;
+}
+.stat-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 12px; color: var(--text2); }
+
+/* SECTION */
+.section { padding: 40px 20px; }
+.section-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 100px; padding: 5px 12px; font-size: 10px; font-weight: 700;
+  color: var(--accent2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+}
+.section-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+.section-title span { color: var(--accent); }
+.section-desc { color: var(--text2); font-size: 14px; line-height: 1.6; margin-bottom: 28px; }
+
+/* SERVICE CARDS (Landing) */
+.services-grid { display: flex; flex-direction: column; gap: 14px; }
+.service-card {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; transition: all 0.2s;
+}
+.service-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-1px); }
+.service-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.service-icon { font-size: 22px; }
+.service-cat-badge {
+  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.15);
+  color: var(--accent); font-size: 9px; font-weight: 700; padding: 3px 8px;
+  border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.service-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.service-desc { color: var(--text2); font-size: 12px; line-height: 1.5; margin-bottom: 14px; }
+.service-price { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 14px; }
+.service-price .sp { font-size: 13px; color: var(--text2); font-weight: 400; font-family: 'DM Sans', sans-serif; }
+.btn-service {
+  width: 100%; padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+  background: linear-gradient(135deg, var(--accent), #0097a7); border: none; color: var(--bg);
+}
+.btn-service:hover { transform: translateY(-1px); }
+
+/* PLAN TABS */
+.plan-tabs { display: flex; gap: 6px; background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 20px; overflow-x: auto; }
+.plan-tab { flex: 1; padding: 8px 12px; border-radius: 8px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.plan-tab.active { background: var(--accent); color: var(--bg); }
+
+/* FEATURES GRID */
+.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+.feature-card { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px 14px; transition: all 0.2s; }
+.feature-card:hover { border-color: rgba(0,229,255,0.2); transform: translateY(-2px); }
+.feature-icon { font-size: 22px; margin-bottom: 10px; }
+.feature-name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+.feature-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+/* GUARANTEE */
+.guarantee { background: linear-gradient(135deg, #0a1628, #0d1f3c); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 20px; }
+.guarantee-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+.guarantee-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px 16px; text-align: center; transition: all 0.2s; }
+.guarantee-card:hover { border-color: rgba(0,229,255,0.2); }
+.guarantee-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 12px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.15); }
+.guarantee-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.guarantee-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+/* REVIEWS */
+.reviews { padding: 40px 20px; }
+.review-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+.review-stars { color: #fbbf24; font-size: 14px; margin-bottom: 10px; }
+.review-text { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; font-style: italic; }
+.review-author { display: flex; align-items: center; gap: 10px; }
+.reviewer-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; flex-shrink: 0; }
+.reviewer-name { font-weight: 700; font-size: 13px; }
+.reviewer-site { font-size: 11px; color: var(--accent); }
+
+/* PARTNERS */
+.partners { padding: 40px 20px; }
+.partners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+.partner-card { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: center; min-height: 56px; transition: all 0.2s; }
+.partner-card:hover { border-color: rgba(0,229,255,0.2); }
+.partner-name { font-weight: 800; font-size: 13px; text-align: center; }
+
+/* CTA */
+.cta { background: linear-gradient(135deg, #0d2040, #0a1628); border-top: 1px solid rgba(0,229,255,0.15); padding: 50px 20px; text-align: center; }
+.cta h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+.cta p { color: var(--text2); font-size: 14px; margin-bottom: 28px; }
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+.footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 20px 24px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.footer-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: white; }
+.footer-tagline { color: var(--text2); font-size: 13px; margin-bottom: 20px; }
+.social-links { display: flex; gap: 8px; margin-bottom: 32px; }
+.social-link { width: 36px; height: 36px; border-radius: 9px; background: var(--glass); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 15px; transition: all 0.2s; cursor: pointer; }
+.social-link:hover { border-color: var(--accent); }
+.footer-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+.footer-col-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+.footer-links { display: flex; flex-direction: column; gap: 8px; }
+.footer-link { color: var(--text2); font-size: 13px; text-decoration: none; transition: color 0.2s; cursor: pointer; }
+.footer-link:hover { color: var(--accent); }
+.footer-contact { margin-bottom: 24px; }
+.footer-contact-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+.contact-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; color: var(--text2); }
+.phone-badge { background: var(--accent); color: var(--bg); font-weight: 700; padding: 4px 12px; border-radius: 100px; font-size: 13px; }
+.secure-box { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-radius: 12px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 24px; }
+.secure-box-title { font-weight: 700; font-size: 13px; color: var(--accent3); margin-bottom: 3px; }
+.secure-box-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.footer-copy { text-align: center; font-size: 12px; color: var(--text2); padding-top: 20px; border-top: 1px solid var(--border); }
+
+/* MODAL */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 2000; display: none; align-items: center; justify-content: center;
+  padding: 20px; backdrop-filter: blur(8px);
+}
+.modal-backdrop.active { display: flex; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+  width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: none; } }
+.modal-header {
+  padding: 20px 20px 16px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; }
+.modal-close { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { border-color: var(--accent); color: var(--accent); }
+.modal-body { padding: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: block; color: var(--text2); }
+.form-input {
+  width: 100%; background: var(--glass); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--accent); }
+.form-input::placeholder { color: var(--text2); }
+textarea.form-input { resize: vertical; min-height: 90px; }
+.form-link { color: var(--accent); font-size: 13px; cursor: pointer; text-decoration: none; }
+.btn-submit {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, var(--accent), #0097a7); border: none;
+  border-radius: 12px; color: var(--bg); font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 0 25px rgba(0,229,255,0.2); transition: all 0.2s;
+}
+.btn-submit:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(0,229,255,0.35); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* TOAST */
+.toast-container { position: fixed; top: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 4px solid var(--accent); padding: 12px 16px;
+  border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  animation: slideIn 0.3s ease; min-width: 260px;
+  display: flex; align-items: center; gap: 10px; font-size: 13px;
+}
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* DASHBOARD */
+.dash-header { background: linear-gradient(135deg, #0a1628, #0d1f3c); padding: 28px 20px; border-bottom: 1px solid var(--border); }
+.user-info-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.user-ava { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; font-family: 'Syne', sans-serif; }
+.user-name-txt { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; }
+.user-email-txt { color: var(--text2); font-size: 13px; }
+.balance-card-d {
+  background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(124,58,237,0.1));
+  border: 1px solid rgba(0,229,255,0.2); border-radius: 16px; padding: 20px;
+}
+.balance-label-d { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.balance-amount-d { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 14px; }
+.add-balance-btn {
+  width: 100%; padding: 12px; background: rgba(0,229,255,0.15);
+  border: 1px solid rgba(0,229,255,0.3); border-radius: 10px; color: var(--accent);
+  font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+.add-balance-btn:hover { background: var(--accent); color: var(--bg); }
+.webdev-promo {
+  margin: 20px; background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,229,255,0.05));
+  border: 1px solid rgba(124,58,237,0.2); border-radius: 16px; padding: 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.webdev-btn { background: linear-gradient(135deg, var(--accent2), #9333ea); color: white; border: none; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.dash-menu { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dash-menu-item {
+  background: var(--glass); border: 1px solid var(--border); border-radius: 16px;
+  padding: 20px 16px; text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.dash-menu-item:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-2px); }
+.dash-menu-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 10px; }
+.dash-menu-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+.dash-menu-desc { font-size: 11px; color: var(--text2); }
+
+/* PAGE HEADERS */
+.page-header { background: linear-gradient(135deg, #0a1628, #0d1f3c); padding: 24px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.page-header-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; }
+.page-content { padding: 20px; }
+
+/* CARDS */
+.card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+.card-header { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.card-header-name { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+.order-count { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2); color: var(--accent); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; }
+.order-add-btn { background: var(--accent); color: var(--bg); border: none; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.empty-block { padding: 28px; text-align: center; color: var(--text2); font-size: 13px; }
+.empty-block .ei { font-size: 30px; margin-bottom: 8px; opacity: 0.4; }
+
+/* BALANCE PAGE */
+.info-box { background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.12); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+.info-box-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: var(--accent); margin-bottom: 12px; }
+.info-step { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; color: var(--text2); line-height: 1.5; }
+.info-step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--bg); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.bank-card-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+.bank-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.bank-lbl { color: var(--text2); }
+.bank-val { font-weight: 700; margin-left: auto; font-size: 13px; }
+.bank-warn { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #fbbf24; margin-top: 8px; line-height: 1.5; }
+.radio-group { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.radio-option { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; font-size: 13px; border-bottom: 1px solid var(--border); }
+.radio-option:last-child { border-bottom: none; }
+.radio-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.radio-dot.checked { border-color: var(--accent); background: rgba(0,229,255,0.15); }
+.tx-title { display: flex; align-items: center; gap: 8px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--accent); margin-bottom: 14px; margin-top: 24px; }
+
+/* TABLE */
+.tx-table { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tx-row { display: grid; grid-template-columns: 70px 1fr 90px 80px; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 12px; align-items: center; }
+.tx-row:last-child { border-bottom: none; }
+.tx-row.header { background: rgba(255,255,255,0.03); font-weight: 700; color: var(--text2); font-size: 11px; letter-spacing: 0.05em; }
+.badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 100px; font-size: 10px; font-weight: 700; }
+.badge-pending { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+.badge-success { background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid rgba(16,185,129,0.2); }
+.badge-danger { background: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+
+/* TICKETS */
+.ticket-item { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+.ticket-item:hover, .ticket-item.active { border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.04); }
+.ticket-subject { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.ticket-meta { font-size: 11px; color: var(--text2); display: flex; justify-content: space-between; align-items: center; }
+.chat-area { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-top: 12px; }
+.chat-header { font-weight: 700; font-size: 14px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.chat-messages { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; max-height: 300px; overflow-y: auto; }
+.chat-msg { max-width: 85%; padding: 10px 12px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
+.chat-msg.user { align-self: flex-end; background: linear-gradient(135deg, var(--accent), #0097a7); color: var(--bg); border-bottom-right-radius: 4px; }
+.chat-msg.admin { align-self: flex-start; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+.chat-msg .msg-time { font-size: 10px; opacity: 0.6; margin-top: 4px; }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; resize: none; }
+.chat-input:focus { border-color: var(--accent); }
+.send-btn { background: var(--accent); color: var(--bg); border: none; width: 40px; border-radius: 10px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+
+/* ORDER ITEM */
+.order-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.order-item:last-child { border-bottom: none; }
+.order-item-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,229,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.order-item-info { flex: 1; }
+.order-item-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+.order-item-sub { font-size: 11px; color: var(--text2); }
+.order-item-right { text-align: right; }
+.order-item-price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; color: var(--accent); margin-bottom: 4px; }
+
+/* ADMIN PANEL */
+.admin-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.admin-stat { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
+.admin-stat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--accent); }
+.admin-stat-lbl { font-size: 11px; color: var(--text2); margin-top: 4px; }
+.admin-tabs { display: flex; gap: 6px; background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 3px; margin-bottom: 16px; overflow-x: auto; }
+.admin-tab-btn { flex: 1; padding: 7px 10px; border-radius: 7px; border: none; background: transparent; color: var(--text2); font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.admin-tab-btn.active { background: var(--accent); color: var(--bg); }
+.admin-tab { display: none; }
+.admin-tab.active { display: block; }
+.admin-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--glass); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; }
+.admin-row-info { flex: 1; }
+.admin-row-title { font-weight: 700; font-size: 13px; }
+.admin-row-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.admin-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* CURRENT BALANCE BAR */
+.curr-bal-bar { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+
+/* SCROLL TOP */
+.scroll-top { position: fixed; bottom: 24px; right: 20px; width: 44px; height: 44px; background: linear-gradient(135deg, var(--accent), #0097a7); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0,229,255,0.3); z-index: 900; font-size: 18px; transition: all 0.2s; border: none; color: var(--bg); }
+.scroll-top:hover { transform: translateY(-3px); }
+
+/* PROFILE */
+.profile-field { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.profile-field-icon { font-size: 18px; flex-shrink: 0; }
+.profile-field-label { font-size: 11px; color: var(--text2); margin-bottom: 2px; }
+.profile-field-value { font-weight: 700; font-size: 14px; }
 </style>
 </head>
 <body>
 
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-spinner"></div>
+  <div style="color:var(--text2);font-size:13px;">Yüklənir...</div>
+</div>
+
+<!-- BAN SCREEN -->
+<div id="ban-screen">
+  <div style="font-size:56px;margin-bottom:20px;">🚫</div>
+  <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;">Giriş Qadağandır</div>
+  <div style="color:var(--text2);font-size:14px;">Hesabınız və ya IP adresiniz bloklanıb.</div>
+</div>
+
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-phone">
-    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-    070 788 80 25
+    <i class="fas fa-phone-alt" style="font-size:12px;"></i>
+    070 673 01 74
   </div>
   <div class="topbar-right">
     <span class="lang-badge">AZ</span>
-    <div class="cart-btn">
-      <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+    <div class="cart-btn" onclick="requireAuth()">
+      <i class="fas fa-shopping-cart" style="font-size:13px;"></i>
     </div>
     <div id="guestButtons">
-      <button class="login-btn" onclick="showPage('dashboard')">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-        Giriş
+      <button class="topbar-btn" onclick="openAuthModal('login')">
+        <i class="fas fa-sign-in-alt"></i> Giriş
       </button>
     </div>
-    <div id="userButtons" style="display:none; gap:8px; align-items:center;">
-      <button class="kabinet-btn" onclick="showPage('dashboard')">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
-        Kabinet
+    <div id="userButtons" style="display:none;gap:8px;align-items:center;flex-wrap:nowrap;">
+      <span class="balance-pill" onclick="showPage('balance')" id="nav-balance-pill">0.00 ₼</span>
+      <button class="topbar-btn ghost" onclick="showPage('dashboard')">
+        <i class="fas fa-user"></i> <span id="nav-uname" style="max-width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">Kabinet</span>
       </button>
-      <button class="login-btn" onclick="logout()" style="border-color:rgba(239,68,68,0.5);color:#ef4444;">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+      <button class="topbar-btn" onclick="doLogout()" style="border-color:rgba(239,68,68,0.4);color:#ef4444;padding:6px 10px;">
+        <i class="fas fa-sign-out-alt"></i>
       </button>
     </div>
   </div>
@@ -1527,7 +598,7 @@
 
 <!-- NAV -->
 <nav class="nav">
-  <a class="logo" onclick="showPage('home')" style="cursor:pointer;">
+  <a class="logo" onclick="showPage('home')">
     <div class="logo-icon">Az</div>
     <div class="logo-text">
       <div><span class="az">Az</span><span class="hosting">hosting</span><span style="color:var(--accent)">.az</span></div>
@@ -1544,73 +615,46 @@
   <div class="menu-section">
     <div class="menu-section-title">📦 Məhsullar</div>
     <div class="menu-grid">
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(0,229,255,0.08);">🖥️</div>
-        Hosting DirectAdmin
-      </a>
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(124,58,237,0.08);">⚡</div>
-        Hosting cPanel
-      </a>
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(16,185,129,0.08);">☁️</div>
-        Beynəlxalq VPS
-      </a>
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(251,191,36,0.08);">🇦🇿</div>
-        VPS Azərbaycan
-      </a>
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(239,68,68,0.08);">🔄</div>
-        Reseller DirectAdmin
-      </a>
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(0,229,255,0.08);">✉️</div>
-        Korporativ Email
-      </a>
-      <a class="menu-item" onclick="closeMenu()">
-        <div class="menu-item-icon" style="background:rgba(124,58,237,0.08);">🌐</div>
-        Domain Qeydiyyatı
-      </a>
+      <div class="menu-item" onclick="closeMenu();showPage('store')"><div class="menu-item-icon" style="background:rgba(0,229,255,0.08);">🖥️</div>Hosting</div>
+      <div class="menu-item" onclick="closeMenu();showPage('store')"><div class="menu-item-icon" style="background:rgba(124,58,237,0.08);">☁️</div>VPS Server</div>
+      <div class="menu-item" onclick="closeMenu();showPage('store')"><div class="menu-item-icon" style="background:rgba(16,185,129,0.08);">✉️</div>Korp. Email</div>
+      <div class="menu-item" onclick="closeMenu();showPage('store')"><div class="menu-item-icon" style="background:rgba(251,191,36,0.08);">🌐</div>Domain</div>
     </div>
   </div>
   <div class="menu-section">
     <div class="menu-section-title">🛠️ Xidmətlər</div>
     <div class="menu-links">
-      <a class="menu-link" onclick="closeMenu()">🌍 Veb Sayt Hazırlanması</a>
-      <a class="menu-link" onclick="closeMenu()">🗺️ Xəritələrdə Yerləşdirilmə</a>
-      <a class="menu-link" onclick="closeMenu()">🎨 Dizayn</a>
-      <a class="menu-link" onclick="closeMenu()">📈 SEO</a>
+      <div class="menu-link" onclick="closeMenu()">🌍 Veb Sayt Hazırlanması</div>
+      <div class="menu-link" onclick="closeMenu()">🗺️ Xəritələrdə Yerləşdirilmə</div>
+      <div class="menu-link" onclick="closeMenu()">🎨 Dizayn</div>
+      <div class="menu-link" onclick="closeMenu()">📈 SEO</div>
     </div>
   </div>
-  <div class="menu-links">
-    <a class="menu-link" onclick="closeMenu()">ℹ️ Haqqımızda</a>
-    <a class="menu-link" onclick="closeMenu()">📞 Əlaqə</a>
+  <div class="menu-links" style="margin-top:8px;">
+    <div class="menu-link" onclick="closeMenu()">ℹ️ Haqqımızda</div>
+    <div class="menu-link" onclick="closeMenu()">📞 Əlaqə</div>
   </div>
 </div>
 
-<!-- ======================== HOME PAGE ======================== -->
+<!-- =============================== HOME PAGE =============================== -->
 <div class="page active" id="page-home">
-
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-glow"></div>
     <div class="hero-badge">✦ 15 İllik Təcrübə</div>
-    <h1>VipHost.Biz ilə<br>Onlayn Dünyada<br>Güclü Olun!</h1>
+    <h1>Azhosting.az ilə<br>Onlayn Dünyada<br>Güclü Olun!</h1>
     <p>SSD hosting, pulsuz SSL, 24/7 dəstək — hər şey bir yerdə. Azərbaycanda hosting və IT həllərinin lideri.</p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="showPage('home')">İndi Başla →</button>
-      <button class="btn-outline">Bizimlə Əlaqə</button>
+      <button class="btn-primary" onclick="showPage('store')">Hosting Paketlər →</button>
+      <button class="btn-outline" onclick="document.getElementById('domain-sec').scrollIntoView({behavior:'smooth'})">Domain Axtar</button>
     </div>
   </div>
 
-  <!-- DOMAIN SEARCH -->
-  <div class="domain-search">
+  <div class="domain-search" id="domain-sec">
     <div class="search-box">
       <div class="search-title">Domain Adınızı Bu Gün Seçin!</div>
       <div class="search-input-wrap">
-        <input type="text" class="search-input" placeholder="Domain adını buraya yazın...">
-        <button class="search-btn">AXTAR →</button>
+        <input type="text" class="search-input" id="domain-input" placeholder="Domain adını buraya yazın...">
+        <button class="search-btn" onclick="searchDomain()">AXTAR →</button>
       </div>
       <div class="domain-prices">
         <div class="domain-price-item"><span class="domain-ext">.az</span><span class="domain-pr">40.00₼/il</span></div>
@@ -1620,173 +664,70 @@
         <div class="domain-price-item"><span class="domain-ext">.site</span><span class="domain-pr">2.99₼/il</span></div>
         <div class="domain-price-item"><span class="domain-ext">.info</span><span class="domain-pr">8.00₼/il</span></div>
       </div>
-      <a class="see-all">Bütün domenlərə bax →</a>
+      <a class="see-all" onclick="showPage('store')">Bütün domenlərə bax →</a>
     </div>
   </div>
 
-  <!-- STATS -->
   <div class="stats">
-    <div>
-      <div class="stat-num">15</div>
-      <div class="stat-label">İllik Təcrübə</div>
-    </div>
-    <div>
-      <div class="stat-num">408</div>
-      <div class="stat-label">Veb Sayt Hazırladıq</div>
-    </div>
-    <div>
-      <div class="stat-num">11356</div>
-      <div class="stat-label">Ümumi Satış</div>
-    </div>
-    <div>
-      <div class="stat-num">99.9%</div>
-      <div class="stat-label">Server Uptime</div>
-    </div>
+    <div><div class="stat-num">15</div><div class="stat-label">İllik Təcrübə</div></div>
+    <div><div class="stat-num">408</div><div class="stat-label">Veb Sayt Hazırladıq</div></div>
+    <div><div class="stat-num">11356</div><div class="stat-label">Ümumi Satış</div></div>
+    <div><div class="stat-num">99.9%</div><div class="stat-label">Server Uptime</div></div>
   </div>
 
-  <!-- PRODUCTS -->
+  <!-- SERVICES FROM FIREBASE -->
   <div class="section">
     <div class="section-badge">📦 Məhsullar</div>
     <div class="section-title">Hosting <span>Planları</span></div>
-    <div class="section-desc">İdarəetmə panelini seçin və ehtiyacınıza uyğun planı tapın.</div>
-
-    <div class="plan-tabs">
-      <button class="plan-tab active" onclick="switchTab(this,'hosting')">Hosting</button>
-      <button class="plan-tab" onclick="switchTab(this,'vps')">VPS</button>
-      <button class="plan-tab" onclick="switchTab(this,'email')">Email</button>
-      <button class="plan-tab" onclick="switchTab(this,'reseller')">Reseller</button>
-    </div>
-
-    <div class="control-tabs">
-      <button class="ctrl-tab active" onclick="switchCtrl(this,'da')">🖥️ DirectAdmin</button>
-      <button class="ctrl-tab" onclick="switchCtrl(this,'cp')">⏱️ cPanel</button>
-    </div>
-
-    <div class="plans-grid">
-      <div class="plan-card">
-        <div class="plan-name">Ekonom</div>
-        <div class="plan-price"><span class="currency">₼</span>4.99<span class="period">/ay</span></div>
-        <div class="plan-discount">🏷️ İllik 20% Endirim — ₼47.90/il</div>
-        <ul class="plan-features">
-          <li>10 GB NVMe SSD</li>
-          <li>2 GB DDR5 RAM</li>
-          <li>Limitsiz Trafik</li>
-          <li>1 Domen</li>
-          <li>1 Email Hesabı</li>
-          <li>Pulsuz SSL</li>
-        </ul>
-        <button class="btn-plan btn-plan-outline">Sifariş Et</button>
-      </div>
-
-      <div class="plan-card featured">
-        <div class="featured-badge">⭐ Ən Çox Seçilən</div>
-        <div class="plan-name">Standart</div>
-        <div class="plan-price"><span class="currency">₼</span>9.99<span class="period">/ay</span></div>
-        <div class="plan-discount">🏷️ İllik 20% Endirim — ₼95.90/il</div>
-        <ul class="plan-features">
-          <li>20 GB NVMe SSD</li>
-          <li>6 GB DDR5 RAM</li>
-          <li>Limitsiz Trafik</li>
-          <li>3 Domen</li>
-          <li>3 Email Hesabı</li>
-          <li>Domain hədiyyə: .site/.club</li>
-        </ul>
-        <button class="btn-plan btn-plan-filled">Sifariş Et</button>
+    <div class="section-desc">Ehtiyaclarınıza uyğun optimal xidmətlər.</div>
+    <div class="services-grid" id="home-services">
+      <div style="text-align:center;padding:30px;color:var(--text2);">
+        <div class="loader-spinner" style="margin:0 auto 12px;"></div>
+        Xidmətlər yüklənir...
       </div>
     </div>
   </div>
 
-  <!-- FEATURES -->
   <div class="section" style="padding-top:0;">
     <div class="section-badge">⭐ Niyə Biz?</div>
     <div class="section-title">Hosting <span>Xüsusiyyətlər</span></div>
-    <div class="section-desc">VipHost.Biz-ın seçilmiş texnologiyaları ilə saytınız həmişə sürətli, güvənli və onlayn olacaq.</div>
-
+    <div class="section-desc">Seçilmiş texnologiyalar ilə saytınız həmişə sürətli və güvənli olacaq.</div>
     <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-name">NVMe SSD</div>
-        <div class="feature-desc">10x daha sürətli disk</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛡️</div>
-        <div class="feature-name">DDoS Qoruma</div>
-        <div class="feature-desc">Avtomatik hücum bloku</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💾</div>
-        <div class="feature-name">Avtomatik Backup</div>
-        <div class="feature-desc">Günlük ehtiyat nüsxə</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎧</div>
-        <div class="feature-name">24/7 Dəstək</div>
-        <div class="feature-desc">Ani texniki yardım</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <div class="feature-name">Pulsuz SSL</div>
-        <div class="feature-desc">Bütün paketlərə daxil</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-name">99.9% Uptime</div>
-        <div class="feature-desc">SLA zəmanəti</div>
-      </div>
+      <div class="feature-card"><div class="feature-icon">⚡</div><div class="feature-name">NVMe SSD</div><div class="feature-desc">10x daha sürətli disk</div></div>
+      <div class="feature-card"><div class="feature-icon">🛡️</div><div class="feature-name">DDoS Qoruma</div><div class="feature-desc">Avtomatik hücum bloku</div></div>
+      <div class="feature-card"><div class="feature-icon">💾</div><div class="feature-name">Avtomatik Backup</div><div class="feature-desc">Günlük ehtiyat nüsxə</div></div>
+      <div class="feature-card"><div class="feature-icon">🎧</div><div class="feature-name">24/7 Dəstək</div><div class="feature-desc">Ani texniki yardım</div></div>
+      <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-name">Pulsuz SSL</div><div class="feature-desc">Bütün paketlərə daxil</div></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-name">99.9% Uptime</div><div class="feature-desc">SLA zəmanəti</div></div>
     </div>
   </div>
 
-  <!-- GUARANTEE -->
   <div class="guarantee">
     <div style="text-align:center;">
       <div class="section-badge" style="background:rgba(0,229,255,0.08);border-color:rgba(0,229,255,0.2);color:var(--accent);">🏆 Zəmanət</div>
-      <div class="section-title" style="font-family:'Syne',sans-serif;">VipHost.Biz <span>Zəmanəti</span></div>
+      <div class="section-title">Azhosting.az <span>Zəmanəti</span></div>
       <div class="section-desc">Müştəri məmnuniyyəti bizim əsas prioritetimizdir</div>
     </div>
     <div class="guarantee-grid">
-      <div class="guarantee-card">
-        <div class="guarantee-icon">↩️</div>
-        <div class="guarantee-title">Geri Qaytarma Zəmanəti</div>
-        <div class="guarantee-desc">30 günlük ödəniş geri qaytarma</div>
-      </div>
-      <div class="guarantee-card">
-        <div class="guarantee-icon">🚀</div>
-        <div class="guarantee-title">Ən Sürətli SSD Serverlər</div>
-        <div class="guarantee-desc">NVMe SSD + Xeon CPU infrastruktur</div>
-      </div>
-      <div class="guarantee-card">
-        <div class="guarantee-icon">🎧</div>
-        <div class="guarantee-title">24/7 Canlı Dəstək</div>
-        <div class="guarantee-desc">Həmişə yanınızda olan komanda</div>
-      </div>
-      <div class="guarantee-card">
-        <div class="guarantee-icon">☁️</div>
-        <div class="guarantee-title">Azhosting Cloud</div>
-        <div class="guarantee-desc">Bulud texnologiyası ilə sürət</div>
-      </div>
+      <div class="guarantee-card"><div class="guarantee-icon">↩️</div><div class="guarantee-title">30 Gün Geri Qaytarma</div><div class="guarantee-desc">Ödənişini geri al</div></div>
+      <div class="guarantee-card"><div class="guarantee-icon">🚀</div><div class="guarantee-title">Ən Sürətli SSD</div><div class="guarantee-desc">NVMe SSD + Xeon CPU</div></div>
+      <div class="guarantee-card"><div class="guarantee-icon">🎧</div><div class="guarantee-title">24/7 Canlı Dəstək</div><div class="guarantee-desc">Həmişə yanınızda</div></div>
+      <div class="guarantee-card"><div class="guarantee-icon">☁️</div><div class="guarantee-title">Azhosting Cloud</div><div class="guarantee-desc">Bulud texnologiyası</div></div>
     </div>
   </div>
 
-  <!-- REVIEWS -->
   <div class="reviews">
     <div class="section-badge">⭐ Müştərilər</div>
     <div class="section-title">Müştəri <span>Rəyləri</span></div>
     <div style="margin-top:24px;">
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <div class="review-text">"Artıq 5 ildən çoxdur VipHost.Biz müştərisiyəm. Xidmət çox superdir."</div>
-        <div class="review-author">
-          <div class="reviewer-avatar">AƏ</div>
-          <div>
-            <div class="reviewer-name">Aysel Əfəndiyeva</div>
-            <div class="reviewer-site">Chaygallery.com</div>
-          </div>
-        </div>
+        <div class="review-text">"Artıq 5 ildən çoxdur Azhosting.az müştərisiyəm. Xidmət çox superdir."</div>
+        <div class="review-author"><div class="reviewer-avatar">AƏ</div><div><div class="reviewer-name">Aysel Əfəndiyeva</div><div class="reviewer-site">Chaygallery.com</div></div></div>
       </div>
     </div>
   </div>
 
-  <!-- PARTNERS -->
   <div class="partners">
     <div style="text-align:center;">
       <div class="section-badge" style="background:rgba(124,58,237,0.08);border-color:rgba(124,58,237,0.2);color:var(--accent2);">🤝 Partnyorlar</div>
@@ -1804,421 +745,1052 @@
     </div>
   </div>
 
-  <!-- CTA -->
   <div class="cta">
-    <h2>VipHost.Biz ilə<br>Onlayn Dünyada<br>Güclü Olun!</h2>
+    <h2>Azhosting.az ilə<br>Onlayn Dünyada Güclü Olun!</h2>
     <p>SSD hosting, pulsuz SSL, 24/7 dəstək — hər şey bir yerdə.</p>
     <div class="cta-btns">
-      <button class="btn-primary">İndi Başla →</button>
+      <button class="btn-primary" onclick="showPage('store')">İndi Başla →</button>
       <button class="btn-outline">Bizimlə Əlaqə</button>
     </div>
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     <div class="footer-logo">
       <div class="footer-logo-icon">Az</div>
-      <div class="footer-logo-text">
-        <span class="az">Az</span><span class="rest">hosting.az</span>
-      </div>
+      <div><span style="color:var(--accent);font-family:'Syne',sans-serif;font-weight:800;">Az</span><span style="color:var(--text);font-family:'Syne',sans-serif;font-weight:800;">hosting.az</span></div>
     </div>
     <div class="footer-tagline">15 illik təcrübəmizlə Azərbaycanda hosting və IT həllərinin lideri.</div>
     <div class="social-links">
-      <a class="social-link">✉️</a>
-      <a class="social-link">📸</a>
-      <a class="social-link">🎵</a>
-      <a class="social-link">💬</a>
-      <a class="social-link">📞</a>
+      <a class="social-link">✉️</a><a class="social-link">📸</a><a class="social-link">🎵</a><a class="social-link">💬</a><a class="social-link">📞</a>
     </div>
     <div class="footer-cols">
       <div>
         <div class="footer-col-title">Məhsullar</div>
-        <div class="footer-links">
-          <a class="footer-link">Hosting</a>
-          <a class="footer-link">VPS Server</a>
-          <a class="footer-link">Reseller</a>
-          <a class="footer-link">Domain</a>
-          <a class="footer-link">Korp. Email</a>
-        </div>
+        <div class="footer-links"><a class="footer-link">Hosting</a><a class="footer-link">VPS Server</a><a class="footer-link">Reseller</a><a class="footer-link">Domain</a><a class="footer-link">Korp. Email</a></div>
       </div>
       <div>
         <div class="footer-col-title">Xidmətlər</div>
-        <div class="footer-links">
-          <a class="footer-link">Veb Sayt</a>
-          <a class="footer-link">Dizayn</a>
-          <a class="footer-link">SEO</a>
-          <a class="footer-link">Xəritə</a>
-          <a class="footer-link">Haqqımızda</a>
-        </div>
+        <div class="footer-links"><a class="footer-link">Veb Sayt</a><a class="footer-link">Dizayn</a><a class="footer-link">SEO</a><a class="footer-link">Xəritə</a><a class="footer-link">Haqqımızda</a></div>
       </div>
     </div>
     <div class="footer-contact">
       <div class="footer-contact-title">Bizimlə Əlaqə</div>
-      <div class="contact-item">
-        📞 <span class="phone-badge">070 788 80 25</span>
-      </div>
-      <div class="contact-item">✉️ info@VipHost.Biz</div>
+      <div class="contact-item">📞 <span class="phone-badge">070 673 01 74</span></div>
+      <div class="contact-item">✉️ info@azhosting.az</div>
       <div class="contact-item">📍 Qəbələ şəhəri, H.Əliyev pr.</div>
     </div>
     <div class="secure-box">
-      <div class="secure-box-icon">🛡️</div>
-      <div>
-        <div class="secure-box-title">Güvənli Hosting</div>
-        <div class="secure-box-text">Bütün paketlər pulsuz SSL, DDoS qoruma və 24/7 texniki dəstəklə gəlir.</div>
-      </div>
+      <span style="font-size:18px;">🛡️</span>
+      <div><div class="secure-box-title">Güvənli Hosting</div><div class="secure-box-text">Bütün paketlər pulsuz SSL, DDoS qoruma və 24/7 texniki dəstəklə gəlir.</div></div>
     </div>
-    <div class="footer-copy">© 2011 – 2026 VipHost.Biz · Bütün hüquqlar qorunur.</div>
+    <div class="footer-copy">© 2011 – 2026 Azhosting.az · Bütün hüquqlar qorunur.</div>
   </div>
-
 </div>
 
-<!-- ======================== DASHBOARD PAGE ======================== -->
-<div class="page" id="page-dashboard">
-
-  <div class="dash-header">
-    <div class="user-info">
-      <div class="user-avatar">👤</div>
-      <div>
-        <div class="user-name">CESICODER</div>
-        <div class="user-email">cesicoder@gmail.com</div>
+<!-- =============================== STORE PAGE =============================== -->
+<div class="page" id="page-store">
+  <div class="page-header">
+    <span style="font-size:22px;">🛍️</span>
+    <div class="page-header-title">Xidmətlər</div>
+  </div>
+  <div class="page-content">
+    <div class="plan-tabs">
+      <button class="plan-tab active" onclick="filterStoreServices(this,'all')">Hamısı</button>
+      <button class="plan-tab" onclick="filterStoreServices(this,'hosting')">Hosting</button>
+      <button class="plan-tab" onclick="filterStoreServices(this,'vps')">VPS</button>
+      <button class="plan-tab" onclick="filterStoreServices(this,'email')">Email</button>
+      <button class="plan-tab" onclick="filterStoreServices(this,'reseller')">Reseller</button>
+    </div>
+    <div class="services-grid" id="store-services">
+      <div style="text-align:center;padding:30px;color:var(--text2);">
+        <div class="loader-spinner" style="margin:0 auto 12px;"></div>
+        Yüklənir...
       </div>
     </div>
-    <div class="balance-card">
-      <div class="balance-label">Balansınız</div>
-      <div class="balance-amount">0.00 ₼</div>
+  </div>
+</div>
+
+<!-- =============================== DASHBOARD PAGE =============================== -->
+<div class="page" id="page-dashboard">
+  <div class="dash-header">
+    <div class="user-info-row">
+      <div class="user-ava" id="dash-avatar">👤</div>
+      <div>
+        <div class="user-name-txt" id="dash-name">İstifadəçi</div>
+        <div class="user-email-txt" id="dash-email">email@example.com</div>
+      </div>
+    </div>
+    <div class="balance-card-d">
+      <div class="balance-label-d">Balansınız</div>
+      <div class="balance-amount-d" id="dash-balance">0.00 ₼</div>
       <button class="add-balance-btn" onclick="showPage('balance')">＋ Balansı Artır</button>
     </div>
   </div>
-
   <div class="webdev-promo">
-    <div class="webdev-promo-icon">🌐</div>
-    <div class="webdev-promo-text">
-      <div class="webdev-promo-title">Veb sayt hazırlanması</div>
-      <div class="webdev-promo-desc">100 manatdan başlayan qiymətlərlə premium veb sayt hazırlayaq.</div>
+    <span style="font-size:24px;">🌐</span>
+    <div style="flex:1;">
+      <div style="font-weight:700;font-size:14px;margin-bottom:3px;">Veb sayt hazırlanması</div>
+      <div style="font-size:12px;color:var(--text2);">100 manatdan başlayan qiymətlərlə premium veb sayt hazırlayaq.</div>
     </div>
     <button class="webdev-btn">Məlumat Al</button>
   </div>
-
   <div class="dash-menu">
+    <div class="dash-menu-item" onclick="showPage('store')">
+      <div class="dash-menu-icon" style="background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);">🛍️</div>
+      <div class="dash-menu-title">Xidmətlər</div>
+      <div class="dash-menu-desc">Sifariş ver</div>
+    </div>
     <div class="dash-menu-item" onclick="showPage('orders')">
-      <div class="dash-menu-icon" style="background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);">📦</div>
-      <div class="dash-menu-title">Məhsullarım</div>
-      <div class="dash-menu-desc">Aktiv və tamamlanmış sifarişlər</div>
-    </div>
-    <div class="dash-menu-item" onclick="showPage('support')">
-      <div class="dash-menu-icon" style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);">🎧</div>
-      <div class="dash-menu-title">Texniki Dəstək</div>
-      <div class="dash-menu-desc">Müraciət yarat, cavab al</div>
-    </div>
-    <div class="dash-menu-item" onclick="showPage('profile')">
-      <div class="dash-menu-icon" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);">👤</div>
-      <div class="dash-menu-title">Profilim</div>
-      <div class="dash-menu-desc">Şəxsi məlumatlarınız</div>
-    </div>
-    <div class="dash-menu-item">
-      <div class="dash-menu-icon" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.15);">✉️</div>
-      <div class="dash-menu-title">Korp. Email</div>
-      <div class="dash-menu-desc">Email hesablarını idarə et</div>
-    </div>
-    <div class="dash-menu-item">
-      <div class="dash-menu-icon" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);">🛒</div>
-      <div class="dash-menu-title">Səbətim</div>
-      <div class="dash-menu-desc">Sifariş gözləyən məhsullar</div>
+      <div class="dash-menu-icon" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.15);">📦</div>
+      <div class="dash-menu-title">Sifarişlərim</div>
+      <div class="dash-menu-desc">Aktiv sifarişlər</div>
     </div>
     <div class="dash-menu-item" onclick="showPage('balance')">
-      <div class="dash-menu-icon" style="background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);">💳</div>
+      <div class="dash-menu-icon" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);">💳</div>
       <div class="dash-menu-title">Balans</div>
-      <div class="dash-menu-desc">Balansı artır & tarixçə</div>
+      <div class="dash-menu-desc">Artır & tarixçə</div>
+    </div>
+    <div class="dash-menu-item" onclick="showPage('tickets')">
+      <div class="dash-menu-icon" style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);">🎧</div>
+      <div class="dash-menu-title">Texniki Dəstək</div>
+      <div class="dash-menu-desc">Müraciət yarat</div>
+    </div>
+    <div class="dash-menu-item" onclick="showPage('profile')">
+      <div class="dash-menu-icon" style="background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);">👤</div>
+      <div class="dash-menu-title">Profilim</div>
+      <div class="dash-menu-desc">Şəxsi məlumatlar</div>
+    </div>
+    <div class="dash-menu-item" id="admin-menu-item" style="display:none;" onclick="showPage('admin')">
+      <div class="dash-menu-icon" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);">⚙️</div>
+      <div class="dash-menu-title">Admin Panel</div>
+      <div class="dash-menu-desc">İdarəetmə</div>
     </div>
   </div>
-
 </div>
 
-<!-- ======================== ORDERS PAGE ======================== -->
+<!-- =============================== ORDERS PAGE =============================== -->
 <div class="page" id="page-orders">
-
-  <div class="orders-header">
-    <div class="orders-icon">🛒</div>
-    <div class="orders-title">Sifarişlərim</div>
+  <div class="page-header">
+    <span style="font-size:22px;">📦</span>
+    <div class="page-header-title">Sifarişlərim</div>
   </div>
-
-  <div class="orders-content">
-    <div class="order-category">
-      <div class="order-cat-header">
-        <div class="order-cat-name">
-          <span>📦</span> Domain
-          <span class="order-count">0</span>
-        </div>
-        <button class="order-add-btn">🛒 Sifariş et</button>
-      </div>
-      <div class="order-empty">
-        <div class="order-empty-icon">📭</div>
-        Bu kateqoriyada sifariş yoxdur.
-      </div>
-    </div>
-    <div class="order-category">
-      <div class="order-cat-header">
-        <div class="order-cat-name">
-          <span>🖥️</span> Hosting
-          <span class="order-count">0</span>
-        </div>
-        <button class="order-add-btn">🛒 Sifariş et</button>
-      </div>
-      <div class="order-empty">
-        <div class="order-empty-icon">📭</div>
-        Bu kateqoriyada sifariş yoxdur.
-      </div>
-    </div>
-    <div class="order-category">
-      <div class="order-cat-header">
-        <div class="order-cat-name">
-          <span>🔄</span> Reseller
-          <span class="order-count">0</span>
-        </div>
-        <button class="order-add-btn">🛒 Sifariş et</button>
-      </div>
-      <div class="order-empty">
-        <div class="order-empty-icon">📭</div>
-        Bu kateqoriyada sifariş yoxdur.
-      </div>
-    </div>
-    <div class="order-category">
-      <div class="order-cat-header">
-        <div class="order-cat-name">
-          <span>☁️</span> VPS
-          <span class="order-count">0</span>
-        </div>
-        <button class="order-add-btn">🛒 Sifariş et</button>
-      </div>
-      <div class="order-empty">
-        <div class="order-empty-icon">📭</div>
-        Bu kateqoriyada sifariş yoxdur.
-      </div>
-    </div>
-    <div class="order-category">
-      <div class="order-cat-header">
-        <div class="order-cat-name">
-          <span>✉️</span> Email
-          <span class="order-count">0</span>
-        </div>
-        <button class="order-add-btn">🛒 Sifariş et</button>
-      </div>
-      <div class="order-empty">
-        <div class="order-empty-icon">📭</div>
-        Bu kateqoriyada sifariş yoxdur.
-      </div>
+  <div class="page-content" id="orders-content">
+    <div style="text-align:center;padding:40px;color:var(--text2);">
+      <div class="loader-spinner" style="margin:0 auto 12px;"></div>
+      Yüklənir...
     </div>
   </div>
-
 </div>
 
-<!-- ======================== BALANCE PAGE ======================== -->
+<!-- =============================== BALANCE PAGE =============================== -->
 <div class="page" id="page-balance">
-
-  <div class="balance-header">
-    <div class="balance-header-top">
-      <div style="font-size:22px;">💳</div>
-      <div class="balance-title">Balans Artır</div>
-    </div>
-    <div class="current-balance">
-      <div class="current-balance-label">Hazırki balansınız:</div>
-      <div class="current-balance-amount">0.00 ₼</div>
-    </div>
+  <div class="page-header">
+    <span style="font-size:22px;">💳</span>
+    <div class="page-header-title">Balans Artır</div>
   </div>
-
-  <div class="balance-content">
+  <div class="page-content">
+    <div class="curr-bal-bar">
+      <div style="font-size:13px;color:var(--text2);">Hazırki balansınız:</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--accent);" id="balance-page-amount">0.00 ₼</div>
+    </div>
     <div class="info-box">
       <div class="info-box-title">ℹ️ Artırma Qaydası</div>
-      <div class="info-step">
-        <div class="info-step-num">1</div>
-        <div>Aşağıda göstərilən <strong>Kart Nömrəsinə</strong> artırmaq istədiyiniz məbləği göndərin.</div>
-      </div>
-      <div class="info-step">
-        <div class="info-step-num">2</div>
-        <div>Formda <strong>məbləği yazın</strong> və çeki buradan və ya WhatsApp üzərindən göndərin.</div>
-      </div>
-      <div class="info-step">
-        <div class="info-step-num">3</div>
-        <div><strong>"Balansı artır"</strong> düyməsinə basaraq göndərin.</div>
-      </div>
+      <div class="info-step"><div class="info-step-num">1</div><div>Aşağıdakı <strong>Kart Nömrəsinə</strong> artırmaq istədiyiniz məbləği göndərin.</div></div>
+      <div class="info-step"><div class="info-step-num">2</div><div>Formda <strong>məbləği yazın</strong> və çeki buradan göndərin.</div></div>
+      <div class="info-step"><div class="info-step-num">3</div><div><strong>"Balansı artır"</strong> düyməsinə basın. Admin təsdiq edəndən sonra balansınız artacaq.</div></div>
     </div>
-
-    <div class="bank-card">
-      <div class="bank-card-row">
-        <span class="bank-card-icon">💳</span>
-        <span class="bank-label">Kart nömrəsi:</span>
-        <span class="bank-value">4xxxxxxxxx</span>
-      </div>
-      <div class="bank-card-row">
-        <span class="bank-card-icon">🏦</span>
-        <span class="bank-label">Bank:</span>
-        <span class="bank-value">ABB (Beynəlxalq Bank)</span>
-      </div>
-      <div class="bank-card-row">
-        <span class="bank-card-icon">👤</span>
-        <span class="bank-label">Ad Soyad:</span>
-        <span class="bank-value">MƏHƏMMƏD</span>
-      </div>
-      <div class="bank-warning">
-        ⚠️ Göndərdiyiniz məbləğ formda yazdığınız məbləğlə eyni olmalıdır!
-      </div>
+    <div class="bank-card-ui">
+      <div class="bank-row"><span style="font-size:18px;">💳</span><span class="bank-lbl">Kart nömrəsi:</span><span class="bank-val">4127 2141 2162 4099</span></div>
+      <div class="bank-row"><span style="font-size:18px;">🏦</span><span class="bank-lbl">Bank:</span><span class="bank-val">ABB (Beynəlxalq Bank)</span></div>
+      <div class="bank-row"><span style="font-size:18px;">👤</span><span class="bank-lbl">Ad Soyad:</span><span class="bank-val">Qəzənfər Hacıyev</span></div>
+      <div class="bank-warn">⚠️ Göndərdiyiniz məbləğ formda yazdığınız məbləğlə eyni olmalıdır!</div>
     </div>
-
     <div class="form-group">
       <label class="form-label">Məbləğ (₼):</label>
-      <input type="number" class="form-input" placeholder="0.00">
+      <input type="number" class="form-input" id="dep-amount" placeholder="0.00" min="1">
     </div>
-
     <div class="form-group">
-      <label class="form-label">Çeki necə göndərəcəksiniz?</label>
-      <div class="radio-group">
-        <div class="radio-option" onclick="selectRadio(this)">
-          <div class="radio-dot checked">
-            <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>
-          </div>
-          Çeki bura göndər
-        </div>
-        <div class="radio-option" onclick="selectRadio(this)">
-          <div class="radio-dot"></div>
-          Çeki WhatsApp-da göndər
-        </div>
-      </div>
+      <label class="form-label">Tranzaksiya ID / Çek nömrəsi:</label>
+      <input type="text" class="form-input" id="dep-proof" placeholder="Ödəniş təsdiqi">
     </div>
+    <button class="btn-submit" onclick="submitDeposit()">＋ Balansı Artır</button>
 
-    <div class="form-group">
-      <label class="form-label">Çek şəkli (jpg/png/pdf):</label>
-      <div class="file-upload">
-        <button class="file-btn">Dosya Seç</button>
-        <span class="file-name">Dosya seçilmədi</span>
-      </div>
+    <div class="tx-title">🕐 Əməliyyat Tarixçəsi</div>
+    <div class="tx-table">
+      <div class="tx-row header"><div>Tarix</div><div>Tip / Detal</div><div>Məbləğ</div><div>Status</div></div>
+      <div id="tx-list-body"><div style="text-align:center;padding:20px;color:var(--text2);font-size:13px;">Əməliyyat yoxdur</div></div>
     </div>
-
-    <button class="btn-submit">＋ Balansı Artır</button>
-
-    <div class="tx-history">
-      <div class="tx-title">🕐 Əməliyyat Tarixçəsi</div>
-      <div class="tx-table-header">
-        <div>ID</div>
-        <div>Məbləğ</div>
-        <div>Status</div>
-        <div>Tarix</div>
-      </div>
-      <div class="tx-empty">Heç bir əməliyyat yoxdur</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ======================== SUPPORT PAGE ======================== -->
-<div class="page" id="page-support">
-  <div class="orders-header">
-    <div class="orders-icon">🎧</div>
-    <div class="orders-title">Texniki Dəstək</div>
-  </div>
-  <div style="padding:40px 20px; text-align:center;">
-    <div style="font-size:48px; margin-bottom:16px;">🎧</div>
-    <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:700; margin-bottom:8px;">Dəstək Sistemi</div>
-    <div style="color:var(--text2); font-size:14px; margin-bottom:24px;">Müraciət yaradın, komandamız sizə qısa zamanda cavab verəcək.</div>
-    <button class="btn-primary">+ Yeni Müraciət</button>
   </div>
 </div>
 
-<!-- ======================== PROFILE PAGE ======================== -->
+<!-- =============================== TICKETS PAGE =============================== -->
+<div class="page" id="page-tickets">
+  <div class="page-header">
+    <span style="font-size:22px;">🎧</span>
+    <div class="page-header-title">Texniki Dəstək</div>
+    <button class="btn-primary" style="padding:8px 16px;font-size:13px;margin-left:auto;" onclick="openTicketModal()">+ Yeni</button>
+  </div>
+  <div class="page-content">
+    <div id="tickets-list">
+      <div style="text-align:center;padding:40px;color:var(--text2);">
+        <div class="loader-spinner" style="margin:0 auto 12px;"></div>
+        Yüklənir...
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== TICKET CHAT PAGE =============================== -->
+<div class="page" id="page-ticket-chat">
+  <div class="page-header">
+    <button onclick="showPage('tickets')" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px;margin-right:4px;">←</button>
+    <span style="font-size:22px;">💬</span>
+    <div class="page-header-title" id="chat-ticket-title">Müraciət</div>
+  </div>
+  <div class="page-content">
+    <div class="chat-area">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-row" id="chat-input-row">
+        <textarea class="chat-input" id="chat-input" rows="1" placeholder="Mesajınızı yazın..."></textarea>
+        <button class="send-btn" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== PROFILE PAGE =============================== -->
 <div class="page" id="page-profile">
-  <div class="orders-header">
-    <div class="orders-icon">👤</div>
-    <div class="orders-title">Profilim</div>
+  <div class="page-header">
+    <span style="font-size:22px;">👤</span>
+    <div class="page-header-title">Profilim</div>
   </div>
-  <div style="padding:20px;">
-    <div class="bank-card" style="margin-bottom:20px;">
-      <div class="bank-card-row">
-        <span>👤</span>
-        <span class="bank-label">Ad:</span>
-        <span class="bank-value">CESICODER</span>
-      </div>
-      <div class="bank-card-row">
-        <span>✉️</span>
-        <span class="bank-label">Email:</span>
-        <span class="bank-value">cesicoder@gmail.com</span>
-      </div>
+  <div class="page-content">
+    <div class="profile-field"><span class="profile-field-icon">👤</span><div><div class="profile-field-label">Ad Soyad</div><div class="profile-field-value" id="prof-name">—</div></div></div>
+    <div class="profile-field"><span class="profile-field-icon">✉️</span><div><div class="profile-field-label">Email</div><div class="profile-field-value" id="prof-email">—</div></div></div>
+    <div class="profile-field"><span class="profile-field-icon">💳</span><div><div class="profile-field-label">Balans</div><div class="profile-field-value" id="prof-balance" style="color:var(--accent);">0.00 ₼</div></div></div>
+    <div class="profile-field"><span class="profile-field-icon">🛡️</span><div><div class="profile-field-label">Rol</div><div class="profile-field-value" id="prof-role">İstifadəçi</div></div></div>
+    <div class="profile-field"><span class="profile-field-icon">📅</span><div><div class="profile-field-label">Qeydiyyat tarixi</div><div class="profile-field-value" id="prof-date">—</div></div></div>
+    <div style="margin-top:20px;">
+      <button class="btn-submit" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--danger);box-shadow:none;" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Çıxış Et</button>
     </div>
-    <button class="btn-submit" style="background:var(--glass);color:var(--text);border:1px solid var(--border);box-shadow:none;">Profili Redaktə Et</button>
   </div>
 </div>
 
-<!-- SCROLL TO TOP -->
+<!-- =============================== ADMIN PAGE =============================== -->
+<div class="page" id="page-admin">
+  <div class="page-header">
+    <span style="font-size:22px;">⚙️</span>
+    <div class="page-header-title">Admin Panel</div>
+  </div>
+  <div class="page-content">
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="admin-stat-val" id="st-users">0</div><div class="admin-stat-lbl">İstifadəçilər</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" id="st-orders">0</div><div class="admin-stat-lbl">Sifarişlər</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" id="st-payments">0</div><div class="admin-stat-lbl">Gözləyən Ödənişlər</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" id="st-tickets">0</div><div class="admin-stat-lbl">Açıq Biletlər</div></div>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" onclick="showAdminTab(this,'payments')">💰 Ödənişlər</button>
+      <button class="admin-tab-btn" onclick="showAdminTab(this,'orders')">📦 Sifarişlər</button>
+      <button class="admin-tab-btn" onclick="showAdminTab(this,'users')">👥 İstifadəçilər</button>
+      <button class="admin-tab-btn" onclick="showAdminTab(this,'services')">🛍️ Xidmətlər</button>
+      <button class="admin-tab-btn" onclick="showAdminTab(this,'atickets')">🎧 Biletlər</button>
+      <button class="admin-tab-btn" onclick="showAdminTab(this,'logs')">📋 Loglar</button>
+    </div>
+    <div class="admin-tab active" id="atab-payments"><div id="admin-payments-list"><div style="text-align:center;padding:20px;color:var(--text2);">Yüklənir...</div></div></div>
+    <div class="admin-tab" id="atab-orders"><div id="admin-orders-list"></div></div>
+    <div class="admin-tab" id="atab-users"><div id="admin-users-list"></div></div>
+    <div class="admin-tab" id="atab-services">
+      <button class="btn-primary" style="width:100%;margin-bottom:16px;" onclick="openAddServiceModal()">+ Yeni Xidmət</button>
+      <div id="admin-services-list"></div>
+    </div>
+    <div class="admin-tab" id="atab-atickets"><div id="admin-tickets-list"></div></div>
+    <div class="admin-tab" id="atab-logs"><div id="admin-logs-list"></div></div>
+  </div>
+</div>
+
+<!-- =============================== AUTH MODAL =============================== -->
+<div class="modal-backdrop" id="auth-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="auth-modal-title">Giriş</div>
+      <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="login-form">
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="login-email" placeholder="name@example.com"></div>
+        <div class="form-group"><label class="form-label">Şifrə</label><input type="password" class="form-input" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <button class="btn-submit" onclick="doLogin()" id="login-btn">Daxil ol</button>
+        <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--text2);">
+          Hesabınız yoxdur? <a class="form-link" onclick="switchAuth('register')">Qeydiyyat</a>
+        </p>
+      </div>
+      <div id="register-form" style="display:none;">
+        <div class="form-group"><label class="form-label">Ad Soyad</label><input type="text" class="form-input" id="reg-name" placeholder="Ad Soyad"></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="reg-email" placeholder="name@example.com"></div>
+        <div class="form-group"><label class="form-label">Şifrə (min. 6 simvol)</label><input type="password" class="form-input" id="reg-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doRegister()"></div>
+        <button class="btn-submit" onclick="doRegister()" id="reg-btn">Qeydiyyatdan keç</button>
+        <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--text2);">
+          Hesabınız var? <a class="form-link" onclick="switchAuth('login')">Giriş</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== TICKET MODAL =============================== -->
+<div class="modal-backdrop" id="ticket-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Yeni Müraciət</div>
+      <button class="modal-close" onclick="closeTicketModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Mövzu</label><input type="text" class="form-input" id="ticket-subject" placeholder="Məsələnin qısa təsviri"></div>
+      <div class="form-group"><label class="form-label">Mesaj</label><textarea class="form-input" id="ticket-message" placeholder="Probleminizi ətraflı izah edin..."></textarea></div>
+      <button class="btn-submit" onclick="createTicket()">Göndər</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- SCROLL TOP -->
 <button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-<script>
-  let currentPage = 'home';
-  let menuOpen = false;
-  let isLoggedIn = false;
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getDatabase, ref, set, get, push, update, remove, onValue, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-  function showPage(name) {
-    // hide all
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const page = document.getElementById('page-' + name);
-    if (page) {
-      page.classList.add('active');
-      currentPage = name;
+const firebaseConfig = {
+  apiKey: "AIzaSyCp-E7VijsIa7SUH0QG4eGPIDP00aLns3o",
+  authDomain: "anonimchat-769cc.firebaseapp.com",
+  databaseURL: "https://anonimchat-769cc-default-rtdb.firebaseio.com",
+  projectId: "anonimchat-769cc",
+  storageBucket: "anonimchat-769cc.firebasestorage.app",
+  messagingSenderId: "807134985346",
+  appId: "1:807134985346:web:a65ca5499b3bb5d3eb489b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+const ADMIN_EMAIL = 'magabakinski@gmail.com';
+
+let currentUser = null;
+let currentUserData = null;
+let userIP = 'unknown';
+let activeTicketId = null;
+let allServices = [];
+let serviceFilter = 'all';
+
+// --- IP ---
+async function getIP() {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    return d.ip;
+  } catch { return 'unknown'; }
+}
+
+// --- TOAST ---
+window.showToast = function(msg, type = 'info') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = { success: 'fa-check-circle', error: 'fa-times-circle', warning: 'fa-exclamation-circle', info: 'fa-info-circle' };
+  t.innerHTML = `<i class="fas ${icons[type] || icons.info}" style="color:${type==='success'?'var(--success)':type==='error'?'var(--danger)':type==='warning'?'var(--warning)':'var(--accent)'}"></i><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(100%)'; t.style.transition='all 0.3s'; setTimeout(()=>t.remove(),300); }, 3500);
+};
+
+// --- LOG ---
+async function logAction(action, details = '') {
+  if (!currentUser) return;
+  try {
+    await push(ref(db, 'logs'), {
+      userId: currentUser.uid, userEmail: currentUser.email,
+      action, details, ip: userIP,
+      timestamp: serverTimestamp()
+    });
+  } catch {}
+}
+
+// --- BAN CHECK ---
+async function checkBan(uid) {
+  const ip = userIP;
+  const ipKey = ip.replace(/\./g, '_');
+  try {
+    const ipSnap = await get(ref(db, `banned_ips/${ipKey}`));
+    if (ipSnap.exists()) return true;
+    if (uid) {
+      const uSnap = await get(ref(db, `banned_users/${uid}`));
+      if (uSnap.exists()) return true;
     }
-    closeMenu();
-    window.scrollTo(0, 0);
+  } catch {}
+  return false;
+}
 
-    // auto login when going to dashboard
-    if (name === 'dashboard' || name === 'orders' || name === 'balance' || name === 'support' || name === 'profile') {
-      if (!isLoggedIn) {
-        isLoggedIn = true;
-        document.getElementById('guestButtons').style.display = 'none';
-        document.getElementById('userButtons').style.display = 'flex';
-      }
+// --- AUTH STATE ---
+onAuthStateChanged(auth, async (user) => {
+  userIP = await getIP();
+  const loader = document.getElementById('loader');
+
+  if (user) {
+    const banned = await checkBan(user.uid);
+    if (banned) {
+      loader.style.display = 'none';
+      document.getElementById('ban-screen').style.display = 'flex';
+      return;
     }
-  }
 
-  function logout() {
-    isLoggedIn = false;
+    currentUser = user;
+    const userRef = ref(db, `users/${user.uid}`);
+    const snap = await get(userRef);
+
+    if (!snap.exists()) {
+      await set(userRef, {
+        email: user.email,
+        name: user.displayName || user.email.split('@')[0],
+        balance: 0,
+        role: user.email === ADMIN_EMAIL ? 'admin' : 'user',
+        createdAt: Date.now(),
+        lastLogin: Date.now(),
+        ip: userIP
+      });
+    } else {
+      currentUserData = snap.val();
+      await update(userRef, { lastLogin: Date.now(), ip: userIP });
+    }
+
+    const fSnap = await get(ref(db, `users/${user.uid}`));
+    currentUserData = fSnap.val();
+
+    if (user.email === ADMIN_EMAIL) {
+      document.getElementById('admin-menu-item').style.display = 'block';
+    }
+
+    setupUI();
+    await logAction('login', 'Giriş edildi');
+  } else {
+    currentUser = null;
+    currentUserData = null;
     document.getElementById('guestButtons').style.display = 'block';
     document.getElementById('userButtons').style.display = 'none';
-    showPage('home');
   }
 
-  function toggleMenu() {
-    menuOpen = !menuOpen;
-    document.getElementById('mobileMenu').classList.toggle('open', menuOpen);
+  loader.style.display = 'none';
+  loadServicesPublic();
+});
+
+function setupUI() {
+  const name = currentUserData?.name || currentUser.email.split('@')[0];
+  document.getElementById('guestButtons').style.display = 'none';
+  document.getElementById('userButtons').style.display = 'flex';
+  document.getElementById('nav-uname').textContent = name;
+  document.getElementById('dash-name').textContent = name;
+  document.getElementById('dash-email').textContent = currentUser.email;
+  document.getElementById('dash-avatar').textContent = name[0].toUpperCase();
+  document.getElementById('prof-name').textContent = name;
+  document.getElementById('prof-email').textContent = currentUser.email;
+  document.getElementById('prof-role').textContent = currentUserData?.role === 'admin' ? '👑 Admin' : '👤 İstifadəçi';
+  document.getElementById('prof-date').textContent = currentUserData?.createdAt ? new Date(currentUserData.createdAt).toLocaleDateString('az-AZ') : '—';
+
+  watchBalance();
+  loadOrders();
+  loadTickets();
+  if (currentUser.email === ADMIN_EMAIL) {
+    loadAdminData();
+  }
+}
+
+// --- BALANCE WATCH ---
+function watchBalance() {
+  onValue(ref(db, `users/${currentUser.uid}/balance`), snap => {
+    const bal = (snap.val() || 0).toFixed(2);
+    document.getElementById('dash-balance').textContent = bal + ' ₼';
+    document.getElementById('nav-balance-pill').textContent = bal + ' ₼';
+    document.getElementById('balance-page-amount').textContent = bal + ' ₼';
+    document.getElementById('prof-balance').textContent = bal + ' ₼';
+  });
+  // transactions
+  onValue(ref(db, 'transactions'), snap => {
+    if (!currentUser) return;
+    const txs = [];
+    snap.forEach(c => { const v = c.val(); if (v.userId === currentUser.uid) txs.push({key:c.key,...v}); });
+    txs.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    const body = document.getElementById('tx-list-body');
+    if (!txs.length) { body.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text2);font-size:13px;">Əməliyyat yoxdur</div>'; return; }
+    body.innerHTML = txs.map(tx => `
+      <div class="tx-row">
+        <div>${new Date(tx.timestamp||Date.now()).toLocaleDateString('az-AZ')}</div>
+        <div>${tx.type==='deposit'?'Artırma':'Xərcləmə'}<br><span style="font-size:10px;color:var(--text2);">${tx.note||''}</span></div>
+        <div style="color:${tx.type==='deposit'?'var(--success)':'var(--danger)'};font-weight:700;">${tx.type==='deposit'?'+':'-'}${tx.amount} ₼</div>
+        <div><span class="badge badge-${tx.status==='completed'?'success':tx.status==='pending'?'pending':'danger'}">${tx.status==='completed'?'Tamamlandı':tx.status==='pending'?'Gözləyir':'Rədd'}</span></div>
+      </div>
+    `).join('');
+  });
+}
+
+// --- SERVICES ---
+function loadServicesPublic() {
+  onValue(ref(db, 'services'), snap => {
+    allServices = [];
+    snap.forEach(c => allServices.push({key:c.key,...c.val()}));
+    renderHomeServices();
+    renderStoreServices();
+  });
+}
+
+function renderHomeServices() {
+  const g = document.getElementById('home-services');
+  if (!allServices.length) {
+    g.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text2);">Xidmət tapılmadı</div>'; return;
+  }
+  g.innerHTML = allServices.slice(0,4).map(s => serviceCard(s)).join('');
+}
+
+function renderStoreServices() {
+  const g = document.getElementById('store-services');
+  const filtered = serviceFilter === 'all' ? allServices : allServices.filter(s => s.category === serviceFilter);
+  if (!filtered.length) {
+    g.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text2);">Bu kateqoriyada xidmət yoxdur</div>'; return;
+  }
+  g.innerHTML = filtered.map(s => serviceCard(s)).join('');
+}
+
+function serviceCard(s) {
+  const icons = { hosting:'🖥️', vps:'☁️', domain:'🌐', email:'✉️', reseller:'🔄' };
+  return `
+    <div class="service-card">
+      <div class="service-card-top">
+        <div class="service-icon">${icons[s.category]||'📦'}</div>
+        <span class="service-cat-badge">${(s.category||'').toUpperCase()}</span>
+      </div>
+      <div class="service-name">${s.name}</div>
+      <div class="service-desc">${s.desc||'Premium hosting xidməti'}</div>
+      <div class="service-price">${s.price} <span class="sp">₼/ay</span></div>
+      <button class="btn-service" onclick="buyService('${s.key}','${escHtml(s.name)}',${s.price})">Sifariş Et</button>
+    </div>
+  `;
+}
+
+window.filterStoreServices = function(btn, cat) {
+  document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  serviceFilter = cat;
+  renderStoreServices();
+};
+
+window.buyService = async function(sId, sName, price) {
+  if (!currentUser) { openAuthModal('login'); showToast('Əvvəlcə daxil olun', 'warning'); return; }
+
+  const { value: contact } = await Swal.fire({
+    title: 'Sifariş Təsdiqi', html: `<b>${sName}</b><br>Qiymət: <b>${price} ₼</b>`,
+    input: 'text', inputLabel: 'Əlaqə nömrəniz', inputPlaceholder: '050 123 45 67',
+    showCancelButton: true, confirmButtonText: 'Sifariş et', cancelButtonText: 'Ləğv et',
+    background: '#0d1420', color: '#e2e8f0',
+    confirmButtonColor: '#00e5ff', cancelButtonColor: '#374151'
+  });
+  if (!contact) return;
+
+  const snap = await get(ref(db, `users/${currentUser.uid}`));
+  const bal = snap.val()?.balance || 0;
+  if (bal < price) { showToast('Balansınız çatışmır. Əvvəlcə balans artırın.', 'error'); return; }
+
+  const oRef = push(ref(db, 'orders'));
+  await set(oRef, {
+    userId: currentUser.uid, userEmail: currentUser.email,
+    serviceId: sId, serviceName: sName, price, contact,
+    status: 'pending', createdAt: Date.now()
+  });
+  await update(ref(db, `users/${currentUser.uid}`), { balance: bal - price });
+  await push(ref(db, 'transactions'), {
+    userId: currentUser.uid, type: 'spend', amount: price,
+    status: 'completed', note: `Sifariş: ${sName}`, timestamp: Date.now()
+  });
+  await logAction('order_placed', `${sName} - ${price} ₼`);
+  showToast('Sifariş qəbul edildi!', 'success');
+  showPage('orders');
+};
+
+// --- ORDERS ---
+function loadOrders() {
+  onValue(ref(db, 'orders'), snap => {
+    if (!currentUser) return;
+    const orders = [];
+    snap.forEach(c => { const v = c.val(); if (v.userId === currentUser.uid) orders.push({key:c.key,...v}); });
+    orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    const c = document.getElementById('orders-content');
+    if (!orders.length) {
+      c.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text2);">📭<br><br>Hələ sifariş yoxdur</div>'; return;
+    }
+    c.innerHTML = orders.map(o => `
+      <div class="card" style="margin-bottom:12px;">
+        <div class="order-item">
+          <div class="order-item-icon">📦</div>
+          <div class="order-item-info">
+            <div class="order-item-name">${o.serviceName}</div>
+            <div class="order-item-sub">${o.contact} | ${new Date(o.createdAt).toLocaleDateString('az-AZ')}</div>
+          </div>
+          <div class="order-item-right">
+            <div class="order-item-price">${o.price} ₼</div>
+            <span class="badge badge-${o.status==='approved'?'success':o.status==='rejected'?'danger':'pending'}">
+              ${o.status==='approved'?'Təsdiqləndi':o.status==='rejected'?'Rədd edildi':'Gözləyir'}
+            </span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+// --- DEPOSIT ---
+window.submitDeposit = async function() {
+  if (!currentUser) { openAuthModal('login'); return; }
+  const amount = parseFloat(document.getElementById('dep-amount').value);
+  const proof = document.getElementById('dep-proof').value.trim();
+  if (!amount || amount <= 0 || !proof) { showToast('Bütün sahələri düzgün doldurun', 'error'); return; }
+
+  await push(ref(db, 'payments'), {
+    userId: currentUser.uid, userEmail: currentUser.email,
+    amount, proof, status: 'pending', createdAt: Date.now()
+  });
+  await push(ref(db, 'transactions'), {
+    userId: currentUser.uid, type: 'deposit', amount,
+    status: 'pending', note: 'Gözləyir (Admin təsdiqi)', timestamp: Date.now()
+  });
+  await logAction('deposit_request', `${amount} ₼ - Proof: ${proof}`);
+  showToast('Ödəniş tələbiniz göndərildi! Admin tezliklə yoxlayacaq.', 'success');
+  document.getElementById('dep-amount').value = '';
+  document.getElementById('dep-proof').value = '';
+};
+
+// --- TICKETS ---
+function loadTickets() {
+  onValue(ref(db, 'tickets'), snap => {
+    if (!currentUser) return;
+    const tickets = [];
+    snap.forEach(c => { const v = c.val(); if (v.userId === currentUser.uid) tickets.push({key:c.key,...v}); });
+    tickets.sort((a,b)=>(b.updatedAt||b.createdAt||0)-(a.updatedAt||a.createdAt||0));
+    const c = document.getElementById('tickets-list');
+    if (!tickets.length) {
+      c.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text2);">💬<br><br>Müraciət yoxdur. Yeni müraciət yaradın.</div>'; return;
+    }
+    c.innerHTML = tickets.map(t => `
+      <div class="ticket-item${activeTicketId===t.key?' active':''}" onclick="openTicketChat('${t.key}')">
+        <div class="ticket-subject">${t.subject}</div>
+        <div class="ticket-meta">
+          <span class="badge badge-${t.status==='open'?'success':'pending'}">${t.status==='open'?'Açıq':'Bağlı'}</span>
+          <span>${new Date(t.updatedAt||t.createdAt||Date.now()).toLocaleDateString('az-AZ')}</span>
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+window.openTicketModal = function() { document.getElementById('ticket-modal').classList.add('active'); };
+window.closeTicketModal = function() { document.getElementById('ticket-modal').classList.remove('active'); };
+
+window.createTicket = async function() {
+  if (!currentUser) { openAuthModal('login'); return; }
+  const subject = document.getElementById('ticket-subject').value.trim();
+  const message = document.getElementById('ticket-message').value.trim();
+  if (!subject || !message) { showToast('Bütün sahələri doldurun', 'error'); return; }
+
+  const tRef = push(ref(db, 'tickets'));
+  await set(tRef, { userId: currentUser.uid, userEmail: currentUser.email, subject, status: 'open', createdAt: Date.now(), updatedAt: Date.now() });
+  await push(ref(db, `tickets/${tRef.key}/messages`), { text: message, sender: 'user', timestamp: Date.now() });
+  await logAction('ticket_created', subject);
+  showToast('Müraciət göndərildi', 'success');
+  closeTicketModal();
+  document.getElementById('ticket-subject').value = '';
+  document.getElementById('ticket-message').value = '';
+};
+
+window.openTicketChat = async function(ticketId) {
+  activeTicketId = ticketId;
+  const snap = await get(ref(db, `tickets/${ticketId}`));
+  const ticket = snap.val();
+  document.getElementById('chat-ticket-title').textContent = ticket.subject;
+  showPage('ticket-chat');
+
+  if (ticket.status !== 'open') {
+    document.getElementById('chat-input-row').style.display = 'none';
+  } else {
+    document.getElementById('chat-input-row').style.display = 'flex';
   }
 
-  function closeMenu() {
-    menuOpen = false;
-    document.getElementById('mobileMenu').classList.remove('open');
-  }
+  onValue(ref(db, `tickets/${ticketId}/messages`), snap => {
+    const msgs = [];
+    snap.forEach(c => msgs.push(c.val()));
+    const mc = document.getElementById('chat-messages');
+    mc.innerHTML = msgs.map(m => `
+      <div class="chat-msg ${m.sender}">
+        ${m.text}
+        <div class="msg-time">${new Date(m.timestamp||Date.now()).toLocaleTimeString('az-AZ',{hour:'2-digit',minute:'2-digit'})}</div>
+      </div>
+    `).join('');
+    mc.scrollTop = mc.scrollHeight;
+  });
+};
 
-  function switchTab(btn, type) {
-    document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-  }
+window.sendChatMessage = async function() {
+  if (!activeTicketId) return;
+  const inp = document.getElementById('chat-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  await push(ref(db, `tickets/${activeTicketId}/messages`), { text, sender: 'user', timestamp: Date.now() });
+  await update(ref(db, `tickets/${activeTicketId}`), { updatedAt: Date.now() });
+  inp.value = '';
+};
 
-  function switchCtrl(btn, type) {
-    document.querySelectorAll('.ctrl-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-  }
+// --- ADMIN DATA ---
+function loadAdminData() {
+  onValue(ref(db, 'users'), s => { document.getElementById('st-users').textContent = s.size; });
+  onValue(ref(db, 'orders'), s => { document.getElementById('st-orders').textContent = s.size; });
+  onValue(ref(db, 'payments'), s => {
+    let p = 0; s.forEach(c => { if (c.val().status==='pending') p++; });
+    document.getElementById('st-payments').textContent = p;
+  });
+  onValue(ref(db, 'tickets'), s => {
+    let o = 0; s.forEach(c => { if (c.val().status==='open') o++; });
+    document.getElementById('st-tickets').textContent = o;
+  });
 
-  function selectRadio(option) {
-    const group = option.closest('.radio-group');
-    group.querySelectorAll('.radio-dot').forEach(d => {
-      d.classList.remove('checked');
-      d.innerHTML = '';
+  // Payments
+  onValue(ref(db, 'payments'), snap => {
+    const payments = [];
+    snap.forEach(c => payments.push({key:c.key,...c.val()}));
+    payments.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    const l = document.getElementById('admin-payments-list');
+    if (!payments.length) { l.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text2);">Ödəniş yoxdur</div>'; return; }
+    l.innerHTML = payments.map(p => `
+      <div class="admin-row">
+        <div class="admin-row-info">
+          <div class="admin-row-title">${p.userEmail}</div>
+          <div class="admin-row-sub">Məbləğ: ${p.amount} ₼ | Proof: ${p.proof} | ${new Date(p.createdAt).toLocaleDateString('az-AZ')}</div>
+        </div>
+        <div class="admin-row-actions">
+          ${p.status==='pending'?`
+            <button class="btn-success-sm" onclick="approvePayment('${p.key}','${p.userId}',${p.amount})">✓</button>
+            <button class="btn-danger-sm" onclick="rejectPayment('${p.key}')">✗</button>
+          `:`<span class="badge badge-${p.status==='approved'?'success':'danger'}">${p.status==='approved'?'Təsdiq':'Rədd'}</span>`}
+        </div>
+      </div>
+    `).join('');
+  });
+
+  // Orders
+  onValue(ref(db, 'orders'), snap => {
+    const orders = [];
+    snap.forEach(c => orders.push({key:c.key,...c.val()}));
+    orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    const l = document.getElementById('admin-orders-list');
+    l.innerHTML = orders.length ? orders.map(o => `
+      <div class="admin-row">
+        <div class="admin-row-info">
+          <div class="admin-row-title">${o.serviceName} — ${o.userEmail}</div>
+          <div class="admin-row-sub">${o.price} ₼ | ${o.contact} | ${new Date(o.createdAt).toLocaleDateString('az-AZ')}</div>
+        </div>
+        <div class="admin-row-actions">
+          ${o.status==='pending'?`
+            <button class="btn-success-sm" onclick="approveOrder('${o.key}')">✓</button>
+            <button class="btn-danger-sm" onclick="rejectOrder('${o.key}')">✗</button>
+          `:`<span class="badge badge-${o.status==='approved'?'success':'danger'}">${o.status==='approved'?'Təsdiq':'Rədd'}</span>`}
+        </div>
+      </div>
+    `).join('') : '<div style="text-align:center;padding:20px;color:var(--text2);">Sifariş yoxdur</div>';
+  });
+
+  // Users
+  onValue(ref(db, 'users'), snap => {
+    const l = document.getElementById('admin-users-list');
+    let html = '';
+    snap.forEach(c => {
+      const u = c.val();
+      html += `
+        <div class="admin-row">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">${(u.name||'U')[0].toUpperCase()}</div>
+          <div class="admin-row-info">
+            <div class="admin-row-title">${u.name||'Unknown'}</div>
+            <div class="admin-row-sub">${u.email} | ${u.balance||0} ₼ | IP: ${u.ip||'?'}</div>
+          </div>
+          <div class="admin-row-actions">
+            <button class="btn-success-sm" onclick="addBalance('${c.key}','${u.email}')">+ Balans</button>
+            <button class="btn-danger-sm" onclick="banUser('${c.key}')">Ban</button>
+          </div>
+        </div>
+      `;
     });
-    const dot = option.querySelector('.radio-dot');
-    dot.classList.add('checked');
-    dot.innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>';
-  }
+    l.innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--text2);">İstifadəçi yoxdur</div>';
+  });
 
-  // Close menu on outside click
-  document.addEventListener('click', function(e) {
-    if (menuOpen && !e.target.closest('.mobile-menu') && !e.target.closest('.hamburger')) {
-      closeMenu();
+  // Services
+  onValue(ref(db, 'services'), snap => {
+    const l = document.getElementById('admin-services-list');
+    let html = '';
+    snap.forEach(c => {
+      const s = c.val();
+      html += `
+        <div class="admin-row">
+          <div class="admin-row-info">
+            <div class="admin-row-title">${s.name}</div>
+            <div class="admin-row-sub">${s.category} | ${s.price} ₼/ay</div>
+          </div>
+          <button class="btn-danger-sm" onclick="deleteService('${c.key}')">Sil</button>
+        </div>
+      `;
+    });
+    l.innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--text2);">Xidmət yoxdur</div>';
+  });
+
+  // Admin Tickets
+  onValue(ref(db, 'tickets'), snap => {
+    const tickets = []; snap.forEach(c => tickets.push({key:c.key,...c.val()}));
+    tickets.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+    const l = document.getElementById('admin-tickets-list');
+    l.innerHTML = tickets.length ? tickets.map(t => `
+      <div class="admin-row">
+        <div class="admin-row-info">
+          <div class="admin-row-title">${t.subject}</div>
+          <div class="admin-row-sub">${t.userEmail} | <span class="badge badge-${t.status==='open'?'success':'pending'}">${t.status==='open'?'Açıq':'Bağlı'}</span></div>
+        </div>
+        <div class="admin-row-actions">
+          <button class="btn-success-sm" onclick="adminReplyTicket('${t.key}','${escHtml(t.subject)}')">Cavabla</button>
+          ${t.status==='open'?`<button class="btn-danger-sm" onclick="closeTicketAdmin('${t.key}')">Bağla</button>`:''}
+        </div>
+      </div>
+    `).join('') : '<div style="text-align:center;padding:20px;color:var(--text2);">Bilet yoxdur</div>';
+  });
+
+  // Logs
+  onValue(ref(db, 'logs'), snap => {
+    const logs = []; snap.forEach(c => logs.push(c.val()));
+    logs.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+    const l = document.getElementById('admin-logs-list');
+    l.innerHTML = logs.slice(0,50).length ? logs.slice(0,50).map(log => `
+      <div class="admin-row">
+        <div class="admin-row-info">
+          <div class="admin-row-title">${log.action}</div>
+          <div class="admin-row-sub">${log.userEmail} | ${log.details} | IP: ${log.ip} | ${new Date(log.timestamp||Date.now()).toLocaleString('az-AZ')}</div>
+        </div>
+      </div>
+    `).join('') : '<div style="text-align:center;padding:20px;color:var(--text2);">Log yoxdur</div>';
+  });
+}
+
+window.approvePayment = async function(payId, userId, amount) {
+  await update(ref(db, `payments/${payId}`), { status: 'approved' });
+  const snap = await get(ref(db, `users/${userId}`));
+  const bal = snap.val()?.balance || 0;
+  await update(ref(db, `users/${userId}`), { balance: bal + amount });
+  // Update pending tx to completed
+  const txSnap = await get(ref(db, 'transactions'));
+  txSnap.forEach(c => {
+    const v = c.val();
+    if (v.userId === userId && v.type === 'deposit' && v.status === 'pending' && v.amount === amount) {
+      update(ref(db, `transactions/${c.key}`), { status: 'completed', note: 'Admin təsdiq etdi' });
     }
   });
+  await logAction('payment_approved', `${amount} ₼ - ${userId}`);
+  showToast('Ödəniş təsdiq edildi!', 'success');
+};
+
+window.rejectPayment = async function(payId) {
+  await update(ref(db, `payments/${payId}`), { status: 'rejected' });
+  showToast('Ödəniş rədd edildi', 'info');
+};
+
+window.approveOrder = async function(ordId) {
+  await update(ref(db, `orders/${ordId}`), { status: 'approved' });
+  showToast('Sifariş təsdiq edildi', 'success');
+};
+
+window.rejectOrder = async function(ordId) {
+  await update(ref(db, `orders/${ordId}`), { status: 'rejected' });
+  showToast('Sifariş rədd edildi', 'info');
+};
+
+window.banUser = async function(userId) {
+  const r = await Swal.fire({ title: 'Blokla', text: 'Bu istifadəçini bloklamaq istədiyinizə əminsiniz?', showCancelButton: true, confirmButtonColor: '#ef4444', background: '#0d1420', color: '#e2e8f0' });
+  if (!r.isConfirmed) return;
+  await set(ref(db, `banned_users/${userId}`), { bannedAt: Date.now() });
+  showToast('İstifadəçi bloklandı', 'success');
+};
+
+window.addBalance = async function(userId, email) {
+  const { value: amt } = await Swal.fire({ title: 'Balans Artır', input: 'number', inputLabel: `${email} - Məbləğ (₼)`, inputPlaceholder: '0', showCancelButton: true, background: '#0d1420', color: '#e2e8f0' });
+  if (!amt || amt <= 0) return;
+  const snap = await get(ref(db, `users/${userId}`));
+  const bal = snap.val()?.balance || 0;
+  await update(ref(db, `users/${userId}`), { balance: bal + parseFloat(amt) });
+  await push(ref(db, 'transactions'), { userId, type: 'deposit', amount: parseFloat(amt), status: 'completed', note: 'Admin tərəfindən əlavə edildi', timestamp: Date.now() });
+  showToast(`${amt} ₼ əlavə edildi`, 'success');
+};
+
+window.deleteService = async function(sId) {
+  const r = await Swal.fire({ title: 'Sil', text: 'Xidməti silmək istədiyinizə əminsiniz?', showCancelButton: true, confirmButtonColor: '#ef4444', background: '#0d1420', color: '#e2e8f0' });
+  if (!r.isConfirmed) return;
+  await remove(ref(db, `services/${sId}`));
+  showToast('Xidmət silindi', 'info');
+};
+
+window.openAddServiceModal = async function() {
+  const { value: v } = await Swal.fire({
+    title: 'Yeni Xidmət',
+    html:
+      '<input id="s-name" class="swal2-input" placeholder="Xidmət adı">' +
+      '<input id="s-price" type="number" class="swal2-input" placeholder="Qiymət (₼/ay)">' +
+      '<input id="s-desc" class="swal2-input" placeholder="Açıqlama">' +
+      '<select id="s-cat" class="swal2-input"><option value="hosting">Hosting</option><option value="vps">VPS</option><option value="domain">Domain</option><option value="email">Email</option><option value="reseller">Reseller</option></select>',
+    focusConfirm: false,
+    showCancelButton: true,
+    background: '#0d1420', color: '#e2e8f0',
+    preConfirm: () => [
+      document.getElementById('s-name').value,
+      document.getElementById('s-price').value,
+      document.getElementById('s-desc').value,
+      document.getElementById('s-cat').value
+    ]
+  });
+  if (!v || !v[0] || !v[1]) return;
+  await push(ref(db, 'services'), { name: v[0], price: parseFloat(v[1]), desc: v[2], category: v[3], createdAt: Date.now() });
+  showToast('Xidmət əlavə edildi', 'success');
+};
+
+window.adminReplyTicket = async function(ticketId, subject) {
+  const { value: msg } = await Swal.fire({
+    title: `Cavabla: ${subject}`, input: 'textarea', inputPlaceholder: 'Cavabınızı yazın...',
+    showCancelButton: true, background: '#0d1420', color: '#e2e8f0'
+  });
+  if (!msg) return;
+  await push(ref(db, `tickets/${ticketId}/messages`), { text: msg, sender: 'admin', timestamp: Date.now() });
+  await update(ref(db, `tickets/${ticketId}`), { updatedAt: Date.now() });
+  showToast('Cavab göndərildi', 'success');
+};
+
+window.closeTicketAdmin = async function(ticketId) {
+  await update(ref(db, `tickets/${ticketId}`), { status: 'closed', updatedAt: Date.now() });
+  showToast('Bilet bağlandı', 'info');
+};
+
+window.showAdminTab = function(btn, tab) {
+  document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`atab-${tab}`).classList.add('active');
+};
+
+// --- AUTH ---
+window.openAuthModal = function(mode) {
+  document.getElementById('auth-modal').classList.add('active');
+  switchAuth(mode);
+};
+window.closeAuthModal = function() { document.getElementById('auth-modal').classList.remove('active'); };
+window.requireAuth = function() { if (!currentUser) { openAuthModal('login'); showToast('Əvvəlcə daxil olun', 'warning'); } else { showPage('dashboard'); } };
+
+window.switchAuth = function(mode) {
+  if (mode === 'login') {
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('auth-modal-title').textContent = 'Giriş';
+  } else {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'block';
+    document.getElementById('auth-modal-title').textContent = 'Qeydiyyat';
+  }
+};
+
+window.doLogin = async function() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { showToast('Bütün sahələri doldurun', 'error'); return; }
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.textContent = 'Giriş edilir...';
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    closeAuthModal();
+    showToast('Xoş gəldiniz!', 'success');
+    showPage('dashboard');
+  } catch (e) {
+    const msgs = { 'auth/user-not-found':'İstifadəçi tapılmadı', 'auth/wrong-password':'Şifrə yanlışdır', 'auth/invalid-email':'Email yanlışdır', 'auth/too-many-requests':'Çox cəhd. Bir qədər gözləyin' };
+    showToast(msgs[e.code] || 'Xəta: ' + e.message, 'error');
+  }
+  btn.disabled = false; btn.textContent = 'Daxil ol';
+};
+
+window.doRegister = async function() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  if (!name || !email || !password) { showToast('Bütün sahələri doldurun', 'error'); return; }
+  if (password.length < 6) { showToast('Şifrə minimum 6 simvol olmalıdır', 'error'); return; }
+  const btn = document.getElementById('reg-btn');
+  btn.disabled = true; btn.textContent = 'Qeydiyyat...';
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await set(ref(db, `users/${cred.user.uid}`), {
+      email, name, balance: 0,
+      role: email === ADMIN_EMAIL ? 'admin' : 'user',
+      createdAt: Date.now(), lastLogin: Date.now(), ip: userIP
+    });
+    closeAuthModal();
+    showToast('Qeydiyyat uğurlu oldu!', 'success');
+    showPage('dashboard');
+  } catch (e) {
+    const msgs = { 'auth/email-already-in-use':'Bu email artıq istifadədədir', 'auth/invalid-email':'Email yanlışdır', 'auth/weak-password':'Şifrə zəifdir' };
+    showToast(msgs[e.code] || 'Xəta: ' + e.message, 'error');
+  }
+  btn.disabled = false; btn.textContent = 'Qeydiyyatdan keç';
+};
+
+window.doLogout = async function() {
+  await logAction('logout', 'Çıxış edildi');
+  await signOut(auth);
+  showToast('Çıxış edildi', 'info');
+  showPage('home');
+};
+
+// --- HELPERS ---
+function escHtml(s) { return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
+
+window.showPage = function(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(`page-${name}`);
+  if (page) { page.classList.add('active'); window.scrollTo(0,0); }
+  closeMenu();
+  if (['dashboard','orders','balance','tickets','profile','admin','store','ticket-chat'].includes(name) && !currentUser) {
+    openAuthModal('login');
+    showToast('Giriş tələb olunur', 'warning');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-home').classList.add('active');
+  }
+};
+</script>
+
+<script>
+let menuOpen = false;
+
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('mobileMenu').classList.toggle('open', menuOpen);
+}
+function closeMenu() {
+  menuOpen = false;
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+function searchDomain() {
+  const d = document.getElementById('domain-input').value.trim();
+  if (!d) { window.showToast && showToast('Domain adı daxil edin', 'error'); return; }
+  window.showToast && showToast(`${d} üçün axtarış başladı — tezliklə əlavə olunacaq`, 'info');
+}
+document.addEventListener('click', e => {
+  if (menuOpen && !e.target.closest('.mobile-menu') && !e.target.closest('.hamburger')) closeMenu();
+});
 </script>
 </body>
 </html>
